@@ -1,0 +1,24 @@
+{
+  "name": "ng-currency",
+  "version": "0.7.0",
+  "authors": [
+    "Luis Aguirre <luis@alaguirre.com>"
+  ],
+  "description": "Directive that works in conjunction with currency filter.",
+  "main": "ng-currency.js",
+  "keywords": [
+    "currency",
+    "directive",
+    "filter"
+  ],
+  "license": "MIT",
+  "homepage": "http://alaguirre.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "dedipago/static/dpcomponents",
+    "test",
+    "tests"
+  ]
+}
