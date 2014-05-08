@@ -20,5 +20,8 @@
     "dedipago/static/dpcomponents",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+      "angular": "~1.2.16"
+  }
 }
