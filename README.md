@@ -7,9 +7,15 @@ Main features:
 * You may write the amount using locale decimal or use dot (.) as default.
 * The only required dependency is [angular](https://github.com/angular/angular.js)!
 
+## Bower
+
+You may install it via bower using
+
+`bower install ng-currency`
+
 ## Example
 
-You may see it below or play a lot using [plunker](http://plnkr.co/edit/u9mJqDH8UpwxDnOv8gZL?p=preview).
+You may see it in action and play a lot using [plunker](http://plnkr.co/edit/u9mJqDH8UpwxDnOv8gZL?p=preview).
 
 <iframe width="100%" src="http://embed.plnkr.co/u9mJqDH8UpwxDnOv8gZL/preview" frameborder="0" allowfullscreen></iframe>
 
@@ -36,10 +42,6 @@ angular.module('myApp', ['ng-currency']);
 <input type="text" model="yourModel" ng-currency>
 ```
 
-## Bower
-
-`bower install ng-currency`
-
 ## Contributing
 
 Please submit all pull requests the against master branch. If your unit test contains JavaScript patches or features, you should include relevant unit tests. Thanks!
@@ -50,7 +52,7 @@ Please submit all pull requests the against master branch. If your unit test con
 
 **Luis Aguirre**
 
-+ http://alagurire.com
++ http://alaguirre.com
 + http://github.com/aguirrel
 
 
