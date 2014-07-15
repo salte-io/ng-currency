@@ -6,6 +6,7 @@ Main features:
 * Input value is always filtered with locale currency when load and on blur.
 * You may write the amount using locale decimal or use dot (.) as default.
 * The only required dependency is [angular](https://github.com/angular/angular.js)!
+* Min and Max validators like input[number].
 
 ## Bower
 
@@ -55,6 +56,11 @@ Please submit all pull requests the against master branch. If your unit test con
 + http://alaguirre.com
 + http://github.com/aguirrel
 
+## Contributors
+
+**Guillermo Sandoval**
+
++ https://github.com/gsandoval
 
 
 ## Copyright and license
