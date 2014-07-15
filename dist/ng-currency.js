@@ -2,7 +2,7 @@
  * ng-currency
  * http://alaguirre.com/
 
- * Version: 0.7.0 - 2014-05-08
+ * Version: 0.7.5 - 2014-07-15
  * License: MIT
  */
 
@@ -10,6 +10,10 @@ angular.module('ng-currency', [])
     .directive('ngCurrency', function ($filter, $locale) {
         return {
             require: 'ngModel',
+            scope: {
+                min: '=min',
+                max: '=max'
+            },
             link: function (scope, element, attrs, ngModel) {
 
                 function decimalRex(dChar) {
@@ -59,6 +63,23 @@ angular.module('ng-currency', [])
                 ngModel.$formatters.unshift(function (value) {
                     return $filter('currency')(value);
                 });
+
+                scope.$watch(function () {
+                    return ngModel.$modelValue
+                }, function (newValue, oldValue) {
+                    runValidations(newValue)
+                })
+
+                function runValidations(cVal) {
+                    if (scope.min) {
+                        var min = parseFloat(scope.min)
+                        ngModel.$setValidity('min', cVal >= min)
+                    }
+                    if (scope.max) {
+                        var max = parseFloat(scope.max)
+                        ngModel.$setValidity('max', cVal <= max)
+                    }
+                }
             }
         }
     });
