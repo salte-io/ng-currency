@@ -51,6 +51,13 @@ angular.module('myApp', ['ng-currency']);
 <input type="text" model="yourModel" ng-currency min="1" max="1337" />
 ```
 
++ If you want to be able to dynamically enable/disable validations from a controller you can use the following
+
+>
+``` html
+<input type="text" model="yourModel" ng-currency min="1" max="1337" ng-required="isValidationEnabled" />
+```
+
 ## Contributing
 
 Please submit all pull requests the against master branch. If your unit test contains JavaScript patches or features, you should include relevant unit tests. Thanks!
