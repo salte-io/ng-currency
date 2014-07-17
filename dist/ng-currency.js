@@ -12,7 +12,8 @@ angular.module('ng-currency', [])
             require: 'ngModel',
             scope: {
                 min: '=min',
-                max: '=max'
+                max: '=max',
+                ngRequired: '=ngRequired'
             },
             link: function (scope, element, attrs, ngModel) {
 
@@ -29,7 +30,7 @@ angular.module('ng-currency', [])
                 }
 
                 function clearValue(value) {
-                    value = value.toString();
+                    value = String(value);
                     var dSeparator = $locale.NUMBER_FORMATS.DECIMAL_SEP;
                     var clear = null;
 
@@ -71,6 +72,9 @@ angular.module('ng-currency', [])
                 })
 
                 function runValidations(cVal) {
+                    if (!scope.ngRequired && isNaN(cVal)) {
+                        return
+                    }
                     if (scope.min) {
                         var min = parseFloat(scope.min)
                         ngModel.$setValidity('min', cVal >= min)
