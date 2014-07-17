@@ -29,7 +29,7 @@ You may see it in action and play a lot using [plunker](http://plnkr.co/edit/u9m
 <script src="http://aguirrel.github.io/ng-currency/dist/ng-currency.js"></script>
 ```
 
-+ Inject the `ngStrap` module into your app:
++ Inject the `ngCurrency` module into your app:
 
 >
 ``` JavaScript
@@ -38,8 +38,16 @@ angular.module('myApp', ['ng-currency']);
 
 + In your input tag
 
+>
+``` html
+<input type="text" model="yourModel" ng-currency />
 ```
-<input type="text" model="yourModel" ng-currency>
+
++ It is also possible to add 'min' and 'max' validations
+
+>
+``` html
+<input type="text" model="yourModel" ng-currency min="1" max="1337" />
 ```
 
 ## Contributing
