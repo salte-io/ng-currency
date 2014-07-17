@@ -55,7 +55,7 @@ angular.module('myApp', ['ng-currency']);
 
 >
 ``` html
-<input type="text" model="yourModel" ng-currency min="1" max="1337" ng-required="isValidationEnabled" />
+<input type="text" model="yourModel" ng-currency min="1" max="1337" ng-required="true" />
 ```
 
 ## Contributing
