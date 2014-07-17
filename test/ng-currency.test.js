@@ -6,7 +6,7 @@ describe('ngCurrency directive tests', function() {
     beforeEach(module('ng-currency'));
     beforeEach(inject(function($rootScope, $compile) {
         scope = $rootScope.$new();
-	elem = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency>");
+	elem = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-currency>");
     }));
   
     
@@ -82,6 +82,15 @@ describe('ngCurrency directive tests', function() {
       elem.val("$0.01");
       elem.triggerHandler('input');
       elem.hasClass('ng-invalid-min')
+     })
+  );
+  it('should trigger ng-required error',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elem = $compile(elem)(scope);
+      elem.val("");
+      elem.triggerHandler('input');
+      elem.hasClass('ng-invalid-required')
      })
   );
 });
