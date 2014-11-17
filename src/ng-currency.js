@@ -7,7 +7,7 @@
  */
 
 angular.module('ng-currency', [])
-    .directive('ngCurrency', function ($filter, $locale) {
+    .directive('ngCurrency', ['$filter', '$locale', function ($filter, $locale) {
         return {
             require: 'ngModel',
             scope: {
@@ -86,5 +86,5 @@ angular.module('ng-currency', [])
                 }
             }
         }
-    });
+    }]);
 
