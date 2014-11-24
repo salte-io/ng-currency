@@ -93,4 +93,40 @@ describe('ngCurrency directive tests', function() {
       elem.hasClass('ng-invalid-required')
      })
   );
+  it('should set -0 value from string - ',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elem = $compile(elem)(scope);
+      elem.val("-");
+      elem.triggerHandler('input');
+      expect(scope.testModel).toEqual(-0);
+     })
+  );
+  it('should set -0 value from string \'- \' ',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elem = $compile(elem)(scope);
+      elem.val("- ");
+      elem.triggerHandler('input');
+      expect(scope.testModel).toEqual(-0);
+     })
+  );
+  it('should set -1.11 value from string -1.11',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elem = $compile(elem)(scope);
+      elem.val("-1.11");
+      elem.triggerHandler('input');
+      expect(scope.testModel).toEqual(-1.11);
+     })
+  );
+  it('should set -1.11 value from string $ -1.11',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elem = $compile(elem)(scope);
+      elem.val("$ -1.11");
+      elem.triggerHandler('input');
+      expect(scope.testModel).toEqual(-1.11);
+     })
+  );
 });
