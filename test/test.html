@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="plunker">
+
+<head>
+<meta charset="utf-8" />
+<title>AngularJS Plunker</title>
+<script>
+document.write('<base href="' + document.location + '" />');
+</script>
+<link rel="stylesheet" href="style.css" />
+<script src="https://code.angularjs.org/1.2.16/angular.js"></script>
+<script src="../src/ng-currency.js"></script>
+
+<!-- PLEASE CHANGE AS YOU WISH THIS LOCALE JS -->
+<!-- <script src="https://code.angularjs.org/1.2.16/i18n/angular-locale_es-ar.js"></script> -->
+
+<script src="app.js"></script>
+</head>
+
+<body ng-controller="MainCtrl">
+<input type="text" ng-model="testModel" ng-currency>(autoformat on blur!)
+<p>model value: {{testModel}}</p>
+</body>
+
+</html>
