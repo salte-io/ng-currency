@@ -18,38 +18,34 @@ angular.module('ng-currency', [])
             link: function (scope, element, attrs, ngModel) {
 
                 function decimalRex(dChar) {
-                    return RegExp("\\d|\\" + dChar, 'g')
+                    return RegExp("\\d|\\-|\\" + dChar, 'g');
                 }
 
                 function clearRex(dChar) {
-                    return RegExp("((\\" + dChar + ")|([0-9]{1,}\\" + dChar + "?))&?[0-9]{0,2}", 'g');
-                }
-
-                function decimalSepRex(dChar) {
-                    return RegExp("\\" + dChar, "g")
+                    return RegExp("\\-{0,1}((\\" + dChar + ")|([0-9]{1,}\\" + dChar + "?))&?[0-9]{0,2}", 'g');
                 }
 
                 function clearValue(value) {
                     value = String(value);
                     var dSeparator = $locale.NUMBER_FORMATS.DECIMAL_SEP;
-                    var clear = null;
+                    var cleared = null;
 
-                    if (value.match(decimalSepRex(dSeparator))) {
-                        clear = value.match(decimalRex(dSeparator))
+                    if(RegExp("^-[\\s]*$", 'g').test(value)) {
+                        value = "-0";
+                    }
+
+                    if(decimalRex(dSeparator).test(value))
+                    {
+                        cleared = value.match(decimalRex(dSeparator))
                             .join("").match(clearRex(dSeparator));
-                        clear = clear ? clear[0].replace(dSeparator, ".") : null;
+                        cleared = cleared ? cleared[0].replace(dSeparator, ".") : null;
                     }
-                    else if (value.match(decimalSepRex("."))) {
-                        clear = value.match(decimalRex("."))
-                            .join("").match(clearRex("."));
-                        clear = clear ? clear[0] : null;
-                    }
-                    else {
-                        clear = value.match(/\d/g);
-                        clear = clear ? clear.join("") : null;
+                    else
+                    {
+                        cleaned = null;
                     }
 
-                    return clear;
+                    return cleared;
                 }
 
                 ngModel.$parsers.push(function (viewValue) {
@@ -68,7 +64,7 @@ angular.module('ng-currency', [])
                 scope.$watch(function () {
                     return ngModel.$modelValue
                 }, function (newValue, oldValue) {
-                    runValidations(newValue)
+                    runValidations(newValue);
                 })
 
                 function runValidations(cVal) {
