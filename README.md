@@ -84,6 +84,9 @@ Please submit all pull requests the against master branch. If your unit test con
 
 + https://github.com/gsandoval
 
+**Ronaldo Rogério Pereira**
+
++ https://github.com/ronaldotijucas
 
 ## Copyright and license
 
