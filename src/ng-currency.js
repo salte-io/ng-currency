@@ -13,6 +13,7 @@ angular.module('ng-currency', [])
             scope: {
                 min: '=min',
                 max: '=max',
+                currencySymbol: '@',
                 ngRequired: '=ngRequired'
             },
             link: function (scope, element, attrs, ngModel) {
@@ -48,17 +49,25 @@ angular.module('ng-currency', [])
                     return cleared;
                 }
 
+                function currencySymbol() {
+                    if (angular.isDefined(scope.currencySymbol)) {
+                        return scope.currencySymbol;
+                    } else {
+                        return $locale.NUMBER_FORMATS.CURRENCY_SYM;
+                    }
+                }
+
                 ngModel.$parsers.push(function (viewValue) {
                     cVal = clearValue(viewValue);
                     return parseFloat(cVal);
                 });
 
                 element.on("blur", function () {
-                    element.val($filter('currency')(ngModel.$modelValue));
+                    element.val($filter('currency')(ngModel.$modelValue, currencySymbol()));
                 });
 
                 ngModel.$formatters.unshift(function (value) {
-                    return $filter('currency')(value);
+                    return $filter('currency')(value, currencySymbol());
                 });
 
                 scope.$watch(function () {
@@ -83,4 +92,3 @@ angular.module('ng-currency', [])
             }
         }
     }]);
-

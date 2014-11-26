@@ -58,6 +58,13 @@ angular.module('myApp', ['ng-currency']);
 <input type="text" model="yourModel" ng-currency min="1" max="1337" ng-required="true" />
 ```
 
++ It already shows the default currency symbol, but you can define a currency symbol, so that it will use this instead.
+
+>
+``` html
+<input type="text" model="yourModel" ng-currency currency-symbol="¥" />
+```
+
 ## Contributing
 
 Please submit all pull requests the against master branch. If your unit test contains JavaScript patches or features, you should include relevant unit tests. Thanks!
