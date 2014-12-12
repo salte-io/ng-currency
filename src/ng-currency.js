@@ -70,25 +70,25 @@ angular.module('ng-currency', [])
                     return $filter('currency')(value, currencySymbol());
                 });
 
-                scope.$watch(function () {
-                    return ngModel.$modelValue
-                }, function (newValue, oldValue) {
-                    runValidations(newValue);
-                })
-
-                function runValidations(cVal) {
+                ngModel.$validators.min = function(cVal) {
                     if (!scope.ngRequired && isNaN(cVal)) {
-                        return
+                        return true;
                     }
-                    if (scope.min) {
-                        var min = parseFloat(scope.min)
-                        ngModel.$setValidity('min', cVal >= min)
+                    if(scope.min) {
+                        return cVal >= parseFloat(scope.min);
                     }
-                    if (scope.max) {
-                        var max = parseFloat(scope.max)
-                        ngModel.$setValidity('max', cVal <= max)
+                    return true;
+                };
+
+                ngModel.$validators.max = function(cVal) {
+                    if (!scope.ngRequired && isNaN(cVal)) {
+                        return true;
                     }
-                }
+                    if(scope.max) {
+                        return cVal <= parseFloat(scope.max);
+                    }
+                    return true;
+                };
             }
         }
     }]);

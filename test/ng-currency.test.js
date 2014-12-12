@@ -1,7 +1,8 @@
 'use strict';
 
 describe('ngCurrency directive tests', function() {
-    var elem, scope;
+    var elem,
+        scope;
 
     beforeEach(module('ng-currency'));
     beforeEach(inject(function($rootScope, $compile) {
@@ -38,7 +39,7 @@ describe('ngCurrency directive tests', function() {
   );
 
   describe("when currency-symbol is declared", function() {
-    beforeEach(inject(function($rootScope, $compile) {
+    beforeEach(inject(function($rootScope) {
       scope = $rootScope.$new();
       elem = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency currency-symbol='¥'>");
     }));
@@ -50,10 +51,10 @@ describe('ngCurrency directive tests', function() {
         scope.$digest();
         expect(elem.val()).toEqual("¥123.45");
       })
-    )
+    );
 
     describe("when currency-symbol declared is empty", function() {
-      beforeEach(inject(function($rootScope, $compile) {
+      beforeEach(inject(function($rootScope) {
         scope = $rootScope.$new();
         elem = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency currency-symbol=''>");
       }));
@@ -65,7 +66,7 @@ describe('ngCurrency directive tests', function() {
           scope.$digest();
           expect(elem.val()).toEqual("123.45");
         })
-      )
+      );
     });
   });
 
@@ -130,40 +131,72 @@ describe('ngCurrency directive tests', function() {
       elem.hasClass('ng-invalid-required')
      })
   );
-  it('should set -0 value from string - ',
-    inject(function($rootScope,$compile) {
-      scope.testModel = 0;
-      elem = $compile(elem)(scope);
-      elem.val("-");
-      elem.triggerHandler('input');
-      expect(scope.testModel).toEqual(-0);
-     })
-  );
-  it('should set -0 value from string \'- \' ',
-    inject(function($rootScope,$compile) {
-      scope.testModel = 0;
-      elem = $compile(elem)(scope);
-      elem.val("- ");
-      elem.triggerHandler('input');
-      expect(scope.testModel).toEqual(-0);
-     })
-  );
-  it('should set -1.11 value from string -1.11',
-    inject(function($rootScope,$compile) {
-      scope.testModel = 0;
-      elem = $compile(elem)(scope);
-      elem.val("-1.11");
-      elem.triggerHandler('input');
-      expect(scope.testModel).toEqual(-1.11);
-     })
-  );
-  it('should set -1.11 value from string $ -1.11',
-    inject(function($rootScope,$compile) {
-      scope.testModel = 0;
-      elem = $compile(elem)(scope);
-      elem.val("$ -1.11");
-      elem.triggerHandler('input');
-      expect(scope.testModel).toEqual(-1.11);
-     })
-  );
+
+  describe('model value should be undefined when view value does not pass validation', function() {
+
+    it('should not set 0 value from string 0 when required min is not met',
+      inject(function($rootScope,$compile) {
+        scope.testModel = 0;
+        elem = $compile(elem)(scope);
+        elem.val("0");
+        elem.triggerHandler('input');
+        expect(scope.testModel).toBeUndefined();
+      })
+    );
+
+    it('should not set 9999991 value from string 9999991 when required max is not met',
+      inject(function($rootScope,$compile) {
+        scope.testModel = 0;
+        elem = $compile(elem)(scope);
+        elem.val("0");
+        elem.triggerHandler('input');
+        expect(scope.testModel).toBeUndefined();
+      })
+    );
+
+  });
+
+  describe('when the min is set to zero or lower', function() {
+    beforeEach(function() {
+      elem = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='-2' max='999999' ng-required='true' ng-currency>");
+    });
+
+    it('should set -0 value from string - ',
+      inject(function($rootScope,$compile) {
+        scope.testModel = 0;
+        elem = $compile(elem)(scope);
+        elem.val("-");
+        elem.triggerHandler('input');
+        expect(scope.testModel).toBe(-0);
+      })
+    );
+    it('should set -0 value from string \'- \' ',
+      inject(function($rootScope,$compile) {
+        scope.testModel = 0;
+        elem = $compile(elem)(scope);
+        elem.val("- ");
+        elem.triggerHandler('input');
+        expect(scope.testModel).toBe(-0);
+      })
+    );
+    it('should set -1.11 value from string -1.11',
+      inject(function($rootScope,$compile) {
+        scope.testModel = 0;
+        elem = $compile(elem)(scope);
+        elem.val("-1.11");
+        elem.triggerHandler('input');
+        expect(scope.testModel).toBe(-1.11);
+      })
+    );
+    it('should set -1.11 value from string $ -1.11',
+      inject(function($rootScope,$compile) {
+        scope.testModel = 0;
+        elem = $compile(elem)(scope);
+        elem.val("$ -1.11");
+        elem.triggerHandler('input');
+        expect(scope.testModel).toBe(-1.11);
+      })
+    );
+  });
+
 });
