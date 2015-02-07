@@ -58,7 +58,7 @@ angular.module('ng-currency', [])
                 }
 
                 ngModel.$parsers.push(function (viewValue) {
-                    cVal = clearValue(viewValue);
+                    var cVal = clearValue(viewValue);
                     return parseFloat(cVal);
                 });
 
