@@ -63,6 +63,7 @@ angular.module('ng-currency', [])
                 });
 
                 element.on("blur", function () {
+                    ngModel.$commitViewValue();
                     element.val($filter('currency')(ngModel.$modelValue, currencySymbol()));
                 });
 

@@ -2,12 +2,14 @@
 
 describe('ngCurrency directive tests', function() {
     var elem,
-        scope;
+        scope,
+        elemmo;
 
     beforeEach(module('ng-currency'));
     beforeEach(inject(function($rootScope, $compile) {
         scope = $rootScope.$new();
         elem = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-currency>");
+        elemmo = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-model-options=\"{ updateOn:'blur' }\"  ng-currency>");
     }));
 
 
@@ -70,7 +72,7 @@ describe('ngCurrency directive tests', function() {
     });
   });
 
-  it('should set ngModel to 123.45 from string $11.11 as locale currency',
+  it('should set ngModel to 123.45 from string $123.45 as locale currency',
     inject(function($rootScope,$compile) {
       scope.testModel = 0;
       elem = $compile(elem)(scope);
@@ -198,5 +200,17 @@ describe('ngCurrency directive tests', function() {
       })
     );
   });
+  
+  it('issue #14 - should set input value to $123.45 from string 123.45 as locale currency with ng-model-options="{ updateOn:\'blur\' }"',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elemmo = $compile(elemmo)(scope);
+      elemmo.val("$123.45");
+      elemmo.triggerHandler('input');
+      elemmo.triggerHandler('blur');
+      expect(scope.testModel).toEqual(123.45);
+      expect(elemmo.val()).toEqual('$123.45');
+     })
+  );
 
 });
