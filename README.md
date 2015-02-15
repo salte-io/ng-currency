@@ -26,8 +26,8 @@ You may see it in action and play a lot using [plunker](http://plnkr.co/edit/u9m
 
 >
 ``` html
-<script src="https://code.angularjs.org/1.2.16/angular.js"></script>
-<script src="http://aguirrel.github.io/ng-currency/dist/ng-currency.js"></script>
+<script src="https://code.angularjs.org/1.3.4/angular.js"></script>
+<script src="https://rawgit.com/aguirrel/ng-currency/master/src/ng-currency.js"></script>
 ```
 
 + Inject the `ngCurrency` module into your app:
