@@ -6,6 +6,25 @@ describe('ngCurrency directive tests', function() {
         elemmo;
 
     beforeEach(module('ng-currency'));
+
+    beforeEach(module('ng-currency', function($compileProvider){
+      $compileProvider.directive('centsToDollars', function(){
+        return {
+          restrict: 'A',
+          require: 'ngModel',
+          link: function (scope, elem, attrs, ngModel) {
+            ngModel.$parsers.push(function(viewValue){
+              return Math.round(parseFloat(viewValue || 0) * 100);
+            });
+
+            ngModel.$formatters.push(function (modelValue) {
+              return (parseFloat(modelValue || 0) / 100).toFixed(2);
+            });
+          }
+        };
+      });
+    }));
+
     beforeEach(inject(function($rootScope, $compile) {
         scope = $rootScope.$new();
         elem = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-currency>");
@@ -213,4 +232,29 @@ describe('ngCurrency directive tests', function() {
      })
   );
 
+  describe("issue #18 - ng-currency doesn't play well with other directives when loosing focus", function(){
+    var el;
+
+    beforeEach(inject(function($compile) {
+      var template = "<input ng-model='modelInCents' cents-to-dollars ng-currency>";
+      el = $compile(template)(scope);
+      scope.modelInCents = 100;
+      scope.$digest();
+    }));
+
+    it("should load the model correctly",
+      inject(function($compile){
+        expect(el.val()).toEqual('$1.00');
+      }));
+
+    it("should update the model correctly",
+      inject(function($compile){
+        el.val("$123.45");
+        el.triggerHandler('input');
+        el.triggerHandler('blur');
+
+        expect(scope.modelInCents).toEqual(12345);
+        expect(el.val()).toEqual('$123.45');
+      }));
+  });
 });
