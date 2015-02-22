@@ -77,7 +77,7 @@ angular.module('ng-currency', [])
                 })
 
                 function runValidations(cVal) {
-                    if (!scope.ngRequired && isNaN(cVal)) {
+                    if (isNaN(cVal)) {
                         return
                     }
                     if (scope.min) {
