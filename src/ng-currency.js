@@ -17,6 +17,7 @@ angular.module('ng-currency', [])
                 ngRequired: '=ngRequired'
             },
             link: function (scope, element, attrs, ngModel) {
+                if (attrs.ngCurrency === 'false') return;
 
                 function decimalRex(dChar) {
                     return RegExp("\\d|\\-|\\" + dChar, 'g');
