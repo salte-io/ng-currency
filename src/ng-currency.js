@@ -80,11 +80,11 @@ angular.module('ng-currency', [])
                     if (isNaN(cVal)) {
                         return
                     }
-                    if (scope.min) {
+                    if (scope.min || scope.min === 0) {
                         var min = parseFloat(scope.min)
                         ngModel.$setValidity('min', cVal >= min)
                     }
-                    if (scope.max) {
+                    if (scope.max || scope.max === 0) {
                         var max = parseFloat(scope.max)
                         ngModel.$setValidity('max', cVal <= max)
                     }
