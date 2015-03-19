@@ -57,6 +57,19 @@ angular.module('ng-currency', [])
                     }
                 }
 
+                function reformatViewValue(){
+                    var formatters = ngModel.$formatters,
+                        idx = formatters.length;
+
+                    var viewValue = ngModel.$modelValue;
+                    while (idx--) {
+                      viewValue = formatters[idx](viewValue);
+                    }
+
+                    ngModel.$setViewValue(viewValue);
+                    ngModel.$render();
+                }
+
                 ngModel.$parsers.push(function (viewValue) {
                     var cVal = clearValue(viewValue);
                     return parseFloat(cVal);
@@ -64,7 +77,7 @@ angular.module('ng-currency', [])
 
                 element.on("blur", function () {
                     ngModel.$commitViewValue();
-                    element.val($filter('currency')(ngModel.$modelValue, currencySymbol()));
+                    reformatViewValue();
                 });
 
                 ngModel.$formatters.unshift(function (value) {
