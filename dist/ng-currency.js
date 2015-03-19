@@ -2,7 +2,7 @@
  * ng-currency
  * http://alaguirre.com/
 
- * Version: 0.7.12 - 2015-03-19
+ * Version: 0.7.13 - 2015-03-19
  * License: MIT
  */
 
@@ -80,11 +80,11 @@ angular.module('ng-currency', [])
                     if (isNaN(cVal)) {
                         return
                     }
-                    if (scope.min) {
+                    if (typeof scope.min !== 'undefined') {
                         var min = parseFloat(scope.min)
                         ngModel.$setValidity('min', cVal >= min)
                     }
-                    if (scope.max) {
+                    if (typeof scope.max !== 'undefined') {
                         var max = parseFloat(scope.max)
                         ngModel.$setValidity('max', cVal <= max)
                     }
