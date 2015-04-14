@@ -2,7 +2,7 @@
  * ng-currency
  * http://alaguirre.com/
 
- * Version: 0.8.3 - 2015-03-19
+ * Version: 0.8.4 - 2015-04-14
  * License: MIT
  */
 
@@ -40,10 +40,6 @@ angular.module('ng-currency', [])
                         cleared = value.match(decimalRex(dSeparator))
                             .join("").match(clearRex(dSeparator));
                         cleared = cleared ? cleared[0].replace(dSeparator, ".") : null;
-                    }
-                    else
-                    {
-                        cleaned = null;
                     }
 
                     return cleared;
