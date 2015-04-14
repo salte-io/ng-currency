@@ -41,10 +41,6 @@ angular.module('ng-currency', [])
                             .join("").match(clearRex(dSeparator));
                         cleared = cleared ? cleared[0].replace(dSeparator, ".") : null;
                     }
-                    else
-                    {
-                        cleaned = null;
-                    }
 
                     return cleared;
                 }
