@@ -7,6 +7,8 @@ Main features:
 * You may write the amount using locale decimal or use dot (.) as default.
 * The only required dependency is [angular](https://github.com/angular/angular.js)!
 * Min and Max validators like input[number].
+* Enable/disable formatter using ng-currency={{var}}
+* Optional fraction places value. The default remains 2 decimal places.
 
 ## Bower
 
@@ -65,6 +67,22 @@ angular.module('myApp', ['ng-currency']);
 <input type="text" model="yourModel" ng-currency currency-symbol="¥" />
 ```
 
++ Disable currency in field
+
+>
+``` html
+<input type="text" model="yourModel" ng-currency={{isCurrency}} currency-symbol="¥" />
+```
+
++ Optional fraction value to take advantage of the currency filter's third param. The default remains 2 decimal places.
+
+>
+``` html
+  <input type="text" ng-currency min="0" fraction="0">
+```
+
+
+
 ## Contributing
 
 Please submit all pull requests the against master branch. If your unit test contains JavaScript patches or features, you should include relevant unit tests. Thanks!
@@ -77,16 +95,6 @@ Please submit all pull requests the against master branch. If your unit test con
 
 + http://alaguirre.com
 + http://github.com/aguirrel
-
-## Contributors
-
-**Guillermo Sandoval**
-
-+ https://github.com/gsandoval
-
-**Ronaldo Rogério Pereira**
-
-+ https://github.com/ronaldotijucas
 
 ## Copyright and license
 

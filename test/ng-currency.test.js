@@ -3,7 +3,10 @@
 describe('ngCurrency directive tests', function() {
     var elem,
         scope,
-        elemmo;
+        elemmo,
+        elemfpos,
+        elemcurrdisabled,
+        elemnreq;
 
     beforeEach(module('ng-currency'));
 
@@ -29,6 +32,9 @@ describe('ngCurrency directive tests', function() {
         scope = $rootScope.$new();
         elem = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-currency>");
         elemmo = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-model-options=\"{ updateOn:'blur' }\"  ng-currency>");
+        elemfpos = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-currency fraction='0'>");
+        elemcurrdisabled = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency='{{isCurrency}}'>");
+        elemnreq = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency fraction='2'>");
     }));
 
 
@@ -229,6 +235,45 @@ describe('ngCurrency directive tests', function() {
       elemmo.triggerHandler('blur');
       expect(scope.testModel).toEqual(123.45);
       expect(elemmo.val()).toEqual('$123.45');
+     })
+  );
+
+  it('Adding an optional fraction value to take advantage of the currency filter\'s third param fraction="0"',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 123.45;
+      elem = $compile(elemfpos)(scope);
+      scope.$digest();
+      expect(elem.val()).toEqual("$123");
+     })
+  );
+  
+  it('Adding an optional fraction value to take advantage of the currency filter\'s third param fraction="0"',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 'a';
+      elem = $compile(elemfpos)(scope);
+      scope.$digest();
+      expect(elem.val()).toEqual("");
+     })
+  );
+
+  it('Disable ng-currency format',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 123.45;
+      scope.isCurrency = false;
+      elem = $compile(elemcurrdisabled)(scope);
+      scope.$digest();
+      expect(elem.val()).toEqual("123.45");
+     })
+  );
+
+  it('Not required and not a number with max and min',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 'a';
+      scope.isCurrency = false;
+      elem = $compile(elemnreq)(scope);
+      elem.triggerHandler('input');
+      scope.$digest();
+      expect(elem.val()).toEqual("");
      })
   );
 
