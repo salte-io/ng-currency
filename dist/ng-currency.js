@@ -2,7 +2,7 @@
  * ng-currency
  * http://alaguirre.com/
 
- * Version: 0.8.4 - 2015-04-14
+ * Version: 0.8.5 - 2015-05-11
  * License: MIT
  */
 
@@ -14,9 +14,11 @@ angular.module('ng-currency', [])
                 min: '=min',
                 max: '=max',
                 currencySymbol: '@',
-                ngRequired: '=ngRequired'
+                ngRequired: '=ngRequired',
+                fraction: '=fraction'
             },
             link: function (scope, element, attrs, ngModel) {
+                if (attrs.ngCurrency === 'false') return;
 
                 function decimalRex(dChar) {
                     return RegExp("\\d|\\-|\\" + dChar, 'g');
@@ -77,7 +79,7 @@ angular.module('ng-currency', [])
                 });
 
                 ngModel.$formatters.unshift(function (value) {
-                    return $filter('currency')(value, currencySymbol());
+                    return $filter('currency')(value, currencySymbol(), scope.fraction);
                 });
 
                 ngModel.$validators.min = function(cVal) {
@@ -97,6 +99,14 @@ angular.module('ng-currency', [])
                     if(scope.max) {
                         return cVal <= parseFloat(scope.max);
                     }
+                    return true;
+                };
+
+                ngModel.$validators.fraction = function(cVal) {
+                    if (!!cVal && isNaN(cVal)) {
+                        return false;
+                    }
+
                     return true;
                 };
             }
