@@ -62,7 +62,7 @@ angular.module('ng-currency', [])
                     var formatters = ngModel.$formatters,
                         idx = formatters.length;
 
-                    var viewValue = ngModel.$modelValue;
+                    var viewValue = ngModel.$$rawModelValue;
                     while (idx--) {
                       viewValue = formatters[idx](viewValue);
                     }
