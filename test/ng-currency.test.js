@@ -137,7 +137,9 @@ describe('ngCurrency directive tests', function() {
       elem = $compile(elem)(scope);
       elem.val("$1999999.0");
       elem.triggerHandler('input');
+      elem.triggerHandler('blur');
       elem.hasClass('ng-invalid-max')
+      expect(elem.val()).toEqual("$1,999,999.00");
      })
   );
 
@@ -147,7 +149,9 @@ describe('ngCurrency directive tests', function() {
       elem = $compile(elem)(scope);
       elem.val("$0.01");
       elem.triggerHandler('input');
+      elem.triggerHandler('blur');
       elem.hasClass('ng-invalid-min')
+      expect(elem.val()).toEqual("$0.01");
      })
   );
 
@@ -169,7 +173,9 @@ describe('ngCurrency directive tests', function() {
         elem = $compile(elem)(scope);
         elem.val("0");
         elem.triggerHandler('input');
+        elem.triggerHandler('blur');
         expect(scope.testModel).toBeUndefined();
+        expect(elem.val()).toEqual("$0.00");
       })
     );
 
@@ -177,9 +183,11 @@ describe('ngCurrency directive tests', function() {
       inject(function($rootScope,$compile) {
         scope.testModel = 0;
         elem = $compile(elem)(scope);
-        elem.val("0");
+        elem.val("9999991");
         elem.triggerHandler('input');
+        elem.triggerHandler('blur');
         expect(scope.testModel).toBeUndefined();
+        expect(elem.val()).toEqual("$9,999,991.00");
       })
     );
 
