@@ -18,14 +18,17 @@ angular.module('ng-currency', [])
                 fraction: '=fraction'
             },
             link: function (scope, element, attrs, ngModel) {
+                
                 if (attrs.ngCurrency === 'false') return;
+                
+                var fract = (typeof scope.fraction !== 'undefined')?scope.fraction:2;
 
                 function decimalRex(dChar) {
                     return RegExp("\\d|\\-|\\" + dChar, 'g');
                 }
 
                 function clearRex(dChar) {
-                    return RegExp("\\-{0,1}((\\" + dChar + ")|([0-9]{1,}\\" + dChar + "?))&?[0-9]{0,2}", 'g');
+                    return RegExp("\\-{0,1}((\\" + dChar + ")|([0-9]{1,}\\" + dChar + "?))&?[0-9]{0," + fract + "}", 'g');
                 }
 
                 function clearValue(value) {
@@ -86,7 +89,7 @@ angular.module('ng-currency', [])
                     if (!scope.ngRequired && isNaN(cVal)) {
                         return true;
                     }
-                    if(scope.min) {
+                    if(typeof scope.min  !== 'undefined') {
                         return cVal >= parseFloat(scope.min);
                     }
                     return true;
@@ -96,7 +99,7 @@ angular.module('ng-currency', [])
                     if (!scope.ngRequired && isNaN(cVal)) {
                         return true;
                     }
-                    if(scope.max) {
+                    if(typeof scope.max  !== 'undefined') {
                         return cVal <= parseFloat(scope.max);
                     }
                     return true;

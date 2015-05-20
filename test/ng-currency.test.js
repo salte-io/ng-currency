@@ -5,6 +5,7 @@ describe('ngCurrency directive tests', function() {
         scope,
         elemmo,
         elemfpos,
+        elemfpos5,
         elemcurrdisabled,
         elemnreq;
 
@@ -33,6 +34,7 @@ describe('ngCurrency directive tests', function() {
         elem = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-currency>");
         elemmo = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-model-options=\"{ updateOn:'blur' }\"  ng-currency>");
         elemfpos = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-currency fraction='0'>");
+        elemfpos5 = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency fraction='5'>");
         elemcurrdisabled = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency='{{isCurrency}}'>");
         elemnreq = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency fraction='2'>");
     }));
@@ -247,7 +249,16 @@ describe('ngCurrency directive tests', function() {
      })
   );
   
-  it('Adding an optional fraction value to take advantage of the currency filter\'s third param fraction="0"',
+  it('Adding an optional fraction value to take advantage of the currency filter\'s third param fraction="5"',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 123.45678;
+      elem = $compile(elemfpos5)(scope);
+      scope.$digest();
+      expect(elem.val()).toEqual("$123.45678");
+     })
+  );
+  
+  it('Adding an optional fraction value to take advantage of the currency filter\'s third param fraction="0" model="a"',
     inject(function($rootScope,$compile) {
       scope.testModel = 'a';
       elem = $compile(elemfpos)(scope);
