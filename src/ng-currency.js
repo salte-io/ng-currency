@@ -55,7 +55,7 @@ angular.module('ng-currency', [])
 
                 ngModel.$parsers.push(function (viewValue) {
                     var cVal = clearValue(viewValue);
-                    return parseFloat(cVal);
+                    return (cVal == $locale.NUMBER_FORMATS.DECIMAL_SEP) ? $locale.NUMBER_FORMATS.DECIMAL_SEP : parseFloat(cVal);
                 });
 
                 element.on("blur", function () {
