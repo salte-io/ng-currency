@@ -2,7 +2,7 @@
  * ng-currency
  * http://alaguirre.com/
 
- * Version: 0.8.6 - 2015-05-20
+ * Version: 0.8.7 - 2015-06-11
  * License: MIT
  */
 
@@ -35,6 +35,12 @@ angular.module('ng-currency', [])
                     value = String(value);
                     var dSeparator = $locale.NUMBER_FORMATS.DECIMAL_SEP;
                     var cleared = null;
+
+                    // Replace negative pattern to minus sign (-)
+                    var neg_dummy = $filter('currency')("-1", currencySymbol(), scope.fraction);
+                    var neg_idx = neg_dummy.indexOf("1");
+                    var neg_str = neg_dummy.substring(0,neg_idx);
+                    value = value.replace(neg_str, "-");
 
                     if(RegExp("^-[\\s]*$", 'g').test(value)) {
                         value = "-0";
@@ -73,6 +79,12 @@ angular.module('ng-currency', [])
 
                 ngModel.$parsers.push(function (viewValue) {
                     var cVal = clearValue(viewValue);
+                    //return parseFloat(cVal);
+                    // Check for fast digitation (-. or .)
+                    if(cVal == "." || cVal == "-.")
+                    {
+                        cVal = ".0";
+                    }
                     return parseFloat(cVal);
                 });
 
