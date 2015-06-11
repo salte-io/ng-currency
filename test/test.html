@@ -9,6 +9,8 @@ document.write('<base href="' + document.location + '" />');
 </script>
 <link rel="stylesheet" href="style.css" />
 <script src="https://code.angularjs.org/1.3.15/angular.js"></script>
+<!-- <script src="https://code.angularjs.org/1.3.15/i18n/angular-locale_es-ar.js"></script> -->
+<!-- <script src="https://code.angularjs.org/1.3.15/i18n/angular-locale_es-es.js"></script> -->
 <script src="../src/ng-currency.js"></script>
 
 <!-- PLEASE CHANGE AS YOU WISH THIS LOCALE JS -->
@@ -20,7 +22,7 @@ document.write('<base href="' + document.location + '" />');
 <body ng-controller="MainCtrl">
 
 <form name="testForm">
-<input type="text" ng-model="testModel" ng-currency max="99" min="0" name="testInput" fraction="5">(autoformat on blur!)
+<input type="text" ng-model="testModel" ng-currency max="10" min="-2" name="testInput" fraction="5">(autoformat on blur!)
 <p>model value: {{testModel}}</p>
 <p>{{testForm.testInput.$error}}</p>
 
