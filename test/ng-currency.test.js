@@ -7,7 +7,8 @@ describe('ngCurrency directive tests', function() {
         elemfpos,
         elemfpos5,
         elemcurrdisabled,
-        elemnreq;
+        elemnreq,
+        elemfastfraction;
 
     beforeEach(module('ng-currency'));
 
@@ -37,6 +38,7 @@ describe('ngCurrency directive tests', function() {
         elemfpos5 = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency fraction='5'>");
         elemcurrdisabled = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency='{{isCurrency}}'>");
         elemnreq = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency fraction='2'>");
+        elemfastfraction = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency>");
     }));
 
 
@@ -245,6 +247,30 @@ describe('ngCurrency directive tests', function() {
       elemmo.triggerHandler('blur');
       expect(scope.testModel).toEqual(123.45);
       expect(elemmo.val()).toEqual('$123.45');
+     })
+  );
+  
+  it('issue #28 - Fast fraction - Input should not filter fast fraction notation ej: .5"',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elemmo = $compile(elemfastfraction)(scope);
+      elemmo.val(".5");
+      elemmo.triggerHandler('input');
+      elemmo.triggerHandler('blur');
+      expect(scope.testModel).toEqual(0.5);
+      expect(elemmo.val()).toEqual('$0.50');
+     })
+  );
+
+  it('issue #28 - Fast fraction - Input should not filter fast fraction notation ej: -.5"',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elemmo = $compile(elemfastfraction)(scope);
+      elemmo.val("-.5");
+      elemmo.triggerHandler('input');
+      elemmo.triggerHandler('blur');
+      expect(scope.testModel).toEqual(-0.5);
+      expect(elemmo.val()).toEqual('($0.50)');
      })
   );
 
