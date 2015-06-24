@@ -45,28 +45,28 @@ angular.module('myApp', ['ng-currency']);
 
 >
 ``` html
-<input type="text" model="yourModel" ng-currency />
+<input type="text" ng-model="yourModel" ng-currency />
 ```
 
 + It is also possible to add 'min' and 'max' validations
 
 >
 ``` html
-<input type="text" model="yourModel" ng-currency min="1" max="1337" />
+<input type="text" ng-model="yourModel" ng-currency min="1" max="1337" />
 ```
 
 + If you want to be able to dynamically enable/disable validations from a controller you can use the following
 
 >
 ``` html
-<input type="text" model="yourModel" ng-currency min="1" max="1337" ng-required="true" />
+<input type="text" ng-model="yourModel" ng-currency min="1" max="1337" ng-required="true" />
 ```
 
 + It already shows the default currency symbol, but you can define a currency symbol, so that it will use this instead.
 
 >
 ``` html
-<input type="text" model="yourModel" ng-currency currency-symbol="¥" />
+<input type="text" ng-model="yourModel" ng-currency currency-symbol="¥" />
 ```
 
 ## Contributing
