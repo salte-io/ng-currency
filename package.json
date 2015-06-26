@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start test/karma.config.js --single-run",
+    "test-watch": "karma start test/karma.config.js"
   },
   "repository": {
     "type": "git",
@@ -23,5 +24,11 @@
   "bugs": {
     "url": "https://github.com/aguirrel/ng-currency/issues"
   },
-  "homepage": "https://github.com/aguirrel/ng-currency#readme"
+  "homepage": "https://github.com/aguirrel/ng-currency#readme",
+  "devDependencies": {
+    "karma": "^0.12.37",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-coverage": "^0.4.2",
+    "karma-jasmine": "^0.3.5"
+  }
 }

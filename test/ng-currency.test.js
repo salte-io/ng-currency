@@ -69,6 +69,39 @@ describe('ngCurrency directive tests', function() {
     });
   });
 
+  describe("when fraction-size is declared", function() {
+    beforeEach(inject(function($rootScope, $compile) {
+      scope = $rootScope.$new();
+      elem = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency fraction-size='fractionSize'>");
+    }));
+
+    it('should display a currency with cents rounded to the fractionSize',
+      inject(function($rootScope,$compile) {
+        scope.testModel = 123.85;
+        scope.fractionSize = 0;
+        elem = $compile(elem)(scope);
+        scope.$digest();
+        elem.triggerHandler('blur');
+        expect(elem.val()).toEqual("$124");
+
+        scope.fractionSize = 1;
+        scope.$digest();
+        elem.triggerHandler('blur');
+        expect(elem.val()).toEqual("$123.9");
+      })
+    )
+    it('should not set ngModel to a rounded value if they enter more decimal places than fractionSize',
+      inject(function($rootScope,$compile) {
+        scope.testModel = 0;
+        scope.fractionSize = 0;
+        elem = $compile(elem)(scope);
+        elem.val("123.99");
+        elem.triggerHandler('input');
+        expect(scope.testModel).toEqual(123.99);
+       })
+    );
+  });
+
   it('should set ngModel to 123.45 from string $11.11 as locale currency',
     inject(function($rootScope,$compile) {
       scope.testModel = 0;
@@ -130,22 +163,22 @@ describe('ngCurrency directive tests', function() {
       elem.hasClass('ng-invalid-required')
      })
   );
-  it('should set -0 value from string - ',
+  it('should set 0 value from string - ',
     inject(function($rootScope,$compile) {
       scope.testModel = 0;
       elem = $compile(elem)(scope);
       elem.val("-");
       elem.triggerHandler('input');
-      expect(scope.testModel).toEqual(-0);
+      expect(scope.testModel).toEqual(0);
      })
   );
-  it('should set -0 value from string \'- \' ',
+  it('should set 0 value from string \'- \' ',
     inject(function($rootScope,$compile) {
       scope.testModel = 0;
       elem = $compile(elem)(scope);
       elem.val("- ");
       elem.triggerHandler('input');
-      expect(scope.testModel).toEqual(-0);
+      expect(scope.testModel).toEqual(0);
      })
   );
   it('should set -1.11 value from string -1.11',
