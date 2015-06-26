@@ -7,13 +7,14 @@
  */
 
 angular.module('ng-currency', [])
-    .directive('ngCurrency', ['$filter', '$locale', function ($filter, $locale) {
+    .directive('ngCurrency', ['currencyFilter', '$locale', function (currencyFilter, $locale) {
         return {
             require: 'ngModel',
             scope: {
                 min: '=min',
                 max: '=max',
                 currencySymbol: '@',
+                fractionSize: '=',
                 ngRequired: '=ngRequired'
             },
             link: function (scope, element, attrs, ngModel) {
@@ -59,11 +60,11 @@ angular.module('ng-currency', [])
                 });
 
                 element.on("blur", function () {
-                    element.val($filter('currency')(ngModel.$modelValue, currencySymbol()));
+                    element.val(currencyFilter(ngModel.$modelValue, currencySymbol(), scope.fractionSize));
                 });
 
                 ngModel.$formatters.unshift(function (value) {
-                    return $filter('currency')(value, currencySymbol());
+                    return currencyFilter(value, currencySymbol(), scope.fractionSize);
                 });
 
                 scope.$watch(function () {

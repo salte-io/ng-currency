@@ -69,6 +69,13 @@ angular.module('myApp', ['ng-currency']);
 <input type="text" ng-model="yourModel" ng-currency currency-symbol="¥" />
 ```
 
++ To round the display to the nearest dollar, you can use the "fraction-size" option from the [currency filter](https://docs.angularjs.org/api/ng/filter/currency)
+
+>
+``` html
+<input type="text" ng-model="yourModel" ng-currency fraction-size="0" />
+```
+
 ## Contributing
 
 Please submit all pull requests the against master branch. If your unit test contains JavaScript patches or features, you should include relevant unit tests. Thanks!
