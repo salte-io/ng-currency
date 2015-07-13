@@ -69,7 +69,7 @@ describe('ngCurrency directive tests', function() {
     });
   });
 
-  it('should set ngModel to 123.45 from string $11.11 as locale currency',
+  it('should set ngModel to 123.45 from string $123.45 as locale currency',
     inject(function($rootScope,$compile) {
       scope.testModel = 0;
       elem = $compile(elem)(scope);
