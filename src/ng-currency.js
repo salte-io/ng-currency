@@ -6,6 +6,11 @@
  * License: MIT
  */
 
+/*commonjs support*/
+if (typeof module !== "undefined" && typeof exports !== "undefined" && module.exports === exports){
+      module.exports = 'ng-currency';
+}
+
 angular.module('ng-currency', [])
     .directive('ngCurrency', ['$filter', '$locale', function ($filter, $locale) {
         return {
@@ -18,9 +23,9 @@ angular.module('ng-currency', [])
                 fraction: '=fraction'
             },
             link: function (scope, element, attrs, ngModel) {
-                
+
                 if (attrs.ngCurrency === 'false') return;
-                
+
                 var fract = (typeof scope.fraction !== 'undefined')?scope.fraction:2;
 
                 function decimalRex(dChar) {
