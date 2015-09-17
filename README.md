@@ -1,4 +1,4 @@
-ngCurrency is a directive that enables seamless use of currency inputs.  
+ngCurrency is a directive that enables seamless use of currency inputs.
 
 Main features:
 
@@ -19,6 +19,10 @@ If you use angular 1.2.x please, use 0.7.x version (v0.7.0 branch). If you use a
 You may install it via bower using
 
 `bower install ng-currency`
+
+or npm using
+
+`npm install ng-currency`
 
 ## Example
 
