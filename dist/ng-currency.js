@@ -2,9 +2,14 @@
  * ng-currency
  * http://alaguirre.com/
 
- * Version: 0.8.7 - 2015-06-11
+ * Version: 0.8.8 - 2015-09-17
  * License: MIT
  */
+
+/*commonjs support*/
+if (typeof module !== "undefined" && typeof exports !== "undefined" && module.exports === exports){
+      module.exports = 'ng-currency';
+}
 
 angular.module('ng-currency', [])
     .directive('ngCurrency', ['$filter', '$locale', function ($filter, $locale) {
@@ -18,9 +23,9 @@ angular.module('ng-currency', [])
                 fraction: '=fraction'
             },
             link: function (scope, element, attrs, ngModel) {
-                
+
                 if (attrs.ngCurrency === 'false') return;
-                
+
                 var fract = (typeof scope.fraction !== 'undefined')?scope.fraction:2;
 
                 function decimalRex(dChar) {
