@@ -2,7 +2,7 @@
  * ng-currency
  * http://alaguirre.com/
 
- * Version: 0.8.8 - 2015-09-17
+ * Version: 0.8.9 - 2015-09-21
  * License: MIT
  */
 
@@ -42,7 +42,7 @@ angular.module('ng-currency', [])
                     var cleared = null;
 
                     // Replace negative pattern to minus sign (-)
-                    var neg_dummy = $filter('currency')("-1", currencySymbol(), scope.fraction);
+                    var neg_dummy = $filter('currency')("-1", getCurrencySymbol(), scope.fraction);
                     var neg_idx = neg_dummy.indexOf("1");
                     var neg_str = neg_dummy.substring(0,neg_idx);
                     value = value.replace(neg_str, "-");
@@ -61,7 +61,7 @@ angular.module('ng-currency', [])
                     return cleared;
                 }
 
-                function currencySymbol() {
+                function getCurrencySymbol() {
                     if (angular.isDefined(scope.currencySymbol)) {
                         return scope.currencySymbol;
                     } else {
@@ -99,7 +99,7 @@ angular.module('ng-currency', [])
                 });
 
                 ngModel.$formatters.unshift(function (value) {
-                    return $filter('currency')(value, currencySymbol(), scope.fraction);
+                    return $filter('currency')(value, getCurrencySymbol(), scope.fraction);
                 });
 
                 ngModel.$validators.min = function(cVal) {
