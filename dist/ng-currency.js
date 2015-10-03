@@ -2,7 +2,7 @@
  * ng-currency
  * http://alaguirre.com/
 
- * Version: 0.8.10 - 2015-10-03
+ * Version: 0.8.11 - 2015-10-03
  * License: MIT
  */
 
@@ -111,12 +111,10 @@ angular.module('ng-currency', [])
                     }
                     return true;
                 };
-
-                if(typeof scope.min  !== 'undefined') {
-                    scope.$watch('min', function (val) {
-                        ngModel.$validate();
-                    });
-                }
+                
+                scope.$watch('min', function (val) {
+                    ngModel.$validate();
+                });
 
                 ngModel.$validators.max = function(cVal) {
                     if (!scope.ngRequired && isNaN(cVal)) {
@@ -128,11 +126,10 @@ angular.module('ng-currency', [])
                     return true;
                 };
 
-                if(typeof scope.max  !== 'undefined') {
-                    scope.$watch('max', function (val) {
-                        ngModel.$validate();
-                    });
-                }
+                scope.$watch('max', function (val) {
+                    ngModel.$validate();
+                });
+
 
                 ngModel.$validators.fraction = function(cVal) {
                     if (!!cVal && isNaN(cVal)) {
