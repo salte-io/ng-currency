@@ -8,7 +8,8 @@ describe('ngCurrency directive tests', function() {
         elemfpos5,
         elemcurrdisabled,
         elemnreq,
-        elemfastfraction;
+        elemfastfraction,
+        elemminmaxvar;
 
     beforeEach(module('ng-currency'));
 
@@ -39,6 +40,7 @@ describe('ngCurrency directive tests', function() {
         elemcurrdisabled = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency='{{isCurrency}}'>");
         elemnreq = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency fraction='2'>");
         elemfastfraction = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency>");
+        elemminmaxvar = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='mini' max='maxi' ng-required='true' ng-currency>");
     }));
 
 
@@ -154,6 +156,38 @@ describe('ngCurrency directive tests', function() {
       elem.triggerHandler('blur');
       elem.hasClass('ng-invalid-min')
       expect(elem.val()).toEqual("$0.01");
+     })
+  );
+
+  it('should tigger invalid max after change maxi variable',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      scope.mini = 1;
+      scope.maxi = 10;
+      elem = $compile(elemminmaxvar)(scope);
+      elem.val("$4");
+      elem.triggerHandler('input');
+      elem.triggerHandler('blur');
+      expect(elem.hasClass('ng-valid-max')).toEqual(true);
+      scope.maxi = 3;
+      scope.$digest();
+      expect(elem.hasClass('ng-invalid-max')).toEqual(true);
+     })
+  );
+
+  it('should tigger invalid min after change mini variable',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      scope.mini = 1;
+      scope.maxi = 10;
+      elem = $compile(elemminmaxvar)(scope);
+      elem.val("$4");
+      elem.triggerHandler('input');
+      elem.triggerHandler('blur');
+      expect(elem.hasClass('ng-valid-min')).toEqual(true);
+      scope.mini = 5;
+      scope.$digest();
+      expect(elem.hasClass('ng-invalid-min')).toEqual(true);
      })
   );
 
