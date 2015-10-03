@@ -112,6 +112,12 @@ angular.module('ng-currency', [])
                     return true;
                 };
 
+                if(typeof scope.min  !== 'undefined') {
+                    scope.$watch('min', function (val) {
+                        ngModel.$validate();
+                    });
+                }
+
                 ngModel.$validators.max = function(cVal) {
                     if (!scope.ngRequired && isNaN(cVal)) {
                         return true;
@@ -121,6 +127,12 @@ angular.module('ng-currency', [])
                     }
                     return true;
                 };
+
+                if(typeof scope.max  !== 'undefined') {
+                    scope.$watch('max', function (val) {
+                        ngModel.$validate();
+                    });
+                }
 
                 ngModel.$validators.fraction = function(cVal) {
                     if (!!cVal && isNaN(cVal)) {
