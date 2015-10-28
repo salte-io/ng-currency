@@ -138,6 +138,11 @@ angular.module('ng-currency', [])
 
                     return true;
                 };
+
+                scope.$on('currencyRedraw', function() { 
+                    ngModel.$commitViewValue();
+                    reformatViewValue(); 
+                });
             }
         }
     }]);
