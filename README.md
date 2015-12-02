@@ -9,6 +9,7 @@ Main features:
 * Min and Max validators like input[number].
 * Enable/disable formatter using ng-currency={{var}}
 * Optional fraction places value. The default remains 2 decimal places.
+* You can redraw all directives broadcasting "currencyRedraw" event.
 
 ## Versions
 
