@@ -2,7 +2,7 @@
  * ng-currency
  * http://alaguirre.com/
 
- * Version: 0.8.11 - 2015-10-03
+ * Version: 0.8.12 - 2015-12-02
  * License: MIT
  */
 
@@ -26,14 +26,14 @@ angular.module('ng-currency', [])
 
                 if (attrs.ngCurrency === 'false') return;
 
-                var fract = (typeof scope.fraction !== 'undefined')?scope.fraction:2;
+                scope.fraction = (typeof scope.fraction !== 'undefined')?scope.fraction:2;
 
                 function decimalRex(dChar) {
                     return RegExp("\\d|\\-|\\" + dChar, 'g');
                 }
 
                 function clearRex(dChar) {
-                    return RegExp("\\-{0,1}((\\" + dChar + ")|([0-9]{1,}\\" + dChar + "?))&?[0-9]{0," + fract + "}", 'g');
+                    return RegExp("\\-{0,1}((\\" + dChar + ")|([0-9]{1,}\\" + dChar + "?))&?[0-9]{0," + scope.fraction + "}", 'g');
                 }
 
                 function clearValue(value) {
@@ -138,6 +138,11 @@ angular.module('ng-currency', [])
 
                     return true;
                 };
+
+                scope.$on('currencyRedraw', function() { 
+                    ngModel.$commitViewValue();
+                    reformatViewValue(); 
+                });
             }
         }
     }]);
