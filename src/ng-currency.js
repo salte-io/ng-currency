@@ -16,11 +16,11 @@ angular.module('ng-currency', [])
         return {
             require: 'ngModel',
             scope: {
-                min: '=min',
-                max: '=max',
+                min: '=?min',
+                max: '=?max',
                 currencySymbol: '@',
-                ngRequired: '=ngRequired',
-                fraction: '=fraction'
+                ngRequired: '=?ngRequired',
+                fraction: '=?fraction'
             },
             link: function (scope, element, attrs, ngModel) {
 
@@ -40,6 +40,11 @@ angular.module('ng-currency', [])
                     value = String(value);
                     var dSeparator = $locale.NUMBER_FORMATS.DECIMAL_SEP;
                     var cleared = null;
+
+                    if(value.indexOf($locale.NUMBER_FORMATS.DECIMAL_SEP) == -1 && value.indexOf('.') != -1)
+                    {
+                        dSeparator = '.';
+                    }
 
                     // Replace negative pattern to minus sign (-)
                     var neg_dummy = $filter('currency')("-1", getCurrencySymbol(), scope.fraction);
@@ -142,6 +147,11 @@ angular.module('ng-currency', [])
                 scope.$on('currencyRedraw', function() { 
                     ngModel.$commitViewValue();
                     reformatViewValue(); 
+                });
+
+                element.on('focus',function(){
+                    ngModel.$setViewValue(ngModel.$$rawModelValue || '');
+                    ngModel.$render();
                 });
             }
         }
