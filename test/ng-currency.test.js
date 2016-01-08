@@ -2,6 +2,7 @@
 
 describe('ngCurrency directive tests', function() {
     var elem,
+        elemdefault,
         scope,
         elemmo,
         elemfpos,
@@ -33,6 +34,7 @@ describe('ngCurrency directive tests', function() {
 
     beforeEach(inject(function($rootScope, $compile) {
         scope = $rootScope.$new();
+        elemdefault = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency>");
         elem = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-currency>");
         elemmo = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-model-options=\"{ updateOn:'blur' }\"  ng-currency>");
         elemfpos = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-currency fraction='0'>");
@@ -420,9 +422,38 @@ describe('ngCurrency directive tests', function() {
       elem.triggerHandler('focus');
       expect(elem.val()).toEqual('123.45');
       elem.val("$456.78");
+      elem.triggerHandler('input');
       elem.triggerHandler('blur');
-      expect(scope.testModel).toEqual(123.45);
-      expect(elem.val()).toEqual('$123.45');
+      expect(scope.testModel).toEqual(456.78);
+      expect(elem.val()).toEqual('$456.78');
+     })
+  );
+  
+  it('New for version 0.9.1 - Original value $123.00, should set input value to 123.00 on focus, then $123.00 on blur',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elem = $compile(elem)(scope);
+      elem.val("$123.00");
+      elem.triggerHandler('input');
+      elem.triggerHandler('focus');
+      expect(elem.val()).toEqual('123.00');
+      elem.triggerHandler('blur');
+      expect(scope.testModel).toEqual(123.00);
+      expect(elem.val()).toEqual('$123.00');
+     })
+  );
+  
+  it('New for version 0.9.1 - Original value $0.00, should set input value to 0.00 on focus, then $0.00 on blur',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elem = $compile(elemdefault)(scope);
+      elem.val("$0.00");
+      elem.triggerHandler('input');
+      elem.triggerHandler('focus');
+      expect(elem.val()).toEqual('0.00');
+      elem.triggerHandler('blur');
+      expect(scope.testModel).toEqual(0);
+      expect(elem.val()).toEqual('$0.00');
      })
   );
 });
