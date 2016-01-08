@@ -13,6 +13,12 @@ Main features:
 
 ## Versions
 
+* 0.9.x vs 0.8.x
+
+When you focus on input with ng-currency directive, model value will be displayed instead of currency formatted text (I.E: instead of 1,40 € will be 1.4 on focus)  .  So it's easier to use only numeric pad.
+
+* 0.7.x vs 0.8.x
+
 If you use angular 1.2.x please, use 0.7.x version (v0.7.0 branch). If you use angular 1.3.x or above just use 0.8.x version instead (master branch).
 
 ## Bower
