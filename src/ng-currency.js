@@ -150,7 +150,17 @@ angular.module('ng-currency', [])
                 });
 
                 element.on('focus',function(){
-                    ngModel.$setViewValue(ngModel.$$rawModelValue || '');
+                    var viewValue = ngModel.$$rawModelValue;
+
+                    if(isNaN(viewValue) || viewValue === '')
+                    {
+                        viewValue = '';
+                    }
+                    else
+                    {
+                        viewValue = viewValue.toFixed(scope.fraction);
+                    }
+                    ngModel.$setViewValue(viewValue);
                     ngModel.$render();
                 });
             }
