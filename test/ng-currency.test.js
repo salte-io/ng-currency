@@ -381,4 +381,48 @@ describe('ngCurrency directive tests', function() {
         expect(el.val()).toEqual('$123.45');
       }));
   });
+  
+  it('New for version 0.9.1 - Original value $123.45, should set input value to 123.45 on focus, then $123.45 on blur',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elem = $compile(elem)(scope);
+      elem.val("$123.45");
+      elem.triggerHandler('input');
+      elem.triggerHandler('focus');
+      expect(elem.val()).toEqual('123.45');
+      elem.triggerHandler('blur');
+      expect(scope.testModel).toEqual(123.45);
+      expect(elem.val()).toEqual('$123.45');
+     })
+  );
+  
+  it('New for version 0.9.1 - Original value $123.45, should set input value to 123.45 on focus, change to 456.78, then $456.76 on blur',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elem = $compile(elem)(scope);
+      elem.val("$123.45");
+      elem.triggerHandler('input');
+      elem.triggerHandler('focus');
+      expect(elem.val()).toEqual('123.45');
+      elem.val("456.78");
+      elem.triggerHandler('blur');
+      expect(scope.testModel).toEqual(123.45);
+      expect(elem.val()).toEqual('$123.45');
+     })
+  );
+  
+  it('New for version 0.9.1 - Original value $123.45, should set input value to 123.45 on focus, change to $456.78, then $456.76 on blur',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elem = $compile(elem)(scope);
+      elem.val("$123.45");
+      elem.triggerHandler('input');
+      elem.triggerHandler('focus');
+      expect(elem.val()).toEqual('123.45');
+      elem.val("$456.78");
+      elem.triggerHandler('blur');
+      expect(scope.testModel).toEqual(123.45);
+      expect(elem.val()).toEqual('$123.45');
+     })
+  );
 });
