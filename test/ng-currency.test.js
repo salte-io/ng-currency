@@ -456,4 +456,18 @@ describe('ngCurrency directive tests', function() {
       expect(elem.val()).toEqual('$0.00');
      })
   );
+  
+  it('New for version 0.9.2 - Original value $123,456, should set input value to 123456 on focus, then $123456 on blur',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elem = $compile(elemfpos)(scope);
+      elem.val("$123,456");
+      elem.triggerHandler('input');
+      elem.triggerHandler('focus');
+      expect(elem.val()).toEqual('123456');
+      elem.triggerHandler('blur');
+      expect(scope.testModel).toEqual(123456);
+      expect(elem.val()).toEqual('$123,456');
+     })
+  );
 });
