@@ -19,6 +19,7 @@ angular.module('ng-currency', [])
                 min: '=?min',
                 max: '=?max',
                 currencySymbol: '@',
+                displayZeroes: '=?displayZeroes',
                 ngRequired: '=?ngRequired',
                 fraction: '=?fraction'
             },
@@ -27,6 +28,7 @@ angular.module('ng-currency', [])
                 if (attrs.ngCurrency === 'false') return;
 
                 scope.fraction = (typeof scope.fraction !== 'undefined')?scope.fraction:2;
+                scope.displayZeroes = (typeof scope.displayZeroes !== 'undefined')?scope.displayZeroes:true;
 
                 function decimalRex(dChar) {
                     return RegExp("\\d|\\-|\\" + dChar, 'g');
@@ -40,6 +42,10 @@ angular.module('ng-currency', [])
                     value = String(value);
                     var dSeparator = $locale.NUMBER_FORMATS.DECIMAL_SEP;
                     var cleared = null;
+
+                    if (!scope.displayZeroes && value === '') {
+                        return value;
+                    }
 
                     if(value.indexOf($locale.NUMBER_FORMATS.DECIMAL_SEP) == -1 && 
                        value.indexOf('.') != -1 &&
@@ -81,8 +87,12 @@ angular.module('ng-currency', [])
                         idx = formatters.length;
 
                     var viewValue = ngModel.$$rawModelValue;
-                    while (idx--) {
-                      viewValue = formatters[idx](viewValue);
+                    if (!scope.displayZeroes && viewValue.length && parseFloat(viewValue) == 0) { 
+                        viewValue = ''; 
+                    } else {
+                        while (idx--) {
+                          viewValue = formatters[idx](viewValue);
+                        }
                     }
 
                     ngModel.$setViewValue(viewValue);
@@ -97,7 +107,7 @@ angular.module('ng-currency', [])
                     {
                         cVal = ".0";
                     }
-                    return parseFloat(cVal);
+                    return (!scope.displayZeroes && viewValue === '') ? 0 : parseFloat(cVal);
                 });
 
                 element.on("blur", function () {
@@ -106,6 +116,7 @@ angular.module('ng-currency', [])
                 });
 
                 ngModel.$formatters.unshift(function (value) {
+                    if (!scope.displayZeroes && value.length && parseFloat(value) == 0) { return ''; }
                     return $filter('currency')(value, getCurrencySymbol(), scope.fraction);
                 });
 
@@ -156,7 +167,7 @@ angular.module('ng-currency', [])
 
                     if(isNaN(viewValue) || viewValue === '')
                     {
-                        viewValue = '';
+                        viewValue = '0.00';
                     }
                     else
                     {
