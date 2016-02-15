@@ -160,7 +160,7 @@ angular.module('ng-currency', [])
                     }
                     else
                     {
-                        viewValue = viewValue.toFixed(scope.fraction);
+                        viewValue = parseFloat(viewValue).toFixed(scope.fraction);
                     }
                     ngModel.$setViewValue(viewValue);
                     ngModel.$render();
