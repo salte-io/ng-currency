@@ -10,7 +10,9 @@ describe('ngCurrency directive tests', function() {
         elemcurrdisabled,
         elemnreq,
         elemfastfraction,
-        elemminmaxvar;
+        elemminmaxvar,
+        elemdisplayzeroes,
+        elemnodisplayzeroes;
 
     beforeEach(module('ng-currency'));
 
@@ -43,6 +45,8 @@ describe('ngCurrency directive tests', function() {
         elemnreq = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency fraction='2'>");
         elemfastfraction = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency>");
         elemminmaxvar = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='mini' max='maxi' ng-required='true' ng-currency>");
+        elemdisplayzeroes = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency display-zeroes='true'>");
+        elemnodisplayzeroes = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency display-zeroes='false'>");
     }));
 
 
@@ -468,6 +472,32 @@ describe('ngCurrency directive tests', function() {
       elem.triggerHandler('blur');
       expect(scope.testModel).toEqual(123456);
       expect(elem.val()).toEqual('$123,456');
+     })
+  );
+  
+  it('New for version 0.9.3 - Display zeroes when display-zeroes is true',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elem = $compile(elemdisplayzeroes)(scope);
+      elem.triggerHandler('input');
+      elem.triggerHandler('focus');
+      expect(elem.val()).toEqual('0.00');
+      elem.triggerHandler('blur');
+      expect(scope.testModel).toEqual(0);
+      expect(elem.val()).toEqual('$0.00');
+     })
+  );
+
+  it('New for version 0.9.3 - Don\'t Display zeroes when display-zeroes is false',
+    inject(function($rootScope,$compile) {
+      scope.testModel = 0;
+      elem = $compile(elemnodisplayzeroes)(scope);
+      elem.triggerHandler('input');
+      elem.triggerHandler('focus');
+      expect(elem.val()).toEqual('0.00');
+      elem.triggerHandler('blur');
+      expect(scope.testModel).toEqual(0);
+      expect(elem.val()).toEqual('');
      })
   );
 });
