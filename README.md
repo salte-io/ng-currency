@@ -10,6 +10,7 @@ Main features:
 * Enable/disable formatter using ng-currency={{var}}
 * Optional fraction places value. The default remains 2 decimal places.
 * You can redraw all directives broadcasting "currencyRedraw" event.
+* Enable/Disable show zeroes using display-zeroes 'true' or 'false'
 
 ## Versions
 
