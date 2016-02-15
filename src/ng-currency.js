@@ -56,9 +56,14 @@ angular.module('ng-currency', [])
 
                     // Replace negative pattern to minus sign (-)
                     var neg_dummy = $filter('currency')("-1", getCurrencySymbol(), scope.fraction);
-                    var neg_idx = neg_dummy.indexOf("1");
-                    var neg_str = neg_dummy.substring(0,neg_idx);
-                    value = value.replace(neg_str, "-");
+                    var neg_regexp = RegExp("[0-9."+$locale.NUMBER_FORMATS.DECIMAL_SEP+$locale.NUMBER_FORMATS.GROUP_SEP+"]+");
+                    var neg_dummy_txt = neg_dummy.replace(neg_regexp.exec(neg_dummy), "");
+                    var value_dummy_txt = value.replace(neg_regexp.exec(value), "");
+
+                    // If is negative
+                    if(neg_dummy_txt == value_dummy_txt) {
+                        value = '-' + neg_regexp.exec(value);
+                    }
 
                     if(RegExp("^-[\\s]*$", 'g').test(value)) {
                         value = "-0";
