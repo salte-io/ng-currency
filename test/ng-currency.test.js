@@ -500,4 +500,16 @@ describe('ngCurrency directive tests', function() {
       expect(elem.val()).toEqual('');
      })
   );
+
+  it('Issue #59 - Parse a string value as a float on focus',
+    inject(function($rootScope,$compile) {
+      scope.testModel = '1.00';
+      elem = $compile(elemdefault)(scope);
+      scope.$digest();
+      expect(elem.val()).toEqual("$1.00");
+      elem.triggerHandler('input');
+      elem.triggerHandler('focus');
+      expect(elem.val()).toEqual("1.00");
+     })
+  );
 });
