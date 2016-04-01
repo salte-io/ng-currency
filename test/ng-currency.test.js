@@ -475,7 +475,7 @@ describe('ngCurrency directive tests', function() {
      })
   );
   
-  it('New for version 0.9.3 - Display zeroes when display-zeroes is true',
+  /* it('New for version 0.9.3 - Display zeroes when display-zeroes is true',
     inject(function($rootScope,$compile) {
       scope.testModel = 0;
       elem = $compile(elemdisplayzeroes)(scope);
@@ -499,7 +499,7 @@ describe('ngCurrency directive tests', function() {
       expect(scope.testModel).toEqual(0);
       expect(elem.val()).toEqual('');
      })
-  );
+  ); */
 
   it('Issue #59 - Parse a string value as a float on focus',
     inject(function($rootScope,$compile) {
