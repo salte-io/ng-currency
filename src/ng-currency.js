@@ -158,7 +158,7 @@ angular.module('ng-currency', [])
 
                 element.on('focus',function(){
                     var viewValue = ngModel.$$rawModelValue;
-
+                    if(!scope.displayZeroes && !viewValue ){ return viewValue; }
                     if(isNaN(viewValue) || viewValue === '' || viewValue == null)
                     {
                         viewValue = '';
