@@ -20,7 +20,7 @@ angular.module('ng-currency', [])
                 max: '=max',
                 currencySymbol: '@',
                 ngRequired: '=ngRequired',
-                fraction: '=fraction'
+                fraction: '=?fraction'
             },
             link: function (scope, element, attrs, ngModel) {
 
