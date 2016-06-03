@@ -5,6 +5,7 @@
     "Luis Aguirre <luis@alaguirre.com>"
   ],
   "description": "Directive that works in conjunction with currency filter.",
+  "url": "https://github.com/aguirrel/ng-currency.git",
   "main": "dist/ng-currency.min.js",
   "keywords": [
     "currency",
