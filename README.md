@@ -11,8 +11,14 @@ Main features:
 * Optional fraction places value. The default remains 2 decimal places.
 * You can redraw all directives broadcasting "currencyRedraw" event.
 * Enable/Disable show zeroes using display-zeroes 'true' or 'false'
+* Not isolated scope. It plays well with others directives!
 
 ## Versions
+
+* 0.10.x vs 0.9.x
+
+Now directive plays well with others directives, mainly "scope" was removed and now only use attrs variables.
+**If you migrate from 0.9.x!** Main impact in this new change is if you use something like min="minvar", you should change it to min="{{minvar}}".
 
 * 0.9.x vs 0.8.x
 
