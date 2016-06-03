@@ -44,7 +44,7 @@ describe('ngCurrency directive tests', function() {
         elemcurrdisabled = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency='{{isCurrency}}'>");
         elemnreq = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency fraction='2'>");
         elemfastfraction = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency>");
-        elemminmaxvar = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='mini' max='maxi' ng-required='true' ng-currency>");
+        elemminmaxvar = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='{{mini}}' max='{{maxi}}' ng-required='true' ng-currency>");
         elemdisplayzeroes = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency display-zeroes='true'>");
         elemnodisplayzeroes = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency display-zeroes='false'>");
     }));

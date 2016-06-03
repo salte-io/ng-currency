@@ -2,7 +2,7 @@
  * ng-currency
  * http://alaguirre.com/
 
- * Version: 0.9.6 - 2016-04-04
+ * Version: 0.10.0 - 2016-06-03
  * License: MIT
  */
 
@@ -15,16 +15,15 @@ angular.module('ng-currency', [])
     .directive('ngCurrency', ['$filter', '$locale', function ($filter, $locale) {
         return {
             require: 'ngModel',
-            scope: {
-                min: '=?min',
-                max: '=?max',
-                currencySymbol: '@',
-                ngRequired: '=?ngRequired',
-                fraction: '=?fraction'
-            },
             link: function (scope, element, attrs, ngModel) {
 
                 if (attrs.ngCurrency === 'false') return;
+               
+                attrs.$observe('min', function(v) { scope.min = v; });
+                attrs.$observe('max', function(v) { scope.max = v; });
+                attrs.$observe('currencySymbol', function(v) { scope.currencySymbol = v; });
+                attrs.$observe('ngRequired', function(v) { scope.ngRequired = v; });
+                attrs.$observe('fraction', function(v) { scope.fraction = v; });
 
                 scope.fraction = (typeof scope.fraction !== 'undefined')?scope.fraction:2;
 
