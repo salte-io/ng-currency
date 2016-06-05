@@ -2,7 +2,7 @@
  * ng-currency
  * http://alaguirre.com/
 
- * Version: 0.10.0 - 2016-06-03
+ * Version: 0.10.1 - 2016-06-05
  * License: MIT
  */
 
@@ -15,6 +15,7 @@ angular.module('ng-currency', [])
     .directive('ngCurrency', ['$filter', '$locale', function ($filter, $locale) {
         return {
             require: 'ngModel',
+            scope: {},
             link: function (scope, element, attrs, ngModel) {
 
                 if (attrs.ngCurrency === 'false') return;
