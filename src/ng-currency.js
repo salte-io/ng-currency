@@ -43,7 +43,7 @@ angular.module('ng-currency', [])
 
                     if(value.indexOf($locale.NUMBER_FORMATS.DECIMAL_SEP) == -1 && 
                        value.indexOf('.') != -1 &&
-                       scope.fraction)
+                       scope.fraction>0)
                     {
                         dSeparator = '.';
                     }
