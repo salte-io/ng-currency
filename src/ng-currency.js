@@ -167,7 +167,7 @@ angular.module('ng-currency', [])
                     {
                         viewValue = parseFloat(viewValue).toFixed(scope.fraction);
                     }
-                    ngModel.$setViewValue(viewValue);
+                    ngModel.$setViewValue(Number(viewValue).toLocaleString($locale.id));
                     ngModel.$render();
                 });
             }
