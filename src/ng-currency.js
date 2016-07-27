@@ -12,7 +12,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
 }
 
 angular.module('ng-currency', [])
-    .directive('ngCurrency', ['$filter', '$locale', function ($filter, $locale) {
+    .directive('ngCurrency', ['$filter', '$locale', '$timeout', function ($filter, $locale, $timeout) {
         return {
             require: 'ngModel',
             scope: {},
@@ -20,13 +20,17 @@ angular.module('ng-currency', [])
 
                 if (attrs.ngCurrency === 'false') return;
                
-                attrs.$observe('min', function(v) { scope.min = v; });
-                attrs.$observe('max', function(v) { scope.max = v; });
-                attrs.$observe('currencySymbol', function(v) { scope.currencySymbol = v; });
-                attrs.$observe('ngRequired', function(v) { scope.ngRequired = v; });
-                attrs.$observe('fraction', function(v) { scope.fraction = v; });
+                attrs.$observe('min', function(v) { scope.min = v; reloadThis(); });
+                attrs.$observe('max', function(v) { scope.max = v; reloadThis(); });
+                attrs.$observe('currencySymbol', function(v) { scope.currencySymbol = v; reloadThis(); });
+                attrs.$observe('ngRequired', function(v) { scope.ngRequired = v; reloadThis(); });
+                attrs.$observe('fraction', function(v) { scope.fraction = v; reloadThis(); });
 
                 scope.fraction = (typeof scope.fraction !== 'undefined')?scope.fraction:2;
+
+                function reloadThis() {
+                    $timeout(function () {scope.$emit("currencyRedraw")});
+                }
 
                 function decimalRex(dChar) {
                     return RegExp("\\d|\\-|\\" + dChar, 'g');
