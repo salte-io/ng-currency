@@ -1,90 +1,85 @@
-'use strict';
+import ngCurrency from '../../src/ng-currency.module.js';
 
 describe('ngCurrency directive tests', function() {
-    var elem,
-        elemdefault,
-        scope,
-        elemmo,
-        elemfpos,
-        elemfpos5,
-        elemcurrdisabled,
-        elemnreq,
-        elemfastfraction,
-        elemminmaxvar,
-        elemdisplayzeroes,
-        elemnodisplayzeroes;
+  var elem;
+  var elemdefault;
+  var scope;
+  var elemmo;
+  var elemfpos;
+  var elemfpos5;
+  var elemcurrdisabled;
+  var elemnreq;
+  var elemfastfraction;
+  var elemminmaxvar;
 
-    beforeEach(module('ng-currency'));
+  beforeEach(angular.mock.module(ngCurrency));
 
-    beforeEach(module('ng-currency', function($compileProvider){
-      $compileProvider.directive('centsToDollars', function(){
-        return {
-          restrict: 'A',
-          require: 'ngModel',
-          link: function (scope, elem, attrs, ngModel) {
-            ngModel.$parsers.push(function(viewValue){
-              return Math.round(parseFloat(viewValue || 0) * 100);
-            });
+  beforeEach(angular.mock.module(ngCurrency, function($compileProvider) {
+    $compileProvider.directive('centsToDollars', function() {
+      return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, elem, attrs, ngModel) {
+          ngModel.$parsers.push(function(viewValue) {
+            return Math.round(parseFloat(viewValue || 0) * 100);
+          });
 
-            ngModel.$formatters.push(function (modelValue) {
-              return (parseFloat(modelValue || 0) / 100).toFixed(2);
-            });
-          }
-        };
-      });
-    }));
+          ngModel.$formatters.push(function(modelValue) {
+            return (parseFloat(modelValue || 0) / 100).toFixed(2);
+          });
+        }
+      };
+    });
+  }));
 
-    beforeEach(inject(function($rootScope, $compile) {
-        scope = $rootScope.$new();
-        elemdefault = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency>");
-        elem = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-currency>");
-        elemmo = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-model-options=\"{ updateOn:'blur' }\"  ng-currency>");
-        elemfpos = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-currency fraction='0'>");
-        elemfpos5 = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency fraction='5'>");
-        elemcurrdisabled = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency='{{isCurrency}}'>");
-        elemnreq = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency fraction='2'>");
-        elemfastfraction = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency>");
-        elemminmaxvar = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='{{mini}}' max='{{maxi}}' ng-required='true' ng-currency>");
-        elemdisplayzeroes = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency display-zeroes='true'>");
-        elemnodisplayzeroes = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency display-zeroes='false'>");
-    }));
-
+  beforeEach(angular.mock.inject(function($rootScope, $compile) {
+    scope = $rootScope.$new();
+    elemdefault = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency>");
+    elem = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-currency>");
+    elemmo = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-model-options=\"{ updateOn:'blur' }\"  ng-currency>");
+    elemfpos = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-required='true' ng-currency fraction='0'>");
+    elemfpos5 = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency fraction='5'>");
+    elemcurrdisabled = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency='{{isCurrency}}'>");
+    elemnreq = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='0.02' max='999999' ng-currency fraction='2'>");
+    elemfastfraction = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency>");
+    elemminmaxvar = angular.element("<input ng-model='testModel' name='ngtest' type='text' min='{{mini}}' max='{{maxi}}' ng-required='true' ng-currency>");
+  }));
 
   it('should format Model float 123.45 to "$123.45" view as locale currency',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 123.45;
       elem = $compile(elem)(scope);
       scope.$digest();
       expect(elem.val()).toEqual("$123.45");
-     })
+    })
   );
 
   it('should format Model "123.451" to "$123.45" view as locale currency',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 123.451;
       elem = $compile(elem)(scope);
       scope.$digest();
       expect(elem.val()).toEqual("$123.45");
-     })
+    })
   );
 
   it('should format Model "123.457" to "$123.46" (round) view as locale currency',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 123.457;
       elem = $compile(elem)(scope);
       scope.$digest();
       expect(elem.val()).toEqual("$123.46");
-     })
+    })
   );
 
   describe("when currency-symbol is declared", function() {
-    beforeEach(inject(function($rootScope) {
+    beforeEach(angular.mock.inject(function($rootScope) {
       scope = $rootScope.$new();
       elem = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency currency-symbol='¥'>");
     }));
 
     it('should format with declared symbol',
-      inject(function($rootScope,$compile) {
+      angular.mock.inject(function($rootScope, $compile) {
         scope.testModel = 123.45;
         elem = $compile(elem)(scope);
         scope.$digest();
@@ -93,13 +88,13 @@ describe('ngCurrency directive tests', function() {
     );
 
     describe("when currency-symbol declared is empty", function() {
-      beforeEach(inject(function($rootScope) {
+      beforeEach(angular.mock.inject(function($rootScope) {
         scope = $rootScope.$new();
         elem = angular.element("<input ng-model='testModel' name='ngtest' type='text' ng-currency currency-symbol=''>");
       }));
 
       it('should format without symbol',
-        inject(function($rootScope,$compile) {
+        angular.mock.inject(function($rootScope, $compile) {
           scope.testModel = 123.45;
           elem = $compile(elem)(scope);
           scope.$digest();
@@ -110,27 +105,27 @@ describe('ngCurrency directive tests', function() {
   });
 
   it('should set ngModel to 123.45 from string $123.45 as locale currency',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       elem = $compile(elem)(scope);
       elem.val("$123.45");
       elem.triggerHandler('input');
       expect(scope.testModel).toEqual(123.45);
-     })
+    })
   );
 
   it('should set ngModel to 123123.45 from string $123,123.45 as locale currency',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       elem = $compile(elem)(scope);
       elem.val("$123,123.45");
       elem.triggerHandler('input');
       expect(scope.testModel).toEqual(123123.45);
-     })
+    })
   );
 
   it('should set input value to $123,123.45 and Model to float 123123.45 from string 123123.45 as locale currency',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       elem = $compile(elem)(scope);
       elem.val("123123.45");
@@ -138,35 +133,35 @@ describe('ngCurrency directive tests', function() {
       elem.triggerHandler('blur');
       expect(elem.val()).toEqual("$123,123.45");
       expect(scope.testModel).toEqual(123123.45);
-     })
+    })
   );
 
   it('should trigger max error for 1999999 from string $1999999.0 as locale currency',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       elem = $compile(elem)(scope);
       elem.val("$1999999.0");
       elem.triggerHandler('input');
       elem.triggerHandler('blur');
-      elem.hasClass('ng-invalid-max')
+      elem.hasClass('ng-invalid-max');
       expect(elem.val()).toEqual("$1,999,999.00");
-     })
+    })
   );
 
   it('should trigger min error for 0.01 from string $0.01 as locale currency',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       elem = $compile(elem)(scope);
       elem.val("$0.01");
       elem.triggerHandler('input');
       elem.triggerHandler('blur');
-      elem.hasClass('ng-invalid-min')
+      elem.hasClass('ng-invalid-min');
       expect(elem.val()).toEqual("$0.01");
-     })
+    })
   );
 
   it('should tigger invalid max after change maxi variable',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       scope.mini = 1;
       scope.maxi = 10;
@@ -178,11 +173,11 @@ describe('ngCurrency directive tests', function() {
       scope.maxi = 3;
       scope.$digest();
       expect(elem.hasClass('ng-invalid-max')).toEqual(true);
-     })
+    })
   );
 
   it('should tigger invalid min after change mini variable',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       scope.mini = 1;
       scope.maxi = 10;
@@ -194,23 +189,22 @@ describe('ngCurrency directive tests', function() {
       scope.mini = 5;
       scope.$digest();
       expect(elem.hasClass('ng-invalid-min')).toEqual(true);
-     })
+    })
   );
 
   it('should trigger ng-required error',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       elem = $compile(elem)(scope);
       elem.val("");
       elem.triggerHandler('input');
-      elem.hasClass('ng-invalid-required')
-     })
+      elem.hasClass('ng-invalid-required');
+    })
   );
 
   describe('model value should be undefined when view value does not pass validation', function() {
-
     it('should not set 0 value from string 0 when required min is not met',
-      inject(function($rootScope,$compile) {
+      angular.mock.inject(function($rootScope, $compile) {
         scope.testModel = 0;
         elem = $compile(elem)(scope);
         elem.val("0");
@@ -222,7 +216,7 @@ describe('ngCurrency directive tests', function() {
     );
 
     it('should not set 9999991 value from string 9999991 when required max is not met',
-      inject(function($rootScope,$compile) {
+      angular.mock.inject(function($rootScope, $compile) {
         scope.testModel = 0;
         elem = $compile(elem)(scope);
         elem.val("9999991");
@@ -232,7 +226,6 @@ describe('ngCurrency directive tests', function() {
         expect(elem.val()).toEqual("$9,999,991.00");
       })
     );
-
   });
 
   describe('when the min is set to zero or lower', function() {
@@ -241,7 +234,7 @@ describe('ngCurrency directive tests', function() {
     });
 
     it('should set -0 value from string - ',
-      inject(function($rootScope,$compile) {
+      angular.mock.inject(function($rootScope, $compile) {
         scope.testModel = 0;
         elem = $compile(elem)(scope);
         elem.val("-");
@@ -250,7 +243,7 @@ describe('ngCurrency directive tests', function() {
       })
     );
     it('should set -0 value from string \'- \' ',
-      inject(function($rootScope,$compile) {
+      angular.mock.inject(function($rootScope, $compile) {
         scope.testModel = 0;
         elem = $compile(elem)(scope);
         elem.val("- ");
@@ -259,7 +252,7 @@ describe('ngCurrency directive tests', function() {
       })
     );
     it('should set -1.11 value from string -1.11',
-      inject(function($rootScope,$compile) {
+      angular.mock.inject(function($rootScope, $compile) {
         scope.testModel = 0;
         elem = $compile(elem)(scope);
         elem.val("-1.11");
@@ -268,7 +261,7 @@ describe('ngCurrency directive tests', function() {
       })
     );
     it('should set -1.11 value from string $ -1.11',
-      inject(function($rootScope,$compile) {
+      angular.mock.inject(function($rootScope, $compile) {
         scope.testModel = 0;
         elem = $compile(elem)(scope);
         elem.val("$ -1.11");
@@ -277,9 +270,9 @@ describe('ngCurrency directive tests', function() {
       })
     );
   });
-  
+
   it('issue #14 - should set input value to $123.45 from string 123.45 as locale currency with ng-model-options="{ updateOn:\'blur\' }"',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       elemmo = $compile(elemmo)(scope);
       elemmo.val("$123.45");
@@ -287,11 +280,11 @@ describe('ngCurrency directive tests', function() {
       elemmo.triggerHandler('blur');
       expect(scope.testModel).toEqual(123.45);
       expect(elemmo.val()).toEqual('$123.45');
-     })
+    })
   );
-  
+
   it('issue #28 - Fast fraction - Input should not filter fast fraction notation ej: .5"',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       elemmo = $compile(elemfastfraction)(scope);
       elemmo.val(".5");
@@ -299,11 +292,11 @@ describe('ngCurrency directive tests', function() {
       elemmo.triggerHandler('blur');
       expect(scope.testModel).toEqual(0.5);
       expect(elemmo.val()).toEqual('$0.50');
-     })
+    })
   );
 
   it('issue #28 - Fast fraction - Input should not filter fast fraction notation ej: -.5"',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       elemmo = $compile(elemfastfraction)(scope);
       elemmo.val("-.5");
@@ -311,61 +304,61 @@ describe('ngCurrency directive tests', function() {
       elemmo.triggerHandler('blur');
       expect(scope.testModel).toEqual(-0.5);
       expect(elemmo.val()).toEqual('($0.50)');
-     })
+    })
   );
 
   it('Adding an optional fraction value to take advantage of the currency filter\'s third param fraction="0"',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 123.45;
       elem = $compile(elemfpos)(scope);
       scope.$digest();
       expect(elem.val()).toEqual("$123");
-     })
+    })
   );
-  
+
   it('Adding an optional fraction value to take advantage of the currency filter\'s third param fraction="5"',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 123.45678;
       elem = $compile(elemfpos5)(scope);
       scope.$digest();
       expect(elem.val()).toEqual("$123.45678");
-     })
+    })
   );
-  
+
   it('Adding an optional fraction value to take advantage of the currency filter\'s third param fraction="0" model="a"',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 'a';
       elem = $compile(elemfpos)(scope);
       scope.$digest();
       expect(elem.val()).toEqual("");
-     })
+    })
   );
 
   it('Disable ng-currency format',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 123.45;
       scope.isCurrency = false;
       elem = $compile(elemcurrdisabled)(scope);
       scope.$digest();
       expect(elem.val()).toEqual("123.45");
-     })
+    })
   );
 
   it('Not required and not a number with max and min',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 'a';
       scope.isCurrency = false;
       elem = $compile(elemnreq)(scope);
       elem.triggerHandler('input');
       scope.$digest();
       expect(elem.val()).toEqual("");
-     })
+    })
   );
 
-  describe("issue #18 - ng-currency doesn't play well with other directives when loosing focus", function(){
+  describe("issue #18 - ng-currency doesn't play well with other directives when loosing focus", function() {
     var el;
 
-    beforeEach(inject(function($compile) {
+    beforeEach(angular.mock.inject(function($compile) {
       var template = "<input ng-model='modelInCents' cents-to-dollars ng-currency>";
       el = $compile(template)(scope);
       scope.modelInCents = 100;
@@ -373,12 +366,12 @@ describe('ngCurrency directive tests', function() {
     }));
 
     it("should load the model correctly",
-      inject(function($compile){
+      angular.mock.inject(function($compile) {
         expect(el.val()).toEqual('$1.00');
       }));
 
     it("should update the model correctly",
-      inject(function($compile){
+      angular.mock.inject(function($compile) {
         el.val("$123.45");
         el.triggerHandler('input');
         el.triggerHandler('blur');
@@ -387,9 +380,9 @@ describe('ngCurrency directive tests', function() {
         expect(el.val()).toEqual('$123.45');
       }));
   });
-  
+
   it('New for version 0.9.1 - Original value $123.45, should set input value to 123.45 on focus, then $123.45 on blur',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       elem = $compile(elem)(scope);
       elem.val("$123.45");
@@ -399,11 +392,11 @@ describe('ngCurrency directive tests', function() {
       elem.triggerHandler('blur');
       expect(scope.testModel).toEqual(123.45);
       expect(elem.val()).toEqual('$123.45');
-     })
+    })
   );
-  
+
   it('New for version 0.9.1 - Original value $123.45, should set input value to 123.45 on focus, change to 456.78, then $456.76 on blur',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       elem = $compile(elem)(scope);
       elem.val("$123.45");
@@ -414,11 +407,11 @@ describe('ngCurrency directive tests', function() {
       elem.triggerHandler('blur');
       expect(scope.testModel).toEqual(123.45);
       expect(elem.val()).toEqual('$123.45');
-     })
+    })
   );
-  
+
   it('New for version 0.9.1 - Original value $123.45, should set input value to 123.45 on focus, change to $456.78, then $456.76 on blur',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       elem = $compile(elem)(scope);
       elem.val("$123.45");
@@ -430,11 +423,11 @@ describe('ngCurrency directive tests', function() {
       elem.triggerHandler('blur');
       expect(scope.testModel).toEqual(456.78);
       expect(elem.val()).toEqual('$456.78');
-     })
+    })
   );
-  
+
   it('New for version 0.9.1 - Original value $123.00, should set input value to 123.00 on focus, then $123.00 on blur',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       elem = $compile(elem)(scope);
       elem.val("$123.00");
@@ -444,11 +437,11 @@ describe('ngCurrency directive tests', function() {
       elem.triggerHandler('blur');
       expect(scope.testModel).toEqual(123.00);
       expect(elem.val()).toEqual('$123.00');
-     })
+    })
   );
-  
+
   it('New for version 0.9.1 - Original value $0.00, should set input value to 0.00 on focus, then $0.00 on blur',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       elem = $compile(elemdefault)(scope);
       elem.val("$0.00");
@@ -458,11 +451,11 @@ describe('ngCurrency directive tests', function() {
       elem.triggerHandler('blur');
       expect(scope.testModel).toEqual(0);
       expect(elem.val()).toEqual('$0.00');
-     })
+    })
   );
-  
+
   it('New for version 0.9.2 - Original value $123,456, should set input value to 123456 on focus, then $123456 on blur',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = 0;
       elem = $compile(elemfpos)(scope);
       elem.val("$123,456");
@@ -472,37 +465,11 @@ describe('ngCurrency directive tests', function() {
       elem.triggerHandler('blur');
       expect(scope.testModel).toEqual(123456);
       expect(elem.val()).toEqual('$123,456');
-     })
+    })
   );
-  
-  /* it('New for version 0.9.3 - Display zeroes when display-zeroes is true',
-    inject(function($rootScope,$compile) {
-      scope.testModel = 0;
-      elem = $compile(elemdisplayzeroes)(scope);
-      elem.triggerHandler('input');
-      elem.triggerHandler('focus');
-      expect(elem.val()).toEqual('0.00');
-      elem.triggerHandler('blur');
-      expect(scope.testModel).toEqual(0);
-      expect(elem.val()).toEqual('$0.00');
-     })
-  );
-
-  it('New for version 0.9.3 - Don\'t Display zeroes when display-zeroes is false',
-    inject(function($rootScope,$compile) {
-      scope.testModel = 0;
-      elem = $compile(elemnodisplayzeroes)(scope);
-      elem.triggerHandler('input');
-      elem.triggerHandler('focus');
-      expect(elem.val()).toEqual('0.00');
-      elem.triggerHandler('blur');
-      expect(scope.testModel).toEqual(0);
-      expect(elem.val()).toEqual('');
-     })
-  ); */
 
   it('Issue #59 - Parse a string value as a float on focus',
-    inject(function($rootScope,$compile) {
+    angular.mock.inject(function($rootScope, $compile) {
       scope.testModel = '1.00';
       elem = $compile(elemdefault)(scope);
       scope.$digest();
@@ -510,6 +477,6 @@ describe('ngCurrency directive tests', function() {
       elem.triggerHandler('input');
       elem.triggerHandler('focus');
       expect(elem.val()).toEqual("1.00");
-     })
+    })
   );
 });

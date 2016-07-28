@@ -1,0 +1,14 @@
+extends: google
+env:
+  browser: true
+  serviceworker: true
+  worker: true
+globals:
+  angular: true
+rules:
+  max-nested-callbacks: 0
+  no-warning-comments: 0
+  require-jsdoc: 0
+  camelcase: 0
+  max-len: 0
+  object-curly-spacing: 0

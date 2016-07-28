@@ -1,3 +1,11 @@
+sudo: false
 language: node_js
 node_js:
-      - 4.2
+- node
+cache:
+  directories:
+  - node_modules
+script:
+- npm run build
+notifications:
+  email: false
