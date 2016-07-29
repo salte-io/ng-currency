@@ -30,15 +30,26 @@ When you focus on input with ng-currency directive, model value will be displaye
 
 If you use angular 1.2.x please, use 0.7.x version (v0.7.0 branch). If you use angular 1.3.x or above just use 0.8.x version instead (master branch).
 
-## Bower
+## npm
 
-You may install it via bower using
+```sh
+$ npm install ng-currency
+```
+Then add a `<script>` to your index.html:
+```html
+<script src="/node_modules/ng-currency/dist/ng-currency.js"></script>
+```
+Or `require('ng-currency')` from your code.
 
-`bower install ng-currency`
+## bower
 
-or npm using
-
-`npm install ng-currency`
+```sh
+$ bower install ng-currency
+```
+Then add a `<script>` to your index.html:
+```html
+<script src="/bower_components/ng-currency/dist/ng-currency.js"></script>
+```
 
 ## Example
 
@@ -53,7 +64,7 @@ You may see it in action and play a lot using [plunker](http://plnkr.co/edit/u9m
 >
 ``` html
 <script src="https://code.angularjs.org/1.3.4/angular.js"></script>
-<script src="https://rawgit.com/aguirrel/ng-currency/master/src/ng-currency.js"></script>
+<script src="https://rawgit.com/aguirrel/ng-currency/master/dist/ng-currency.js"></script>
 ```
 
 + Inject the `ngCurrency` module into your app:

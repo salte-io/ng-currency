@@ -1,0 +1,14 @@
+extends: google
+plugins:
+  - jasmine
+env:
+  jasmine: true
+globals:
+  assert: true
+  expect: true
+rules:
+  no-unused-expressions: 0
+  jasmine/no-suite-callback-args: 2
+  jasmine/no-suite-dupes:
+    - 2
+    - branch
