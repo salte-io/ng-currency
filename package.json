@@ -14,13 +14,6 @@
   ],
   "license": "MIT",
   "homepage": "http://alaguirre.com",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
   "devDependencies": {
     "angular": "~1.3",
     "angular-mocks": "~1.3",
@@ -48,6 +41,7 @@
   "scripts": {
     "tdd": "karma start",
     "test": "karma start --single-run",
-    "build": "webpack -p"
+    "build:dev": "webpack -d",
+    "build:prod": "webpack -p"
   }
 }
