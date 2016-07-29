@@ -12,3 +12,5 @@ rules:
   camelcase: 0
   max-len: 0
   object-curly-spacing: 0
+  one-var: 0
+  arrow-parens: 0
