@@ -11,12 +11,16 @@ export default function ngCurrency($filter, $locale, $timeout) {
   return {
     require: 'ngModel',
     link: (scope, element, attrs, ngModel) => {
-      let initialized, min, max, currencySymbol, ngRequired;
+      let initialized, hardCap, min, max, currencySymbol, ngRequired;
       let active = true;
       let fraction = 2;
 
       attrs.$observe('ngCurrency', (value) => {
         active = (value !== 'false');
+        refresh();
+      });
+      attrs.$observe('hardCap', (value) => {
+        hardCap = (value === 'true');
         refresh();
       });
       attrs.$observe('min', (value) => {
@@ -102,7 +106,7 @@ export default function ngCurrency($filter, $locale, $timeout) {
         return $locale.NUMBER_FORMATS.CURRENCY_SYM;
       }
 
-      function reformatViewValue() {
+      function executeFormatters() {
         var viewValue = ngModel.$$rawModelValue;
         for (let i = ngModel.$formatters.length - 1; i >= 0; i--) {
           viewValue = ngModel.$formatters[i](viewValue);
@@ -111,8 +115,19 @@ export default function ngCurrency($filter, $locale, $timeout) {
         ngModel.$render();
       }
 
+      function keepInRange(value) {
+        if (active && hardCap && [undefined, null, ''].indexOf(value) === -1) {
+          if (max !== undefined && value > max) {
+            return max;
+          } else if (min !== undefined && value < min) {
+            return min;
+          }
+        }
+        return value;
+      }
+
       ngModel.$parsers.push((viewValue) => {
-        if (active) {
+        if (active && [undefined, null, ''].indexOf(viewValue) === -1) {
           let value = clearValue(viewValue);
           // Check for fast digitation (-. or .)
           if (value === '.' || value === '-.') {
@@ -123,8 +138,9 @@ export default function ngCurrency($filter, $locale, $timeout) {
         return viewValue;
       });
 
+      ngModel.$parsers.push(keepInRange);
       ngModel.$formatters.push((value) => {
-        if (active) {
+        if (active && [undefined, null, ''].indexOf(value) === -1) {
           return $filter('currency')(value, getCurrencySymbol(), fraction);
         }
         return value;
@@ -155,7 +171,12 @@ export default function ngCurrency($filter, $locale, $timeout) {
       scope.$on('currencyRedraw', () => {
         if (initialized) {
           ngModel.$commitViewValue();
-          reformatViewValue();
+          let value = keepInRange(ngModel.$$rawModelValue);
+          if (value !== ngModel.$$rawModelValue) {
+            ngModel.$setViewValue(value);
+            ngModel.$commitViewValue();
+          }
+          executeFormatters();
         }
       });
 
@@ -173,7 +194,7 @@ export default function ngCurrency($filter, $locale, $timeout) {
 
       element.on('blur', () => {
         ngModel.$commitViewValue();
-        reformatViewValue();
+        executeFormatters();
       });
     }
   };
