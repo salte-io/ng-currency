@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/aguirrel/ng-currency.svg?branch=master)](https://travis-ci.org/aguirrel/ng-currency)
+# ng-currency
+[![NPM Version][npm-version-image]][npm-url]
+[![NPM Downloads][npm-downloads-image]][npm-url]
+[![Travis][travis-ci-image]][travis-ci-url]
 
 ngCurrency is a directive that enables seamless use of currency inputs.
 
@@ -14,21 +17,6 @@ Main features:
 * You can redraw all directives broadcasting "currencyRedraw" event.
 * Enable/Disable show zeroes using display-zeroes 'true' or 'false'
 * Not isolated scope. It plays well with others directives!
-
-## Versions
-
-* 0.10.x vs 0.9.x
-
-Now directive plays well with others directives, mainly "scope" was removed and now only use attrs variables.
-**If you migrate from 0.9.x!** Main impact in this new change is if you use something like min="minvar", you should change it to min="{{minvar}}".
-
-* 0.9.x vs 0.8.x
-
-When you focus on input with ng-currency directive, model value will be displayed instead of currency formatted text (I.E: instead of 1,40 € will be 1.4 on focus)  .  So it's easier to use only numeric pad.
-
-* 0.7.x vs 0.8.x
-
-If you use angular 1.2.x please, use 0.7.x version (v0.7.0 branch). If you use angular 1.3.x or above just use 0.8.x version instead (master branch).
 
 ## npm
 
@@ -53,76 +41,76 @@ Then add a `<script>` to your index.html:
 
 ## Example
 
-You may see it in action and play a lot using [plunker](http://plnkr.co/edit/u9mJqDH8UpwxDnOv8gZL?p=preview).
-
-<iframe width="100%" src="http://embed.plnkr.co/u9mJqDH8UpwxDnOv8gZL/preview" frameborder="0" allowfullscreen></iframe>
+[See it in action!](http://plnkr.co/edit/4m6Q0GT9qjwGLUoW4cs8?p=preview)
 
 ## Quick start
 
 + Include the required libraries:
 
->
-``` html
+```html
 <script src="https://code.angularjs.org/1.3.4/angular.js"></script>
 <script src="https://rawgit.com/aguirrel/ng-currency/master/dist/ng-currency.js"></script>
 ```
 
 + Inject the `ngCurrency` module into your app:
 
->
-``` JavaScript
+```javascript
 angular.module('myApp', ['ng-currency']);
 ```
 
 + In your input tag
 
->
-``` html
+```html
 <input type="text" model="yourModel" ng-currency />
 ```
 
-+ It is also possible to add 'min' and 'max' validations
+## Bindings
 
->
-``` html
+### Min/Max
+* Default: undefined
+* Description: Specifies the range the ngModel value can be within for validation and hard-cap
+
+```html
 <input type="text" model="yourModel" ng-currency min="1" max="1337" />
 ```
 
 + If you want to be able to dynamically enable/disable validations from a controller you can use the following
 
->
-``` html
+```html
 <input type="text" model="yourModel" ng-currency min="1" max="1337" ng-required="true" />
 ```
 
-+ It already shows the default currency symbol, but you can define a currency symbol, so that it will use this instead.
+### Currency Symbol
+* Default: Locale Currency Symbol
+* Description: Prefixes the formatted currency value with the currency symbol
 
->
-``` html
+```html
 <input type="text" model="yourModel" ng-currency currency-symbol="¥" />
 ```
 
-+ Disable currency in field
+### Active
+* Default: true
+* Description: Dynamically disable/enable ng-currency
 
->
-``` html
+```html
 <input type="text" model="yourModel" ng-currency={{isCurrency}} currency-symbol="¥" />
 ```
 
-+ Optional fraction value to take advantage of the currency filter's third param. The default remains 2 decimal places.
+### Fraction
+* Default: 2
+* Description: Determines the number of decimal places
 
->
-``` html
-  <input type="text" ng-currency min="0" fraction="0">
+```html
+<input type="text" ng-currency min="0" fraction="0" />
 ```
 
+### Hard Cap
+* Default: false
+* Description: Forces the ngModel value to stay within the min/max range
 
-
-## Contributing
-
-Please submit all pull requests the against master branch. If your unit test contains JavaScript patches or features, you should include relevant unit tests. Thanks!
-
-
+```html
+<input type="text" ng-currency min="0" hard-cap="true" />
+```
 
 ## Authors
 
@@ -135,7 +123,7 @@ Please submit all pull requests the against master branch. If your unit test con
 
 	The MIT License
 
-	Copyright (c) 2012 - 2014 Olivier Louvignes
+	Copyright (c) 2012 - 2016 Luis Aguirre
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
@@ -154,3 +142,10 @@ Please submit all pull requests the against master branch. If your unit test con
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
+
+[npm-version-image]: http://img.shields.io/npm/v/ng-currency.svg?style=flat
+[npm-downloads-image]: http://img.shields.io/npm/dm/ng-currency.svg?style=flat
+[npm-url]: https://npmjs.org/package/ng-currency
+
+[travis-ci-image]: https://img.shields.io/travis/aguirrel/ng-currency.svg?style=flat
+[travis-ci-url]: https://travis-ci.org/aguirrel/ng-currency
