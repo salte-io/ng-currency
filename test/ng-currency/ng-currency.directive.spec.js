@@ -257,90 +257,212 @@ describe('ngCurrency directive tests', () => {
     });
 
     describe('Max', () => {
-      it('should become invalid when the value exceeds the max', () => {
-        scope.value = 1999999;
-        scope.max = 1000000;
-        scope.$digest();
-        expect(element.hasClass('ng-invalid-max')).toBeTruthy();
-        expect(element.val()).toEqual('$1,999,999.00');
+      describe('Soft Cap', () => {
+        it('should become invalid when the value exceeds the max', () => {
+          scope.value = 1999999;
+          scope.max = 1000000;
+          scope.$digest();
+          expect(element.hasClass('ng-invalid-max')).toBeTruthy();
+          expect(element.val()).toEqual('$1,999,999.00');
+        });
+
+        it('should become invalid when the max changes', () => {
+          scope.value = 1999999;
+          scope.max = 2000000;
+          scope.$digest();
+          expect(element.hasClass('ng-valid-max')).toBeTruthy();
+          expect(element.val()).toEqual('$1,999,999.00');
+          scope.max = 1999998;
+          scope.$digest();
+          expect(element.hasClass('ng-invalid-max')).toBeTruthy();
+          expect(element.val()).toEqual('$1,999,999.00');
+        });
+
+        it('should be valid if no max value is set', () => {
+          scope.value = 1999999;
+          scope.$digest();
+          expect(element.hasClass('ng-valid-max')).toBeTruthy();
+          expect(element.val()).toEqual('$1,999,999.00');
+        });
+
+        it('should support a max of zero', () => {
+          scope.value = 0.01;
+          scope.max = 0;
+          scope.$digest();
+          expect(element.hasClass('ng-invalid-max')).toBeTruthy();
+          expect(element.val()).toEqual('$0.01');
+        });
+
+        it('should do nothing when an invalid value is provided', () => {
+          scope.value = 4;
+          scope.max = '3px';
+          scope.$digest();
+          expect(element.hasClass('ng-valid-max')).toBeTruthy();
+        });
       });
 
-      it('should become invalid when the max changes', () => {
-        scope.value = 1999999;
-        scope.max = 2000000;
-        scope.$digest();
-        expect(element.hasClass('ng-valid-max')).toBeTruthy();
-        expect(element.val()).toEqual('$1,999,999.00');
-        scope.max = 1999998;
-        scope.$digest();
-        expect(element.hasClass('ng-invalid-max')).toBeTruthy();
-        expect(element.val()).toEqual('$1,999,999.00');
-      });
+      describe('Hard Cap', () => {
+        beforeEach(() => {
+          scope.hardCap = true;
+          scope.$digest();
+        });
 
-      it('should be valid if no max value is set', () => {
-        scope.value = 1999999;
-        scope.$digest();
-        expect(element.hasClass('ng-valid-max')).toBeTruthy();
-        expect(element.val()).toEqual('$1,999,999.00');
-      });
+        it('should change the value to the max if it exceeds the max', () => {
+          scope.max = 1;
+          scope.value = 2;
+          scope.$digest();
+          expect(element.val()).toEqual('$1.00');
+          expect(scope.value).toEqual(1);
+        });
 
-      it('should support a max of zero', () => {
-        scope.value = 0.01;
-        scope.max = 0;
-        scope.$digest();
-        expect(element.hasClass('ng-invalid-max')).toBeTruthy();
-        expect(element.val()).toEqual('$0.01');
-      });
+        it('should change the value to max when the max changes', () => {
+          scope.max = 2;
+          scope.value = 2;
+          scope.$digest();
+          expect(element.val()).toEqual('$2.00');
+          expect(scope.value).toEqual(2);
+          scope.max = 1;
+          scope.$digest();
+          expect(element.val()).toEqual('$1.00');
+          expect(scope.value).toEqual(1);
+        });
 
-      it('should do nothing when an invalid value is provided', () => {
-        scope.value = 4;
-        scope.max = '3px';
-        scope.$digest();
-        expect(element.hasClass('ng-valid-max')).toBeTruthy();
+        it('should do nothing if no max value is set', () => {
+          scope.value = 1999999;
+          scope.$digest();
+          expect(element.val()).toEqual('$1,999,999.00');
+        });
+
+        it('should do nothing if no max value is set and no ngModel value is provided', () => {
+          scope.value = '';
+          scope.$digest();
+          expect(element.val()).toEqual('');
+        });
+
+        it('should support a max of zero', () => {
+          scope.value = 0.01;
+          scope.max = 0;
+          scope.$digest();
+          expect(element.val()).toEqual('$0.00');
+        });
+
+        it('should do nothing when an invalid value is provided', () => {
+          scope.value = 4;
+          scope.max = '3px';
+          scope.$digest();
+          expect(element.val()).toEqual('$4.00');
+        });
       });
     });
 
     describe('Min', () => {
-      it('should become invalid when the value falls below the min', () => {
-        scope.value = 0.01;
-        scope.min = 1;
-        scope.$digest();
-        expect(element.hasClass('ng-invalid-min')).toBeTruthy();
-        expect(element.val()).toEqual('$0.01');
+      describe('Soft Cap', () => {
+        it('should become invalid when the value falls below the min', () => {
+          scope.value = 0.01;
+          scope.min = 1;
+          scope.$digest();
+          expect(element.hasClass('ng-invalid-min')).toBeTruthy();
+          expect(element.val()).toEqual('$0.01');
+        });
+
+        it('should become invalid when the min changes', () => {
+          scope.value = 0.01;
+          scope.min = 0;
+          scope.$digest();
+          expect(element.hasClass('ng-valid-min')).toBeTruthy();
+          expect(element.val()).toEqual('$0.01');
+          scope.min = 1;
+          scope.$digest();
+          expect(element.hasClass('ng-invalid-min')).toBeTruthy();
+          expect(element.val()).toEqual('$0.01');
+        });
+
+        it('should be valid if no min value is set', () => {
+          scope.value = 0.01;
+          scope.$digest();
+          expect(element.hasClass('ng-valid-min')).toBeTruthy();
+          expect(element.val()).toEqual('$0.01');
+        });
+
+        it('should do nothing if no min value is set and no ngModel value is provided', () => {
+          scope.value = undefined;
+          scope.$digest();
+          expect(element.val()).toEqual('');
+          scope.value = null;
+          scope.$digest();
+          expect(element.val()).toEqual('');
+          scope.value = '';
+          scope.$digest();
+          expect(element.val()).toEqual('');
+        });
+
+        it('should support a min of zero', () => {
+          scope.value = -0.01;
+          scope.min = 0;
+          scope.$digest();
+          expect(element.hasClass('ng-invalid-min')).toBeTruthy();
+          expect(element.val()).toEqual('($0.01)');
+        });
+
+        it('should do nothing when an invalid value is provided', () => {
+          scope.value = 4;
+          scope.min = '5px';
+          scope.$digest();
+          expect(element.hasClass('ng-valid-min')).toBeTruthy();
+        });
+
+        it('should do nothing when no value is provided', () => {
+          scope.value = 4;
+          scope.$digest();
+          expect(element.hasClass('ng-valid-min')).toBeTruthy();
+        });
       });
 
-      it('should become invalid when the min changes', () => {
-        scope.value = 0.01;
-        scope.min = 0;
-        scope.$digest();
-        expect(element.hasClass('ng-valid-min')).toBeTruthy();
-        expect(element.val()).toEqual('$0.01');
-        scope.min = 1;
-        scope.$digest();
-        expect(element.hasClass('ng-invalid-min')).toBeTruthy();
-        expect(element.val()).toEqual('$0.01');
-      });
+      describe('Hard Cap', () => {
+        beforeEach(() => {
+          scope.hardCap = true;
+          scope.$digest();
+        });
 
-      it('should be valid if no min value is set', () => {
-        scope.value = 0.01;
-        scope.$digest();
-        expect(element.hasClass('ng-valid-min')).toBeTruthy();
-        expect(element.val()).toEqual('$0.01');
-      });
+        it('should change the value to the min if it falls below the min', () => {
+          scope.min = 1;
+          scope.value = 0;
+          scope.$digest();
+          expect(element.val()).toEqual('$1.00');
+          expect(scope.value).toEqual(1);
+        });
 
-      it('should support a min of zero', () => {
-        scope.value = -0.01;
-        scope.min = 0;
-        scope.$digest();
-        expect(element.hasClass('ng-invalid-min')).toBeTruthy();
-        expect(element.val()).toEqual('($0.01)');
-      });
+        it('should change the value to min when the min changes', () => {
+          scope.min = 0;
+          scope.value = 0;
+          scope.$digest();
+          expect(element.val()).toEqual('$0.00');
+          expect(scope.value).toEqual(0);
+          scope.min = 1;
+          scope.$digest();
+          expect(element.val()).toEqual('$1.00');
+          expect(scope.value).toEqual(1);
+        });
 
-      it('should do nothing when an invalid value is provided', () => {
-        scope.value = 4;
-        scope.min = '5px';
-        scope.$digest();
-        expect(element.hasClass('ng-valid-min')).toBeTruthy();
+        it('should do nothing if no min value is set', () => {
+          scope.value = 1999999;
+          scope.$digest();
+          expect(element.val()).toEqual('$1,999,999.00');
+        });
+
+        it('should support a min of zero', () => {
+          scope.value = -0.01;
+          scope.min = 0;
+          scope.$digest();
+          expect(element.val()).toEqual('$0.00');
+        });
+
+        it('should do nothing when an invalid value is provided', () => {
+          scope.value = 4;
+          scope.min = '3px';
+          scope.$digest();
+          expect(element.val()).toEqual('$4.00');
+        });
       });
     });
   });
