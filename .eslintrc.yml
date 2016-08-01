@@ -6,6 +6,11 @@ env:
 globals:
   angular: true
 rules:
+  # Rules we want to add
+  quotes:
+    - 2
+    - single
+  # Rules we want to ignore
   max-nested-callbacks: 0
   no-warning-comments: 0
   require-jsdoc: 0
