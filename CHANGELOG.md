@@ -1,3 +1,10 @@
+## 0.11.0
+
+* Added support for forcing the ngModel value to stay within the min/max range (hard-cap)
+* Removed isolated scope
+* Created a build process for Travis CI to catch linting and unit test errors
+* Refactored the unit tests to reduce duplication
+
 ## 0.10.x
 
 * Migrated scope bindings to use `attrs.$observe`
