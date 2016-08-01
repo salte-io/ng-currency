@@ -1,19 +1,30 @@
 {
   "name": "ng-currency",
   "version": "0.10.1",
-  "authors": [
-    "Luis Aguirre <luis@alaguirre.com>"
-  ],
-  "description": "Directive that works in conjunction with currency filter.",
-  "url": "https://github.com/aguirrel/ng-currency.git",
   "main": "dist/ng-currency.js",
+  "description": "Directive that works in conjunction with currency filter.",
+  "homepage": "http://alaguirre.com",
+  "bugs": "https://github.com/salte-io/salte-seed/issues",
+  "contributors": [
+    "Luis Aguirre <luis@alaguirre.com>",
+    "Ceci <admin@cecilias.me>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aguirrel/ng-currency.git"
+  },
   "keywords": [
     "currency",
     "directive",
     "filter"
   ],
+  "scripts": {
+    "tdd": "karma start",
+    "test": "karma start --single-run",
+    "build:dev": "webpack -d",
+    "build:prod": "webpack -p"
+  },
   "license": "MIT",
-  "homepage": "http://alaguirre.com",
   "devDependencies": {
     "angular": "~1.3",
     "angular-mocks": "~1.3",
@@ -37,11 +48,5 @@
     "ng-annotate-loader": "0.1.1",
     "phantomjs-prebuilt": "2.1.8",
     "webpack": "1.13.1"
-  },
-  "scripts": {
-    "tdd": "karma start",
-    "test": "karma start --single-run",
-    "build:dev": "webpack -d",
-    "build:prod": "webpack -p"
   }
 }
