@@ -10,6 +10,8 @@ rules:
   quotes:
     - 2
     - single
+  no-var: 2
+  prefer-const: 2
   # Rules we want to ignore
   max-nested-callbacks: 0
   no-warning-comments: 0
