@@ -1,3 +1,7 @@
+## 0.11.1
+
+* Fixed a bug that caused empty ngModel values to get marked as invalid when the min was set to anything above zero or the max was set to anything below zero
+
 ## 0.11.0
 
 * Added support for forcing the ngModel value to stay within the min/max range (hard-cap)
