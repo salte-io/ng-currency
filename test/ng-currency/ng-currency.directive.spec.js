@@ -1,12 +1,14 @@
+import 'ng-select-all-on-focus';
 import ngCurrency from '../../src/ng-currency.module.js';
 import defaults from './templates/defaults.html';
 import variables from './templates/variables.html';
 import centsToDollars from './templates/cents-to-dollars.html';
+import selectAllOnFocus from './templates/select-all-on-focus.html';
 
 describe('ngCurrency directive tests', () => {
   let element, scope;
 
-  beforeEach(angular.mock.module(ngCurrency));
+  beforeEach(angular.mock.module('rb.select-all-on-focus'));
   beforeEach(angular.mock.module(ngCurrency, ($compileProvider) => {
     $compileProvider.directive('centsToDollars', () => {
       return {
@@ -115,22 +117,47 @@ describe('ngCurrency directive tests', () => {
     });
 
     describe('Support other Directives', () => {
-      beforeEach(angular.mock.inject(($compile) => {
-        element = $compile(centsToDollars)(scope);
-        scope.value = 100;
-        scope.$digest();
-      }));
+      describe('Modifying ngModel Value', () => {
+        beforeEach(angular.mock.inject(($compile) => {
+          element = $compile(centsToDollars)(scope);
+          scope.value = 100;
+          scope.$digest();
+        }));
 
-      it('should support multiple directives', () => {
-        expect(element.val()).toEqual('$1.00');
+        it('should support multiple directives', () => {
+          expect(element.val()).toEqual('$1.00');
+        });
+
+        it('should update the model correctly', () => {
+          element.val('$123.45');
+          element.triggerHandler('input');
+          element.triggerHandler('blur');
+          expect(scope.value).toEqual(12345);
+          expect(element.val()).toEqual('$123.45');
+        });
+
+        it('should update the model correctly', () => {
+          element.val('$123.45');
+          element.triggerHandler('input');
+          element.triggerHandler('blur');
+          expect(scope.value).toEqual(12345);
+          expect(element.val()).toEqual('$123.45');
+        });
       });
 
-      it('should update the model correctly', () => {
-        element.val('$123.45');
-        element.triggerHandler('input');
-        element.triggerHandler('blur');
-        expect(scope.value).toEqual(12345);
-        expect(element.val()).toEqual('$123.45');
+      describe('Reading Input Value', () => {
+        beforeEach(angular.mock.inject(($compile) => {
+          element = $compile(selectAllOnFocus)(scope);
+          element[0].setSelectionRange = sinon.spy();
+          scope.value = 0;
+          scope.$digest();
+        }));
+
+        it('should support selecting the real value', () => {
+          element.triggerHandler('focus');
+          expect(element[0].setSelectionRange.callCount).toEqual(2);
+          expect(element[0].setSelectionRange.calledWith(0, 4)).toBeTruthy();
+        });
       });
     });
   });
