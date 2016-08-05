@@ -188,8 +188,11 @@ export default function ngCurrency($filter, $locale, $timeout) {
         } else {
           viewValue = Number(viewValue).toFixed(fraction);
         }
-        ngModel.$setViewValue(viewValue);
-        ngModel.$render();
+        if (ngModel.$viewValue !== viewValue) {
+          ngModel.$setViewValue(viewValue);
+          ngModel.$render();
+          element.triggerHandler('focus');
+        }
       });
 
       element.on('blur', () => {
