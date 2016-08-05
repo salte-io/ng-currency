@@ -1,3 +1,7 @@
+## 0.11.2
+
+* Fixed an issue which made it impossible to select content of the input field on focus
+
 ## 0.11.1
 
 * Fixed a bug that caused empty ngModel values to get marked as invalid when the min was set to anything above zero or the max was set to anything below zero
