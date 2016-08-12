@@ -281,6 +281,15 @@ describe('ngCurrency directive tests', () => {
         expect(scope.value).toEqual(123.45);
         expect(element.val()).toEqual('$123.45');
       });
+      it('should be pristine on start', () => {
+        scope.value = '123.45';
+        scope.$digest();
+        expect(element.hasClass('ng-pristine')).toBeTruthy();
+        element.val('1235.45');
+        element.triggerHandler('input');
+        element.triggerHandler('blur');
+        expect(element.hasClass('ng-dirty')).toBeTruthy();
+      });
     });
 
     describe('Max', () => {

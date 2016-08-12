@@ -47,6 +47,7 @@ export default function ngCurrency($filter, $locale, $timeout) {
       $timeout(() => {
         initialized = true;
         refresh();
+        ngModel.$setPristine();
       });
 
       function refresh() {
