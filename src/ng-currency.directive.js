@@ -44,22 +44,7 @@ export default function ngCurrency($filter, $locale) {
 
       controller.$parsers.push((value) => {
         if (active) {
-          value = value.trim();
-          const neg_dummy = $filter('currency')('-1', currencySymbol === undefined ? $locale.NUMBER_FORMATS.CURRENCY_SYM : currencySymbol, fraction);
-          const neg_regexp = RegExp('[0-9.' + $locale.NUMBER_FORMATS.DECIMAL_SEP + $locale.NUMBER_FORMATS.GROUP_SEP + ']+');
-          const neg_dummy_txt = neg_dummy.replace(neg_regexp.exec(neg_dummy), '');
-          const value_dummy_txt = value.replace(neg_regexp.exec(value), '');
-
-          // If is negative
-          if (neg_dummy_txt === value_dummy_txt) {
-            value = '-' + neg_regexp.exec(value)[0];
-          }
-          if (value === '-') {
-            value = '0';
-          }
-          value = value
-            .replace($locale.NUMBER_FORMATS.GROUP_SEP, '')
-            .replace(currencySymbol === undefined ? $locale.NUMBER_FORMATS.CURRENCY_SYM : currencySymbol, '');
+          value = clearValue(value);
           value = keepInRange(Number(value));
           return value;
         }
@@ -68,7 +53,7 @@ export default function ngCurrency($filter, $locale) {
 
       controller.$formatters.push((value) => {
         if (active && value !== '') {
-          return $filter('currency')(value, currencySymbol === undefined ? $locale.NUMBER_FORMATS.CURRENCY_SYM : currencySymbol, fraction);
+          return $filter('currency')(value, getCurrencySymbol(), fraction);
         }
         return value;
       });
@@ -146,6 +131,55 @@ export default function ngCurrency($filter, $locale) {
       });
 
       element.bind('blur', reformat);
+
+      // TODO: Rewrite this parsing logic to more readable.
+
+      function decimalRex(dChar) {
+        return RegExp('\\d|\\-|\\' + dChar, 'g');
+      }
+
+      function clearRex(dChar) {
+        return RegExp('\\-{0,1}((\\' + dChar + ')|([0-9]{1,}\\' + dChar + '?))&?[0-9]{0,' + fraction + '}', 'g');
+      }
+
+      function clearValue(value) {
+        value = String(value);
+        let dSeparator = $locale.NUMBER_FORMATS.DECIMAL_SEP;
+        let cleared = null;
+
+        if (value.indexOf($locale.NUMBER_FORMATS.DECIMAL_SEP) === -1 &&
+          value.indexOf('.') !== -1 &&
+          fraction > 0) {
+          dSeparator = '.';
+        }
+
+        // Replace negative pattern to minus sign (-)
+        const neg_dummy = $filter('currency')('-1', getCurrencySymbol(), fraction);
+        const neg_regexp = RegExp('[0-9.' + $locale.NUMBER_FORMATS.DECIMAL_SEP + $locale.NUMBER_FORMATS.GROUP_SEP + ']+');
+        const neg_dummy_txt = neg_dummy.replace(neg_regexp.exec(neg_dummy), '');
+        const value_dummy_txt = value.replace(neg_regexp.exec(value), '');
+
+        // If is negative
+        if (neg_dummy_txt === value_dummy_txt) {
+          value = '-' + neg_regexp.exec(value);
+        }
+
+        if (RegExp('^-[\\s]*$', 'g').test(value)) {
+          value = '-0';
+        }
+
+        if (decimalRex(dSeparator).test(value)) {
+          cleared = value.match(decimalRex(dSeparator))
+            .join('').match(clearRex(dSeparator));
+          cleared = cleared ? cleared[0].replace(dSeparator, '.') : null;
+        }
+
+        return cleared;
+      }
+
+      function getCurrencySymbol() {
+        return currencySymbol === undefined ? $locale.NUMBER_FORMATS.CURRENCY_SYM : currencySymbol;
+      }
     }
   };
 }
