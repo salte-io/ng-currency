@@ -142,6 +142,19 @@ describe('ngCurrency directive tests', () => {
         expect(scope.value).toEqual(-0.5);
         expect(element.val()).toEqual('($0.50)');
       });
+
+      it('should support locales with "," as the decimal separator and "." as the group separator', () => {
+        $locale.NUMBER_FORMATS.DECIMAL_SEP = ',';
+        $locale.NUMBER_FORMATS.GROUP_SEP = '.';
+        element.val('$0,50');
+        element.triggerHandler('input');
+        element.triggerHandler('blur');
+        expect(scope.value).toEqual(0.5);
+        expect(element.val()).toEqual('$0,50');
+        element.triggerHandler('focus');
+        expect(scope.value).toEqual(0.5);
+        expect(element.val()).toEqual('0,50');
+      });
     });
 
     describe('Support other Directives', () => {
