@@ -119,6 +119,11 @@ angular.module('myApp', ['ng-currency']);
 + http://alaguirre.com
 + http://github.com/aguirrel
 
+**Ceci**
+
++ http://salte.io
++ http://github.com/cecilia-sanare
+
 ## Copyright and license
 
 	The MIT License
