@@ -56,6 +56,15 @@ describe('ngCurrency directive tests', () => {
       expect(scope.value).toEqual(-1.11);
     });
 
+    it('should be able to parse empty values', () => {
+      element.val('');
+      element.triggerHandler('input');
+      expect(scope.value).toEqual('');
+      expect(element.val()).toEqual('');
+      element.triggerHandler('focus');
+      expect(element.val()).toEqual('');
+    });
+
     it('should be able to parse and reformat a value', () => {
       element.val('123123.45');
       element.triggerHandler('input');

@@ -43,7 +43,7 @@ export default function ngCurrency($filter, $locale) {
       });
 
       controller.$parsers.push((value) => {
-        if (active) {
+        if (active && [undefined, null, ''].indexOf(value) === -1) {
           value = clearValue(value);
           value = keepInRange(Number(value));
           return value;
@@ -52,7 +52,7 @@ export default function ngCurrency($filter, $locale) {
       });
 
       controller.$formatters.push((value) => {
-        if (active && value !== '') {
+        if (active && [undefined, null, ''].indexOf(value) === -1) {
           return $filter('currency')(value, getCurrencySymbol(), fraction);
         }
         return value;
@@ -121,7 +121,7 @@ export default function ngCurrency($filter, $locale) {
 
       element.bind('focus', () => {
         if (active) {
-          const value = Number(controller.$modelValue).toFixed(fraction);
+          const value = [undefined, null, ''].indexOf(controller.$modelValue) === -1 ? Number(controller.$modelValue).toFixed(fraction) : controller.$modelValue;
           if (controller.$viewValue !== value) {
             controller.$viewValue = value;
             controller.$render();
