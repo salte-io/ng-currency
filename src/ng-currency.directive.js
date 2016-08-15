@@ -1,62 +1,138 @@
-/*
- * ng-currency
- * http://alaguirre.com/
-
- * Version: 0.10.1 - 2016-06-05
- * License: MIT
- */
-
 /* @ngInject */
-export default function ngCurrency($filter, $locale, $timeout) {
+export default function ngCurrency($filter, $locale) {
   return {
     require: 'ngModel',
-    link: (scope, element, attrs, ngModel) => {
-      let initialized, hardCap, min, max, currencySymbol, ngRequired;
+    link: (scope, element, attrs, controller) => {
+      let hardCap, min, max, currencySymbol, ngRequired;
       let active = true;
       let fraction = 2;
 
       attrs.$observe('ngCurrency', (value) => {
         active = (value !== 'false');
-        refresh();
+        if (active) {
+          reformat();
+        } else {
+          controller.$viewValue = controller.$modelValue;
+          controller.$render();
+        }
       });
       attrs.$observe('hardCap', (value) => {
         hardCap = (value === 'true');
-        refresh();
+        revalidate();
       });
       attrs.$observe('min', (value) => {
         min = value ? Number(value) : undefined;
-        refresh();
+        revalidate();
       });
       attrs.$observe('max', (value) => {
         max = value ? Number(value) : undefined;
-        refresh();
+        revalidate();
       });
       attrs.$observe('currencySymbol', (value) => {
         currencySymbol = value;
-        refresh();
+        reformat();
       });
       attrs.$observe('ngRequired', (value) => {
         ngRequired = value;
-        refresh();
+        revalidate();
       });
       attrs.$observe('fraction', (value) => {
         fraction = value || 2;
-        refresh();
+        reformat();
+        revalidate();
       });
 
-      $timeout(() => {
-        initialized = true;
-        ngModel.$pristine = false;
-        refresh();
-        ngModel.$pristine = true;
+      controller.$parsers.push((value) => {
+        if (active && [undefined, null, ''].indexOf(value) === -1) {
+          value = clearValue(value);
+          value = keepInRange(Number(value));
+          return value;
+        }
+        return value;
       });
 
-      function refresh() {
-        if (initialized) {
-          ngModel.$validate();
-          scope.$emit('currencyRedraw');
+      controller.$formatters.push((value) => {
+        if (active && [undefined, null, ''].indexOf(value) === -1) {
+          return $filter('currency')(value, getCurrencySymbol(), fraction);
+        }
+        return value;
+      });
+
+      controller.$validators.min = (value) => {
+        if (!ngRequired && ([undefined, null, ''].indexOf(value) !== -1 || isNaN(value))) {
+          return true;
+        }
+        return !active ||
+          [undefined, null].indexOf(min) !== -1 || isNaN(min) ||
+          value >= min;
+      };
+
+      controller.$validators.max = (value) => {
+        if (!ngRequired && ([undefined, null, ''].indexOf(value) !== -1 || isNaN(value))) {
+          return true;
+        }
+        return !active ||
+          [undefined, null].indexOf(max) !== -1 || isNaN(max) ||
+          value <= max;
+      };
+
+      controller.$validators.fraction = (value) => {
+        return !active || !value || !isNaN(value);
+      };
+
+      function reformat() {
+        if (active) {
+          let value = controller.$modelValue;
+          for (let i = controller.$formatters.length - 1; i >= 0; i--) {
+            value = controller.$formatters[i](value);
+          }
+          controller.$viewValue = value;
+          controller.$render();
         }
       }
+
+      function revalidate() {
+        controller.$validate();
+        if (active) {
+          const value = keepInRange(controller.$$rawModelValue);
+          if (value !== controller.$$rawModelValue) {
+            controller.$setViewValue(value.toFixed(fraction));
+            controller.$commitViewValue();
+            reformat();
+          }
+        }
+      }
+
+      function keepInRange(value) {
+        if (hardCap) {
+          if (max !== undefined && value > max) {
+            value = max;
+          } else if (min !== undefined && value < min) {
+            value = min;
+          }
+        }
+        return value;
+      }
+
+      scope.$on('currencyRedraw', () => {
+        revalidate();
+        reformat();
+      });
+
+      element.bind('focus', () => {
+        if (active) {
+          const value = [undefined, null, ''].indexOf(controller.$modelValue) === -1 ? Number(controller.$modelValue).toFixed(fraction) : controller.$modelValue;
+          if (controller.$viewValue !== value) {
+            controller.$viewValue = value;
+            controller.$render();
+            element.triggerHandler('focus');
+          }
+        }
+      });
+
+      element.bind('blur', reformat);
+
+      // TODO: Rewrite this parsing logic to more readable.
 
       function decimalRex(dChar) {
         return RegExp('\\d|\\-|\\' + dChar, 'g');
@@ -102,105 +178,8 @@ export default function ngCurrency($filter, $locale, $timeout) {
       }
 
       function getCurrencySymbol() {
-        if (currencySymbol !== undefined) {
-          return currencySymbol;
-        }
-        return $locale.NUMBER_FORMATS.CURRENCY_SYM;
+        return currencySymbol === undefined ? $locale.NUMBER_FORMATS.CURRENCY_SYM : currencySymbol;
       }
-
-      function executeFormatters() {
-        let viewValue = ngModel.$$rawModelValue;
-        for (let i = ngModel.$formatters.length - 1; i >= 0; i--) {
-          viewValue = ngModel.$formatters[i](viewValue);
-        }
-        ngModel.$setViewValue(viewValue);
-        ngModel.$render();
-      }
-
-      function keepInRange(value) {
-        if (active && hardCap && [undefined, null, ''].indexOf(value) === -1) {
-          if (max !== undefined && value > max) {
-            return max;
-          } else if (min !== undefined && value < min) {
-            return min;
-          }
-        }
-        return value;
-      }
-
-      ngModel.$parsers.push((viewValue) => {
-        if (active && [undefined, null, ''].indexOf(viewValue) === -1) {
-          let value = clearValue(viewValue);
-          // Check for fast digitation (-. or .)
-          if (value === '.' || value === '-.') {
-            value = '.0';
-          }
-          return Number(value);
-        }
-        return viewValue;
-      });
-
-      ngModel.$parsers.push(keepInRange);
-      ngModel.$formatters.push((value) => {
-        if (active && [undefined, null, ''].indexOf(value) === -1) {
-          return $filter('currency')(value, getCurrencySymbol(), fraction);
-        }
-        return value;
-      });
-
-      ngModel.$validators.min = (value) => {
-        if (!ngRequired && ([undefined, null, ''].indexOf(value) !== -1 || isNaN(value))) {
-          return true;
-        }
-        return !active ||
-          [undefined, null].indexOf(min) !== -1 || isNaN(min) ||
-          value >= min;
-      };
-
-      ngModel.$validators.max = (value) => {
-        if (!ngRequired && ([undefined, null, ''].indexOf(value) !== -1 || isNaN(value))) {
-          return true;
-        }
-        return !active ||
-          [undefined, null].indexOf(max) !== -1 || isNaN(max) ||
-          value <= max;
-      };
-
-      ngModel.$validators.fraction = (value) => {
-        return !active || !value || !isNaN(value);
-      };
-
-      scope.$on('currencyRedraw', () => {
-        if (initialized) {
-          ngModel.$commitViewValue();
-          const value = keepInRange(ngModel.$$rawModelValue);
-          if (value !== ngModel.$$rawModelValue) {
-            ngModel.$setViewValue(value);
-            ngModel.$commitViewValue();
-          }
-          executeFormatters();
-        }
-      });
-
-      element.on('focus', () => {
-        let viewValue = ngModel.$$rawModelValue;
-
-        if (isNaN(viewValue) || viewValue === '' || viewValue === null) {
-          viewValue = '';
-        } else {
-          viewValue = Number(viewValue).toFixed(fraction);
-        }
-        if (ngModel.$viewValue !== viewValue) {
-          ngModel.$setViewValue(viewValue);
-          ngModel.$render();
-          element.triggerHandler('focus');
-        }
-      });
-
-      element.on('blur', () => {
-        ngModel.$commitViewValue();
-        executeFormatters();
-      });
     }
   };
 }
