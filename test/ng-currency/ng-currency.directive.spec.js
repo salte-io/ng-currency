@@ -34,6 +34,7 @@ describe('ngCurrency directive tests', () => {
       scope.value = 0;
       scope.$digest();
       element = $compile(defaults)(scope);
+      element = element.find('input');
       $timeout.flush();
     }));
 
@@ -53,6 +54,15 @@ describe('ngCurrency directive tests', () => {
       element.val('$ -1.11');
       element.triggerHandler('input');
       expect(scope.value).toEqual(-1.11);
+    });
+
+    it('should be able to parse empty values', () => {
+      element.val('');
+      element.triggerHandler('input');
+      expect(scope.value).toEqual('');
+      expect(element.val()).toEqual('');
+      element.triggerHandler('focus');
+      expect(element.val()).toEqual('');
     });
 
     it('should be able to parse and reformat a value', () => {
@@ -107,8 +117,26 @@ describe('ngCurrency directive tests', () => {
         expect(element.val()).toEqual('$0.50');
       });
 
-      it('should parse "-.5" to ($0.50)', () => {
+      it('should parse "-.5" to -$0.50', () => {
         element.val('-.5');
+        element.triggerHandler('input');
+        element.triggerHandler('blur');
+        expect(scope.value).toEqual(-0.5);
+        expect(element.val()).toEqual('-$0.50');
+      });
+    });
+
+    describe('Custom Locale Options', () => {
+      let $locale;
+      beforeEach(angular.mock.inject((_$locale_) => {
+        $locale = _$locale_;
+      }));
+
+      it('should parse "($0.50)" to ($0.50)', () => {
+        const currencyPatterns = $locale.NUMBER_FORMATS.PATTERNS[1];
+        currencyPatterns.negPre = '(\u00a4';
+        currencyPatterns.negSuf = ')';
+        element.val('($0.50)');
         element.triggerHandler('input');
         element.triggerHandler('blur');
         expect(scope.value).toEqual(-0.5);
@@ -160,6 +188,75 @@ describe('ngCurrency directive tests', () => {
         });
       });
     });
+
+    describe('$pristine', () => {
+      it('should be pristine when initialized', () => {
+        expect(element.hasClass('ng-pristine')).toBeTruthy();
+        expect(scope.form.currency.$pristine).toBeTruthy();
+        expect(scope.form.currency.$dirty).toBeFalsy();
+        expect(scope.form.$pristine).toBeTruthy();
+        expect(scope.form.$dirty).toBeFalsy();
+      });
+
+      it('should stay $pristine if the modelValue has not changed', () => {
+        element.triggerHandler('focus');
+        expect(element.hasClass('ng-pristine')).toBeTruthy();
+        expect(scope.form.currency.$pristine).toBeTruthy();
+        expect(scope.form.currency.$dirty).toBeFalsy();
+        expect(scope.form.$pristine).toBeTruthy();
+        expect(scope.form.$dirty).toBeFalsy();
+        element.triggerHandler('blur');
+        expect(element.hasClass('ng-pristine')).toBeTruthy();
+        expect(scope.form.currency.$pristine).toBeTruthy();
+        expect(scope.form.currency.$dirty).toBeFalsy();
+        expect(scope.form.$pristine).toBeTruthy();
+        expect(scope.form.$dirty).toBeFalsy();
+      });
+
+      it('should stay $pristine if the modelValue is changed', () => {
+        scope.value = 10;
+        scope.$digest();
+        expect(element.hasClass('ng-pristine')).toBeTruthy();
+        expect(scope.form.currency.$pristine).toBeTruthy();
+        expect(scope.form.currency.$dirty).toBeFalsy();
+        expect(scope.form.$pristine).toBeTruthy();
+        expect(scope.form.$dirty).toBeFalsy();
+        element.triggerHandler('focus');
+        expect(element.hasClass('ng-pristine')).toBeTruthy();
+        expect(scope.form.currency.$pristine).toBeTruthy();
+        expect(scope.form.currency.$dirty).toBeFalsy();
+        expect(scope.form.$pristine).toBeTruthy();
+        expect(scope.form.$dirty).toBeFalsy();
+        element.triggerHandler('blur');
+        expect(element.hasClass('ng-pristine')).toBeTruthy();
+        expect(scope.form.currency.$pristine).toBeTruthy();
+        expect(scope.form.currency.$dirty).toBeFalsy();
+        expect(scope.form.$pristine).toBeTruthy();
+        expect(scope.form.$dirty).toBeFalsy();
+      });
+
+      it('should not stay $pristine if its already $dirty', () => {
+        element.val('$10.00');
+        element.triggerHandler('input');
+        expect(element.hasClass('ng-pristine')).toBeFalsy();
+        expect(scope.form.currency.$pristine).toBeFalsy();
+        expect(scope.form.currency.$dirty).toBeTruthy();
+        expect(scope.form.$pristine).toBeFalsy();
+        expect(scope.form.$dirty).toBeTruthy();
+        element.triggerHandler('focus');
+        expect(element.hasClass('ng-pristine')).toBeFalsy();
+        expect(scope.form.currency.$pristine).toBeFalsy();
+        expect(scope.form.currency.$dirty).toBeTruthy();
+        expect(scope.form.$pristine).toBeFalsy();
+        expect(scope.form.$dirty).toBeTruthy();
+        element.triggerHandler('blur');
+        expect(element.hasClass('ng-pristine')).toBeFalsy();
+        expect(scope.form.currency.$pristine).toBeFalsy();
+        expect(scope.form.currency.$dirty).toBeTruthy();
+        expect(scope.form.$pristine).toBeFalsy();
+        expect(scope.form.$dirty).toBeTruthy();
+      });
+    });
   });
 
   // Functionality that is specific to the default values
@@ -169,6 +266,7 @@ describe('ngCurrency directive tests', () => {
       scope.value = 0;
       scope.$digest();
       element = $compile(defaults)(scope);
+      element = element.find('input');
       $timeout.flush();
     }));
 
@@ -220,6 +318,7 @@ describe('ngCurrency directive tests', () => {
       scope.currencySymbol = '$';
       scope.$digest();
       element = $compile(variables)(scope);
+      element = element.find('input');
       $timeout.flush();
     }));
 
@@ -280,15 +379,6 @@ describe('ngCurrency directive tests', () => {
         element.triggerHandler('blur');
         expect(scope.value).toEqual(123.45);
         expect(element.val()).toEqual('$123.45');
-      });
-      it('should be pristine on start', () => {
-        scope.value = '123.45';
-        scope.$digest();
-        expect(element.hasClass('ng-pristine')).toBeTruthy();
-        element.val('1235.45');
-        element.triggerHandler('input');
-        element.triggerHandler('blur');
-        expect(element.hasClass('ng-dirty')).toBeTruthy();
       });
     });
 
@@ -445,7 +535,7 @@ describe('ngCurrency directive tests', () => {
           scope.min = 0;
           scope.$digest();
           expect(element.hasClass('ng-invalid-min')).toBeTruthy();
-          expect(element.val()).toEqual('($0.01)');
+          expect(element.val()).toEqual('-$0.01');
         });
 
         it('should do nothing when an invalid value is provided', () => {
@@ -515,6 +605,19 @@ describe('ngCurrency directive tests', () => {
           scope.$digest();
           expect(element.val()).toEqual('$4.00');
         });
+      });
+    });
+
+    describe('$pristine', () => {
+      it('should be pristine when initialized with a custom currencySymbol', () => {
+        scope.currencySymbol = '¥';
+        scope.$digest();
+        expect(element.hasClass('ng-pristine')).toBeTruthy();
+        expect(scope.form.currency.$pristine).toBeTruthy();
+        expect(scope.form.currency.$dirty).toBeFalsy();
+        expect(scope.form.$pristine).toBeTruthy();
+        expect(scope.form.$dirty).toBeFalsy();
+        expect(element.val()).toEqual('¥0.00');
       });
     });
   });
