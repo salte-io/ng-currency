@@ -1,3 +1,7 @@
+## 1.0.0
+
+* Fixed an issue which caused $pristine to get set to false on focus and blur (#105)
+
 ## 0.11.3
 
 * Fixed a bug which fields becomes dirty instead of pristine
