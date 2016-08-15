@@ -119,6 +119,11 @@ angular.module('myApp', ['ng-currency']);
 + http://alaguirre.com
 + http://github.com/aguirrel
 
+**Nick Woodward**
+
++ http://salte.io
++ http://github.com/nick-woodward
+
 ## Copyright and license
 
 	The MIT License
