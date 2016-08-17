@@ -121,7 +121,7 @@ export default function ngCurrency($filter, $locale) {
 
       element.bind('focus', () => {
         if (active) {
-          const value = [undefined, null, ''].indexOf(controller.$modelValue) === -1 ? Number(controller.$modelValue).toFixed(fraction) : controller.$modelValue;
+          const value = [undefined, null, ''].indexOf(controller.$modelValue) === -1 ? $filter('number')(controller.$modelValue, fraction).replace($locale.NUMBER_FORMATS.GROUP_SEP, '') : controller.$modelValue;
           if (controller.$viewValue !== value) {
             controller.$viewValue = value;
             controller.$render();
