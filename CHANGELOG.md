@@ -1,3 +1,8 @@
+## 1.1.0
+
+* Displaying the real value on focus now displays the value with the locale decimal separator
+* Fixed tests not getting kicked off with travis ci
+
 ## 1.0.0
 
 * Fixed an issue which caused $pristine to get set to false on focus and blur (#105)
