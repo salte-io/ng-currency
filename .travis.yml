@@ -5,8 +5,11 @@ node_js:
 cache:
   directories:
   - node_modules
+before_script:
+- npm prune
 script:
 - npm run test
-- npm run build:prod
+after_success:
+- if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then npm run semantic-release; fi
 notifications:
   email: false
