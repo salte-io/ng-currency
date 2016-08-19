@@ -23,7 +23,7 @@
     "test": "karma start --single-run",
     "build:dev": "webpack -d",
     "build:prod": "webpack -p",
-    "publish-latest": "publish-latest --user-email luis@alaguirre.com --user-name aguirrel",
+    "publish-latest": "publish-latest --user-email aguirrel@xuar.com.ar --user-name aguirrel",
     "semantic-release": "semantic-release pre && npm run build:prod && npm publish && npm run publish-latest && semantic-release post"
   },
   "license": "MIT",
