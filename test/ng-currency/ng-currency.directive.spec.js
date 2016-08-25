@@ -146,14 +146,14 @@ describe('ngCurrency directive tests', () => {
       it('should support locales with "," as the decimal separator and "." as the group separator', () => {
         $locale.NUMBER_FORMATS.DECIMAL_SEP = ',';
         $locale.NUMBER_FORMATS.GROUP_SEP = '.';
-        element.val('$0,50');
+        element.val('$1.000,50');
         element.triggerHandler('input');
         element.triggerHandler('blur');
-        expect(scope.value).toEqual(0.5);
-        expect(element.val()).toEqual('$0,50');
+        expect(scope.value).toEqual(1000.5);
+        expect(element.val()).toEqual('$1.000,50');
         element.triggerHandler('focus');
-        expect(scope.value).toEqual(0.5);
-        expect(element.val()).toEqual('0,50');
+        expect(scope.value).toEqual(1000.5);
+        expect(element.val()).toEqual('1000,50');
       });
     });
 
@@ -349,6 +349,16 @@ describe('ngCurrency directive tests', () => {
         scope.$digest();
         expect(element.val()).toEqual('a');
       });
+
+      it('should display the real value when disabled with an invalid value', () => {
+        scope.value = 0.01;
+        scope.min = 1;
+        scope.$digest();
+        expect(element.val()).toEqual('$0.01');
+        scope.active = false;
+        scope.$digest();
+        expect(element.val()).toEqual('0.01');
+      });
     });
 
     describe('Currency Symbol', () => {
@@ -402,6 +412,10 @@ describe('ngCurrency directive tests', () => {
           scope.max = 1000000;
           scope.$digest();
           expect(element.hasClass('ng-invalid-max')).toBeTruthy();
+          expect(element.val()).toEqual('$1,999,999.00');
+          element.triggerHandler('focus');
+          expect(element.val()).toEqual('1999999.00');
+          element.triggerHandler('blur');
           expect(element.val()).toEqual('$1,999,999.00');
         });
 
@@ -509,6 +523,10 @@ describe('ngCurrency directive tests', () => {
           scope.min = 1;
           scope.$digest();
           expect(element.hasClass('ng-invalid-min')).toBeTruthy();
+          expect(element.val()).toEqual('$0.01');
+          element.triggerHandler('focus');
+          expect(element.val()).toEqual('0.01');
+          element.triggerHandler('blur');
           expect(element.val()).toEqual('$0.01');
         });
 
