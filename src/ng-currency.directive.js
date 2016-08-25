@@ -12,7 +12,7 @@ export default function ngCurrency($filter, $locale) {
         if (active) {
           reformat();
         } else {
-          controller.$viewValue = controller.$modelValue;
+          controller.$viewValue = controller.$$rawModelValue;
           controller.$render();
         }
       });
@@ -82,7 +82,7 @@ export default function ngCurrency($filter, $locale) {
 
       function reformat() {
         if (active) {
-          let value = controller.$modelValue;
+          let value = controller.$$rawModelValue;
           for (let i = controller.$formatters.length - 1; i >= 0; i--) {
             value = controller.$formatters[i](value);
           }
@@ -121,7 +121,8 @@ export default function ngCurrency($filter, $locale) {
 
       element.bind('focus', () => {
         if (active) {
-          const value = [undefined, null, ''].indexOf(controller.$modelValue) === -1 ? $filter('number')(controller.$modelValue, fraction).replace($locale.NUMBER_FORMATS.GROUP_SEP, '') : controller.$modelValue;
+          const groupRegex = new RegExp(`\\${$locale.NUMBER_FORMATS.GROUP_SEP}`, 'g');
+          const value = [undefined, null, ''].indexOf(controller.$$rawModelValue) === -1 ? $filter('number')(controller.$$rawModelValue, fraction).replace(groupRegex, '') : controller.$$rawModelValue;
           if (controller.$viewValue !== value) {
             controller.$viewValue = value;
             controller.$render();
