@@ -82,7 +82,15 @@ export default function ngCurrency($filter, $locale) {
 
       function reformat() {
         if (active) {
-          let value = controller.$$rawModelValue;
+          let value;
+          if (controller.$options && controller.$options.updateOn === 'blur') {
+            value = controller.$viewValue;
+            for (let i = controller.$parsers.length - 1; i >= 0; i--) {
+              value = controller.$parsers[i](value);
+            }
+          } else {
+            value = controller.$$rawModelValue;
+          }
           for (let i = controller.$formatters.length - 1; i >= 0; i--) {
             value = controller.$formatters[i](value);
           }
