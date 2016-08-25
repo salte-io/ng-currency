@@ -2,6 +2,7 @@ import 'ng-select-all-on-focus';
 import ngCurrency from '../../src/ng-currency.module.js';
 import defaults from './templates/defaults.html';
 import variables from './templates/variables.html';
+import variablesUpdateOnBlur from './templates/variables-update-on-blur.html';
 import centsToDollars from './templates/cents-to-dollars.html';
 import selectAllOnFocus from './templates/select-all-on-focus.html';
 
@@ -394,14 +395,50 @@ describe('ngCurrency directive tests', () => {
     });
 
     describe('Model Options', () => {
-      it('should support updating on blur', () => {
-        scope.modelOptions = { updateOn: 'blur' };
+      beforeEach(angular.mock.inject(($rootScope, $compile, $timeout) => {
+        scope = $rootScope.$new();
+        scope.value = 0;
+        scope.active = true;
+        scope.currencySymbol = '$';
         scope.$digest();
+        element = $compile(variablesUpdateOnBlur)(scope);
+        element = element.find('input');
+        $timeout.flush();
+      }));
+
+      it('should remain pristine when updating via the scope value', () => {
+        scope.value = 123.45;
+        scope.$digest();
+        element.triggerHandler('input');
+        element.triggerHandler('blur');
+        expect(element.hasClass('ng-pristine')).toBeTruthy();
+        expect(scope.form.currency.$pristine).toBeTruthy();
+        expect(scope.form.currency.$dirty).toBeFalsy();
+        expect(scope.form.$pristine).toBeTruthy();
+        expect(scope.form.$dirty).toBeFalsy();
+        expect(element.val()).toEqual('$123.45');
+      });
+
+      it('should support updating on blur', () => {
         element.val('$123.45');
         element.triggerHandler('input');
         element.triggerHandler('blur');
         expect(scope.value).toEqual(123.45);
         expect(element.val()).toEqual('$123.45');
+        scope.min = 0.01;
+        scope.max = 100;
+        scope.$digest();
+        expect(scope.value).toEqual(undefined);
+        expect(element.val()).toEqual('$123.45');
+      });
+
+      it('should support a custom fraction value when updating on blur', () => {
+        scope.fraction = 5;
+        scope.$digest();
+        element.val('$123.45678');
+        element.triggerHandler('input');
+        element.triggerHandler('blur');
+        expect(element.val()).toEqual('$123.45678');
       });
     });
 
