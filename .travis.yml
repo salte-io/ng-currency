@@ -5,11 +5,14 @@ node_js:
 cache:
   directories:
   - node_modules
+branches:
+  only:
+    - master
 before_script:
 - npm prune
 script:
 - npm run test
 after_success:
-- if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then npm run semantic-release; fi
+- npm run semantic-release
 notifications:
   email: false
