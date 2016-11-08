@@ -1,11 +1,16 @@
 /* @ngInject */
-export default function ngCurrency($filter, $locale) {
+export default function ngCurrency($filter, $locale, ngCurrencySettings) {
   return {
     require: 'ngModel',
     link: (scope, element, attrs, controller) => {
-      let hardCap, min, max, currencySymbol, ngRequired;
       let active = true;
-      let fraction = 2;
+      let currencySymbol, ngRequired;
+      let {
+        defaultHardCap: hardCap,
+        defaultMin: min,
+        defaultMax: max,
+        defaultFraction: fraction
+      } = ngCurrencySettings;
 
       attrs.$observe('ngCurrency', (value) => {
         active = (value !== 'false');
@@ -187,7 +192,15 @@ export default function ngCurrency($filter, $locale) {
       }
 
       function getCurrencySymbol() {
-        return currencySymbol === undefined ? $locale.NUMBER_FORMATS.CURRENCY_SYM : currencySymbol;
+        if (currencySymbol !== undefined) {
+          return currencySymbol;
+        }
+
+        if (ngCurrencySettings.defaultCurrencySymbol !== undefined) {
+          return ngCurrencySettings.defaultCurrencySymbol;
+        }
+
+        return $locale.NUMBER_FORMATS.CURRENCY_SYM;
       }
     }
   };

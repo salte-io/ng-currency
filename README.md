@@ -115,6 +115,21 @@ angular.module('myApp', ['ng-currency']);
 <input type="text" ng-currency min="0" hard-cap="true" />
 ```
 
+## Configuration
+If you always have the same properties you can define them in the config:
+
+```javascript
+angular
+  .module('my-app', ['ng-currency'])
+  .config(function(ngCurrencySettingsProvider){ 
+	ngCurrencySettingsProvider.setDefaultCurrencySymbol('CHF ');
+	ngCurrencySettingsProvider.setDefaultFraction(0);
+	ngCurrencySettingsProvider.setDefaultHardCap(true);
+	ngCurrencySettingsProvider.setDefaultMin(100);
+	ngCurrencySettingsProvider.setDefaultMax(200);
+  });
+```
+
 ## Authors
 
 **Luis Aguirre**
