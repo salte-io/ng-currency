@@ -44,7 +44,7 @@ Then add a `<script>` to your index.html:
 
 ## Example
 
-[See it in action!](http://plnkr.co/edit/4m6Q0GT9qjwGLUoW4cs8?p=preview)
+[See it in action!](https://jsbin.com/hoputodequ/edit?html,output)
 
 ## Quick start
 
