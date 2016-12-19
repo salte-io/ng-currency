@@ -83,7 +83,14 @@ export default function ngCurrency($filter, $locale) {
       function reformat() {
         if (active) {
           let value;
-          if (controller.$options && controller.$options.updateOn === 'blur') {
+          let updateOn;
+          if (controller.$options) {
+            // HACK(cecilia-sanare): this is to maintain backwards compatability with Angular 1.5.9 and lower.
+            // TODO(cecilia-sanare): This should be removed when ngCurrency does a 2.0.0 release
+            // Reference: https://github.com/angular/angular.js/commit/296cfce40c25e9438bfa46a0eb27240707a10ffa
+            updateOn = controller.$options.getOption ? controller.$options.getOption('updateOn') : controller.$options.updateOn;
+          }
+          if (updateOn === 'blur') {
             value = controller.$viewValue;
             for (let i = controller.$parsers.length - 1; i >= 0; i--) {
               value = controller.$parsers[i](value);
