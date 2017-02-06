@@ -3,7 +3,7 @@ export default function ngCurrency($filter, $locale) {
   return {
     require: 'ngModel',
     link: (scope, element, attrs, controller) => {
-      let hardCap, min, max, currencySymbol, ngRequired;
+      let hardCap, min, max, currencySymbol, ngRequired = ['', 'true'].indexOf(attrs.ngRequired) !== -1;
       let active = true;
       let fraction = 2;
 
@@ -32,7 +32,7 @@ export default function ngCurrency($filter, $locale) {
         currencySymbol = value;
         reformat();
       });
-      attrs.$observe('ngRequired', (value) => {
+      scope.$watch(attrs.ngRequired, (value) => {
         ngRequired = value;
         revalidate();
       });
