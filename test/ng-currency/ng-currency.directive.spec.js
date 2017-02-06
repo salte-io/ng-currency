@@ -7,7 +7,7 @@ import centsToDollars from './templates/cents-to-dollars.html';
 import selectAllOnFocus from './templates/select-all-on-focus.html';
 
 describe('ngCurrency directive tests', () => {
-  let element, scope;
+  let element, controller, scope;
 
   beforeEach(angular.mock.module('rb.select-all-on-focus'));
   beforeEach(angular.mock.module(ngCurrency, ($compileProvider) => {
@@ -32,10 +32,12 @@ describe('ngCurrency directive tests', () => {
   describe('Core Functionality', () => {
     beforeEach(angular.mock.inject(($rootScope, $compile, $timeout) => {
       scope = $rootScope.$new();
+      sinon.spy(scope, '$on');
       scope.value = 0;
       scope.$digest();
       element = $compile(defaults)(scope);
       element = element.find('input');
+      controller = element.controller('ngModel');
       $timeout.flush();
     }));
 
@@ -271,6 +273,18 @@ describe('ngCurrency directive tests', () => {
         expect(scope.form.$dirty).toBeTruthy();
       });
     });
+
+    describe('$broadcast(currencyRedraw)', () => {
+      it('should listen for the `currencyRedraw` event', () => {
+        sinon.spy(controller, '$validate');
+
+        expect(scope.$on.calledWith('currencyRedraw', sinon.match.func)).toEqual(true);
+
+        scope.$broadcast('currencyRedraw');
+
+        expect(controller.$validate.callCount).toEqual(1);
+      })
+    });
   });
 
   // Functionality that is specific to the default values
@@ -330,6 +344,7 @@ describe('ngCurrency directive tests', () => {
       scope.active = true;
       scope.modelOptions = {};
       scope.currencySymbol = '$';
+      scope.required = true;
       scope.$digest();
       element = $compile(variables)(scope);
       element = element.find('input');
@@ -400,6 +415,7 @@ describe('ngCurrency directive tests', () => {
         scope.value = 0;
         scope.active = true;
         scope.currencySymbol = '$';
+        scope.required = true;
         scope.$digest();
         element = $compile(variablesUpdateOnBlur)(scope);
         element = element.find('input');
@@ -491,6 +507,7 @@ describe('ngCurrency directive tests', () => {
         });
 
         it('should support invalid ngModel values', () => {
+          scope.required = false;
           scope.value = '';
           scope.max = -0.01;
           scope.$digest();
@@ -620,6 +637,7 @@ describe('ngCurrency directive tests', () => {
         });
 
         it('should support invalid ngModel values', () => {
+          scope.required = false;
           scope.value = '';
           scope.min = 0.01;
           scope.$digest();
