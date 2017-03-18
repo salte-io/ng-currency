@@ -9,6 +9,7 @@ describe('ngCurrency directive tests', () => {
   let element, controller, scope;
 
   beforeEach(angular.mock.module('rb.select-all-on-focus'));
+  beforeEach(angular.mock.inject.strictDi(true));
   beforeEach(angular.mock.module(ngCurrency, ($compileProvider) => {
     $compileProvider.directive('centsToDollars', () => {
       return {
