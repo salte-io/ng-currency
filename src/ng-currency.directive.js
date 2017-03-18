@@ -1,4 +1,3 @@
-/* @ngInject */
 export default function ngCurrency($filter, $locale) {
   return {
     require: 'ngModel',
@@ -206,3 +205,4 @@ export default function ngCurrency($filter, $locale) {
     }
   };
 }
+ngCurrency.$inject = ['$filter', '$locale'];
