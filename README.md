@@ -44,7 +44,7 @@ Then add a `<script>` to your index.html:
 
 ## Example
 
-[See it in action!](https://jsbin.com/hoputodequ/edit?html,output)
+[See it in action!](https://jsbin.com/pajuhaf/edit?html,output)
 
 ## Quick start
 
