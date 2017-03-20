@@ -1,9 +1,9 @@
-export default function ngCurrency($filter, $locale, ngCurrencySettings) {
+export default function ngCurrency($filter, $locale, $timeout, ngCurrencySettings) {
   return {
     require: 'ngModel',
     link: (scope, element, attrs, controller) => {
       let { hardCap, min, max, currencySymbol, fraction } = ngCurrencySettings.defaults;
-      let ngRequired = ['', 'true'].indexOf(attrs.ngRequired) !== -1;
+      let ngRequired = attrs.required;
       let active = true;
 
       attrs.$observe('ngCurrency', (value) => {
@@ -31,7 +31,7 @@ export default function ngCurrency($filter, $locale, ngCurrencySettings) {
         currencySymbol = value;
         reformat();
       });
-      scope.$watch(attrs.ngRequired, (value) => {
+      attrs.$observe('required', (value) => {
         ngRequired = value;
         revalidate();
       });
@@ -39,6 +39,11 @@ export default function ngCurrency($filter, $locale, ngCurrencySettings) {
         fraction = value || 2;
         reformat();
         revalidate();
+      });
+
+      // HACK(nick-woodward): Seriously angular?
+      $timeout(() => {
+        scope.$emit('currencyRedraw');
       });
 
       controller.$parsers.push((value) => {
@@ -204,4 +209,4 @@ export default function ngCurrency($filter, $locale, ngCurrencySettings) {
     }
   };
 }
-ngCurrency.$inject = ['$filter', '$locale', 'ngCurrencySettings'];
+ngCurrency.$inject = ['$filter', '$locale', '$timeout', 'ngCurrencySettings'];
