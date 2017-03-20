@@ -5,22 +5,22 @@ env:
   worker: true
 globals:
   angular: true
+parserOptions:
+  sourceType: module
 rules:
-  # Rules we want to add
-  quotes:
-    - 2
-    - single
-  no-var: 2
-  prefer-const: 2
-  # Rules we want to ignore
+  comma-dangle:
+    - error
+    - never
   max-nested-callbacks: 0
   no-warning-comments: 0
   require-jsdoc: 0
-  camelcase: 0
   max-len: 0
   object-curly-spacing: 0
   one-var: 0
   arrow-parens: 0
-  no-unused-vars:
-    - error
-    - varsIgnorePattern: dummy
+  new-cap: 0
+  camelcase: 0
+  no-var: 2
+  prefer-const: 2
+  no-confusing-arrow: 2
+  prefer-arrow-callback: 2

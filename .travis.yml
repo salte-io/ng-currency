@@ -1,18 +1,18 @@
 sudo: false
 language: node_js
-node_js:
-- node
+node_js: node
 cache:
   directories:
-  - node_modules
+    - node_modules
 branches:
   only:
     - master
+    - /^greenkeeper/.*$/
 before_script:
-- npm prune
+  - npm prune
 script:
-- npm run test
+  - npm run test
 after_success:
-- npm run semantic-release
+  - npm run semantic-release
 notifications:
   email: false

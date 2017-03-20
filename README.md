@@ -1,8 +1,10 @@
 # ng-currency
+
 [![NPM Version][npm-version-image]][npm-url]
 [![NPM Downloads][npm-downloads-image]][npm-url]
 [![Travis][travis-ci-image]][travis-ci-url]
 
+[![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
 [![semantic-release][semantic-release-image]][semantic-release-url]
 [![Commitizen friendly][commitizen-image]][commitizen-url]
 
@@ -157,6 +159,9 @@ angular.module('myApp', ['ng-currency']);
 
 [travis-ci-image]: https://img.shields.io/travis/aguirrel/ng-currency.svg?style=flat
 [travis-ci-url]: https://travis-ci.org/aguirrel/ng-currency
+
+[greenkeeper-image]: https://badges.greenkeeper.io/aguirrel/ng-currency.svg
+[greenkeeper-url]: https://greenkeeper.io/
 
 [commitizen-image]: https://img.shields.io/badge/commitizen-friendly-brightgreen.svg
 [commitizen-url]: http://commitizen.github.io/cz-cli/
