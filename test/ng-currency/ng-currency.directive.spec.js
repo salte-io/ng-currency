@@ -738,6 +738,21 @@ describe('ngCurrency directive tests', () => {
       });
     });
 
+    describe('Required', () => {
+      beforeEach(angular.mock.inject(($rootScope, $compile, $timeout) => {
+        scope = $rootScope.$new();
+        scope.value = undefined;
+        scope.$digest();
+        element = $compile(`<input ng-currency min="1" ng-model="value" required>`)(scope);
+        $timeout.flush();
+      }));
+
+      it('should support the required attribute', () => {
+        expect(element.hasClass('ng-invalid')).toBeTruthy();
+        expect(element.hasClass('ng-invalid-min')).toBeTruthy();
+      });
+    });
+
     describe('$pristine', () => {
       it('should be pristine when initialized with a custom currencySymbol', () => {
         scope.currencySymbol = '¥';
