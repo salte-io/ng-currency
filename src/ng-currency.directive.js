@@ -2,7 +2,7 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
   return {
     require: 'ngModel',
     link: (scope, element, attrs, controller) => {
-      let { hardCap, min, max, currencySymbol, fraction } = ngCurrencySettings.defaults;
+      let { hardCap, min, max, currencySymbol, fraction, autoFill, highlightOnFocus } = ngCurrencySettings.defaults;
       let ngRequired = attrs.required;
       let active = true;
 
@@ -39,6 +39,14 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
         fraction = value || 2;
         reformat();
         revalidate();
+      });
+      attrs.$observe('autoFill', (value) => {
+        autoFill = value == 'true'; // convert string -> boolean
+        reformat();
+      });
+      attrs.$observe('highlightOnFocus', (value) => {
+        highlightOnFocus = value == 'true'; // convert string -> boolean
+        reformat();
       });
 
       // HACK(nick-woodward): Seriously angular?
@@ -146,12 +154,19 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
 
       element.bind('focus', () => {
         if (active) {
+          if (autoFill && [undefined, null, ''].indexOf(controller.$$rawModelValue) !== -1) {
+            controller.$$rawModelValue = '0';
+          }
+
           const groupRegex = new RegExp(`\\${$locale.NUMBER_FORMATS.GROUP_SEP}`, 'g');
           const value = [undefined, null, ''].indexOf(controller.$$rawModelValue) === -1 ? $filter('number')(controller.$$rawModelValue, fraction).replace(groupRegex, '') : controller.$$rawModelValue;
           if (controller.$viewValue !== value) {
             controller.$viewValue = value;
             controller.$render();
             element.triggerHandler('focus');
+          }
+          if (highlightOnFocus) {
+            element.select();
           }
         }
       });

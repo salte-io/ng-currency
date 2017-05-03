@@ -18,7 +18,9 @@ describe('provider(ngCurrencySettings)', () => {
         hardCap: false,
         min: undefined,
         max: undefined,
-        currencySymbol: undefined
+        currencySymbol: undefined,
+        autoFill: false,
+        highlightOnFocus: false
       });
     });
   });
@@ -30,7 +32,9 @@ describe('provider(ngCurrencySettings)', () => {
         hardCap: false,
         min: undefined,
         max: undefined,
-        currencySymbol: undefined
+        currencySymbol: undefined,
+        autoFill: false,
+        highlightOnFocus: false
       });
 
       ngCurrencySettingsProvider.defaults = true;
@@ -55,7 +59,9 @@ describe('provider(ngCurrencySettings)', () => {
           hardCap: false,
           min: undefined,
           max: undefined,
-          currencySymbol: undefined
+          currencySymbol: undefined,
+          autoFill: false,
+          highlightOnFocus: false
         });
       });
 
