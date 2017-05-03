@@ -7,7 +7,7 @@ export default class ngCurrencySettings {
         max: undefined,
         currencySymbol: undefined,
         autoFill: false,
-        highlightOnFocus: false
+        highlightOnFocus: true
       };
     }
 
