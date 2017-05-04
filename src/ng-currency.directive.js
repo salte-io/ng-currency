@@ -165,8 +165,9 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
             controller.$render();
             element.triggerHandler('focus');
           }
+
           if (highlightOnFocus) {
-            element.select();
+            element[0].select(); // use HTMLInputElement to highlight text
           }
         }
       });
