@@ -43,6 +43,7 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
       attrs.$observe('autoFill', (value) => {
         autoFill = value == 'true'; // convert string -> boolean
         reformat();
+        revalidate();
       });
       attrs.$observe('highlightOnFocus', (value) => {
         highlightOnFocus = value == 'true'; // convert string -> boolean
@@ -127,6 +128,10 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
       function revalidate() {
         controller.$validate();
         if (active) {
+          if (autoFill && [undefined, null, ''].indexOf(controller.$$rawModelValue) !== -1) {
+            controller.$$rawModelValue = '0';
+          }
+
           const value = keepInRange(controller.$$rawModelValue);
           if (value !== controller.$$rawModelValue) {
             controller.$setViewValue(value.toFixed(fraction));
@@ -154,10 +159,6 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
 
       element.bind('focus', () => {
         if (active) {
-          if (autoFill && [undefined, null, ''].indexOf(controller.$$rawModelValue) !== -1) {
-            controller.$$rawModelValue = '0';
-          }
-
           const groupRegex = new RegExp(`\\${$locale.NUMBER_FORMATS.GROUP_SEP}`, 'g');
           const value = [undefined, null, ''].indexOf(controller.$$rawModelValue) === -1 ? $filter('number')(controller.$$rawModelValue, fraction).replace(groupRegex, '') : controller.$$rawModelValue;
           if (controller.$viewValue !== value) {
