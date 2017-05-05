@@ -767,6 +767,15 @@ describe('ngCurrency directive tests', () => {
       });
     });
 
+    describe('HighlightOnFocus', () => {
+      it('should highlight the entire field when focused', () => {
+        // TODO(travis ralston): Focus element to make this test pass
+        expect(element.val()).toEqual('0.00');
+        expect(element[0].selectionStart).toEqual(0);
+        expect(element[0].selectionStart).toEqual(4);
+      });
+    });
+
     describe('$pristine', () => {
       it('should be pristine when initialized with a custom currencySymbol', () => {
         scope.currencySymbol = '¥';
