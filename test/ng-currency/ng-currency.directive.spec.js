@@ -753,6 +753,20 @@ describe('ngCurrency directive tests', () => {
       });
     });
 
+    describe('AutoFill', () => {
+      it('should populate the field with zero', () => {
+        scope.autoFill = true;
+        scope.$digest();
+        expect(element.val()).toEqual('$0.00');
+      });
+      it('should not override a predefined value', () => {
+        scope.autoFill = true;
+        scope.value = 22;
+        scope.$digest();
+        expect(element.val()).toEqual('$22.00');
+      });
+    });
+
     describe('$pristine', () => {
       it('should be pristine when initialized with a custom currencySymbol', () => {
         scope.currencySymbol = '¥';
