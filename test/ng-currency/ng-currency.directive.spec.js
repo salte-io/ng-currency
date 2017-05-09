@@ -756,6 +756,14 @@ describe('ngCurrency directive tests', () => {
     });
 
     describe('AutoFill', () => {
+      beforeEach(angular.mock.inject(($rootScope, $compile, $timeout) => {
+        scope = $rootScope.$new();
+        scope.value = undefined; // force undefined value
+        scope.autoFill = false;
+        scope.$digest();
+        element = $compile(`<input class="currency-input" ng-currency ng-model="value" auto-fill="{{autoFill}}"">`)(scope);
+        $timeout.flush();
+      }));
       it('should populate the field with zero', () => {
         scope.autoFill = true;
         scope.$digest();
@@ -767,20 +775,15 @@ describe('ngCurrency directive tests', () => {
         scope.$digest();
         expect(element.val()).toEqual('$22.00');
       });
-
-      describe('AutoFill (disabled)', () => {
-        // We need to specify this so we can actually test what happens with autofill, as the default
-        // setup will cause the field to autofill before we can disable it.
-        beforeEach(angular.mock.inject(($rootScope, $compile, $timeout) => {
-          scope.autoFill = false;
-          scope.value = undefined; // force undefined value
-          scope.$digest();
-          element = $compile(`<input class="currency-input" ng-currency ng-model="value" auto-fill="{{autoFill}}">`)(scope);
-          $timeout.flush();
-        }));
-        it('should not autofill when not asked to', () => {
-          expect(element.val()).toEqual('');
-        });
+      it('should only autofill on focus if set', () => {
+        scope.autoFill = 'focus';
+        scope.$digest();
+        expect(element.val()).toEqual('');
+        element.triggerHandler('focus');
+        expect(element.val()).toEqual('0.00');
+      });
+      it('should not autofill when not asked to', () => {
+        expect(element.val()).toEqual('');
       });
     });
 
