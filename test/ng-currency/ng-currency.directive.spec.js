@@ -768,22 +768,27 @@ describe('ngCurrency directive tests', () => {
         scope.autoFill = true;
         scope.$digest();
         expect(element.val()).toEqual('$0.00');
+        expect(scope.value).toEqual(0);
       });
       it('should not override a predefined value', () => {
         scope.autoFill = true;
         scope.value = 22;
         scope.$digest();
         expect(element.val()).toEqual('$22.00');
+        expect(scope.value).toEqual(22);
       });
       it('should only autofill on focus if set', () => {
         scope.autoFill = 'focus';
         scope.$digest();
         expect(element.val()).toEqual('');
+        expect(scope.value).toBeFalsy(); // undefined, null, empty string
         element.triggerHandler('focus');
         expect(element.val()).toEqual('0.00');
+        expect(scope.value).toEqual(0);
       });
       it('should not autofill when not asked to', () => {
         expect(element.val()).toEqual('');
+        expect(scope.value).toBeFalsy(); // undefined, null, empty string
       });
     });
 
