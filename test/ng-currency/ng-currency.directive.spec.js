@@ -345,6 +345,8 @@ describe('ngCurrency directive tests', () => {
       scope.modelOptions = {};
       scope.currencySymbol = '$';
       scope.required = true;
+      scope.autoFill = false;
+      scope.highlightOnFocus = true;
       scope.$digest();
       element = $compile(variables)(scope);
       element = element.find('input');
@@ -765,16 +767,38 @@ describe('ngCurrency directive tests', () => {
         scope.$digest();
         expect(element.val()).toEqual('$22.00');
       });
-    });
 
-    describe('HighlightOnFocus', () => {
-      it('should highlight the entire field when focused', () => {
-        // TODO(travis ralston): Focus element to make this test pass
-        expect(element.val()).toEqual('0.00');
-        expect(element[0].selectionStart).toEqual(0);
-        expect(element[0].selectionStart).toEqual(4);
+      describe('AutoFill (disabled)', () => {
+        // We need to specify this so we can actually test what happens with autofill, as the default
+        // setup will cause the field to autofill before we can disable it.
+        beforeEach(angular.mock.inject(($rootScope, $compile, $timeout) => {
+          scope.autoFill = false;
+          scope.value = undefined; // force undefined value
+          scope.$digest();
+          element = $compile(`<input class="currency-input" ng-currency ng-model="value" auto-fill="{{autoFill}}">`)(scope);
+          $timeout.flush();
+        }));
+        it('should not autofill when not asked to', () => {
+          expect(element.val()).toEqual('');
+        });
       });
     });
+
+    // Tests disabled because of https://github.com/ariya/phantomjs/issues/12493
+    // describe('HighlightOnFocus', () => {
+    //   it('should highlight the entire field when focused', () => {
+    //     element.triggerHandler('focus');
+    //     expect(element[0].selectionStart).toEqual(0);
+    //     expect(element[0].selectionEnd).toEqual(5);
+    //   });
+    //   it('should not highlight when the option is disabled', () => {
+    //     scope.highlightOnFocus = false;
+    //     scope.$digest();
+    //     element.triggerHandler('focus');
+    //     expect(element[0].selectionStart).toEqual(5);
+    //     expect(element[0].selectionEnd).toEqual(5);
+    //   });
+    // });
 
     describe('$pristine', () => {
       it('should be pristine when initialized with a custom currencySymbol', () => {

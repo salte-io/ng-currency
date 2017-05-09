@@ -42,7 +42,6 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
       });
       attrs.$observe('autoFill', (value) => {
         autoFill = value == 'true'; // convert string -> boolean
-        reformat();
         revalidate();
       });
       attrs.$observe('highlightOnFocus', (value) => {
