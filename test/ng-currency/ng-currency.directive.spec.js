@@ -760,8 +760,10 @@ describe('ngCurrency directive tests', () => {
         scope = $rootScope.$new();
         scope.value = undefined; // force undefined value
         scope.autoFill = false;
+        scope.min = undefined;
+        scope.max = undefined;
         scope.$digest();
-        element = $compile(`<input class="currency-input" ng-currency ng-model="value" auto-fill="{{autoFill}}"">`)(scope);
+        element = $compile(`<input class="currency-input" ng-currency ng-model="value" auto-fill="{{autoFill}}" min="{{min}}" max="{{max}}"">`)(scope);
         $timeout.flush();
       }));
       it('should populate the field with zero', () => {
@@ -776,6 +778,20 @@ describe('ngCurrency directive tests', () => {
         scope.$digest();
         expect(element.val()).toEqual('$22.00');
         expect(scope.value).toEqual(22);
+      });
+      it('should not override a minimum higher than zero', () => {
+        scope.autoFill = true;
+        scope.min = 10;
+        scope.$digest();
+        expect(element.val()).toEqual('$10.00');
+        expect(scope.value).toEqual(10);
+      });
+      it('should not override a maximum lower than zero', () => {
+        scope.autoFill = true;
+        scope.max = -10;
+        scope.$digest();
+        expect(element.val()).toEqual('-$10.00');
+        expect(scope.value).toEqual(-10);
       });
       it('should only autofill on focus if set', () => {
         scope.autoFill = 'focus';
