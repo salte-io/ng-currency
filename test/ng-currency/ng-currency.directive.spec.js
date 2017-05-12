@@ -804,6 +804,9 @@ describe('ngCurrency directive tests', () => {
         element.triggerHandler('focus');
         expect(element.val()).toEqual('0.00');
         expect(scope.value).toBeFalsy(); // value not committed, should be falsey still
+        element.triggerHandler('blur');
+        expect(element.val()).toEqual('$0.00');
+        expect(scope.value).toEqual(0);
       });
       it('should not autofill when not asked to', () => {
         expect(element.val()).toEqual('');
