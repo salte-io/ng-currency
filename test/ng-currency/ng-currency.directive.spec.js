@@ -762,8 +762,9 @@ describe('ngCurrency directive tests', () => {
         scope.autoFill = false;
         scope.min = undefined;
         scope.max = undefined;
+        scope.hardCap = true;
         scope.$digest();
-        element = $compile(`<input class="currency-input" ng-currency ng-model="value" auto-fill="{{autoFill}}" min="{{min}}" max="{{max}}"">`)(scope);
+        element = $compile(`<input class="currency-input" ng-currency ng-model="value" auto-fill="{{autoFill}}" min="{{min}}" max="{{max}}" hard-cap="{{hardCap}}">`)(scope);
         $timeout.flush();
       }));
       it('should populate the field with zero', () => {
@@ -782,6 +783,7 @@ describe('ngCurrency directive tests', () => {
       it('should not override a minimum higher than zero', () => {
         scope.autoFill = true;
         scope.min = 10;
+        scope.hardCap = true;
         scope.$digest();
         expect(element.val()).toEqual('$10.00');
         expect(scope.value).toEqual(10);
@@ -789,6 +791,7 @@ describe('ngCurrency directive tests', () => {
       it('should not override a maximum lower than zero', () => {
         scope.autoFill = true;
         scope.max = -10;
+        scope.hardCap = true;
         scope.$digest();
         expect(element.val()).toEqual('-$10.00');
         expect(scope.value).toEqual(-10);

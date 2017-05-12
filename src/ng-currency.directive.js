@@ -161,7 +161,7 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
           const groupRegex = new RegExp(`\\${$locale.NUMBER_FORMATS.GROUP_SEP}`, 'g');
 
           let rawValue = controller.$$rawModelValue;
-          let isRawValueDefined = [undefined, null, ''].indexOf(rawValue) !== -1;
+          let isRawValueDefined = [undefined, null, ''].indexOf(rawValue) === -1;
           if (autoFill === 'focus' && !isRawValueDefined) {
             rawValue = 0;
             isRawValueDefined = true;
