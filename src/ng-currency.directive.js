@@ -162,15 +162,18 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
 
           let rawValue = controller.$$rawModelValue;
           let isRawValueDefined = [undefined, null, ''].indexOf(rawValue) === -1;
+          let doCommit = false;
           if (autoFill === 'focus' && !isRawValueDefined) {
             rawValue = 0;
             isRawValueDefined = true;
+            doCommit = true; // by not committing, we end up with blur not working for autofill.
           }
           const value = isRawValueDefined ? $filter('number')(rawValue, fraction).replace(groupRegex, '') : rawValue;
 
           if (controller.$viewValue !== value) {
             controller.$viewValue = value;
             controller.$render();
+            if (doCommit) controller.$commitViewValue(); // only commit value if we actually need to
             element.triggerHandler('focus');
           }
 
