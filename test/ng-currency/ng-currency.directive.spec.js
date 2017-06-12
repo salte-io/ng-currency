@@ -180,12 +180,10 @@ describe('ngCurrency directive tests', () => {
           expect(element.val()).toEqual('$123.45');
         });
 
-        it('should update the model correctly', () => {
-          element.val('$123.45');
-          element.triggerHandler('input');
-          element.triggerHandler('blur');
-          expect(scope.value).toEqual(12345);
-          expect(element.val()).toEqual('$123.45');
+        it('should update view value on focus correctly', () => {
+          expect(element.val()).toEqual('$1.00');
+          element.triggerHandler('focus');
+          expect(element.val()).toEqual('1.00');
         });
       });
 

@@ -146,8 +146,8 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
 
       element.bind('focus', () => {
         if (active) {
-          const groupRegex = new RegExp(`\\${$locale.NUMBER_FORMATS.GROUP_SEP}`, 'g');
-          const value = [undefined, null, ''].indexOf(controller.$$rawModelValue) === -1 ? $filter('number')(controller.$$rawModelValue, fraction).replace(groupRegex, '') : controller.$$rawModelValue;
+          const value = clearValue(controller.$viewValue, false);
+
           if (controller.$viewValue !== value) {
             controller.$viewValue = value;
             controller.$render();
@@ -168,7 +168,7 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
         return RegExp('\\-{0,1}((\\' + dChar + ')|([0-9]{1,}\\' + dChar + '?))&?[0-9]{0,' + fraction + '}', 'g');
       }
 
-      function clearValue(value) {
+      function clearValue(value, replaceSeparator = true) {
         value = String(value);
         let dSeparator = $locale.NUMBER_FORMATS.DECIMAL_SEP;
         let cleared = null;
@@ -196,11 +196,13 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
 
         if (decimalRex(dSeparator).test(value)) {
           cleared = value.match(decimalRex(dSeparator))
-            .join('').match(clearRex(dSeparator));
-          cleared = cleared ? cleared[0].replace(dSeparator, '.') : null;
+            .join('').match(clearRex(dSeparator)) || [''];
+
+          cleared = cleared[0];
+          cleared = replaceSeparator ? cleared.replace(dSeparator, '.') : cleared;
         }
 
-        return cleared;
+        return cleared || null;
       }
 
       function getCurrencySymbol() {
