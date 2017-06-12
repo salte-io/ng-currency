@@ -19,6 +19,7 @@
     "filter"
   ],
   "scripts": {
+    "start": "webpack-dev-server --config webpack.server.config.js",
     "tdd": "karma start",
     "test": "karma start --single-run",
     "build:dev": "webpack -d",
@@ -54,7 +55,8 @@
     "publish-latest": "^1.1.2",
     "semantic-release": "^6.0.0",
     "sinon": "^2.0.0",
-    "webpack": "^2.0.0"
+    "webpack": "^2.0.0",
+    "webpack-dev-server": "^2.4.5"
   },
   "config": {
     "commitizen": {
