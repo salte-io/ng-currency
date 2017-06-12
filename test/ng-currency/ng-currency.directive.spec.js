@@ -330,6 +330,8 @@ describe('ngCurrency directive tests', () => {
       scope.modelOptions = {};
       scope.currencySymbol = '$';
       scope.required = true;
+      scope.autoFill = false;
+      scope.highlightOnFocus = true;
       scope.$digest();
       element = $compile(variables)(scope);
       element = element.find('input');
@@ -737,6 +739,81 @@ describe('ngCurrency directive tests', () => {
         expect(element.hasClass('ng-invalid-min')).toBeTruthy();
       });
     });
+
+    describe('AutoFill', () => {
+      beforeEach(angular.mock.inject(($rootScope, $compile, $timeout) => {
+        scope = $rootScope.$new();
+        scope.value = undefined; // force undefined value
+        scope.autoFill = false;
+        scope.min = undefined;
+        scope.max = undefined;
+        scope.hardCap = true;
+        scope.$digest();
+        element = $compile(`<input class="currency-input" ng-currency ng-model="value" auto-fill="{{autoFill}}" min="{{min}}" max="{{max}}" hard-cap="{{hardCap}}">`)(scope);
+        $timeout.flush();
+      }));
+      it('should populate the field with zero', () => {
+        scope.autoFill = true;
+        scope.$digest();
+        expect(element.val()).toEqual('$0.00');
+        expect(scope.value).toEqual(0);
+      });
+      it('should not override a predefined value', () => {
+        scope.autoFill = true;
+        scope.value = 22;
+        scope.$digest();
+        expect(element.val()).toEqual('$22.00');
+        expect(scope.value).toEqual(22);
+      });
+      it('should not override a minimum higher than zero', () => {
+        scope.autoFill = true;
+        scope.min = 10;
+        scope.hardCap = true;
+        scope.$digest();
+        expect(element.val()).toEqual('$10.00');
+        expect(scope.value).toEqual(10);
+      });
+      it('should not override a maximum lower than zero', () => {
+        scope.autoFill = true;
+        scope.max = -10;
+        scope.hardCap = true;
+        scope.$digest();
+        expect(element.val()).toEqual('-$10.00');
+        expect(scope.value).toEqual(-10);
+      });
+      it('should only autofill on focus if set', () => {
+        scope.autoFill = 'focus';
+        scope.$digest();
+        expect(element.val()).toEqual('');
+        expect(scope.value).toBeFalsy(); // undefined, null, empty string
+        element.triggerHandler('focus');
+        expect(element.val()).toEqual('0.00');
+        expect(scope.value).toBeFalsy(); // value not committed, should be falsey still
+        element.triggerHandler('blur');
+        expect(element.val()).toEqual('$0.00');
+        expect(scope.value).toEqual(0);
+      });
+      it('should not autofill when not asked to', () => {
+        expect(element.val()).toEqual('');
+        expect(scope.value).toBeFalsy(); // undefined, null, empty string
+      });
+    });
+
+    // Tests disabled because of https://github.com/ariya/phantomjs/issues/12493
+    // describe('HighlightOnFocus', () => {
+    //   it('should highlight the entire field when focused', () => {
+    //     element.triggerHandler('focus');
+    //     expect(element[0].selectionStart).toEqual(0);
+    //     expect(element[0].selectionEnd).toEqual(5);
+    //   });
+    //   it('should not highlight when the option is disabled', () => {
+    //     scope.highlightOnFocus = false;
+    //     scope.$digest();
+    //     element.triggerHandler('focus');
+    //     expect(element[0].selectionStart).toEqual(5);
+    //     expect(element[0].selectionEnd).toEqual(5);
+    //   });
+    // });
 
     describe('$pristine', () => {
       it('should be pristine when initialized with a custom currencySymbol', () => {

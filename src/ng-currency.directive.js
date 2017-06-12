@@ -2,7 +2,7 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
   return {
     require: 'ngModel',
     link: (scope, element, attrs, controller) => {
-      let { hardCap, min, max, currencySymbol, fraction } = ngCurrencySettings.defaults;
+      let { hardCap, min, max, currencySymbol, fraction, autoFill, highlightOnFocus } = ngCurrencySettings.defaults;
       let ngRequired = attrs.required;
       let active = true;
 
@@ -39,6 +39,14 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
         fraction = value || 2;
         reformat();
         revalidate();
+      });
+      attrs.$observe('autoFill', (value) => {
+        autoFill = value === 'focus' ? 'focus' : (value == 'true'); // convert string -> boolean
+        revalidate();
+      });
+      attrs.$observe('highlightOnFocus', (value) => {
+        highlightOnFocus = value == 'true'; // convert string -> boolean
+        reformat();
       });
 
       // HACK(nick-woodward): Seriously angular?
@@ -129,6 +137,10 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
       }
 
       function keepInRange(value) {
+        if (autoFill === true && [undefined, null, ''].indexOf(controller.$$rawModelValue) !== -1) {
+          value = 0;
+        }
+
         if (hardCap) {
           if (max !== undefined && value > max) {
             value = max;
@@ -147,11 +159,26 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
       element.bind('focus', () => {
         if (active) {
           const groupRegex = new RegExp(`\\${$locale.NUMBER_FORMATS.GROUP_SEP}`, 'g');
-          const value = [undefined, null, ''].indexOf(controller.$$rawModelValue) === -1 ? $filter('number')(controller.$$rawModelValue, fraction).replace(groupRegex, '') : controller.$$rawModelValue;
+
+          let rawValue = controller.$$rawModelValue;
+          let isRawValueDefined = [undefined, null, ''].indexOf(rawValue) === -1;
+          let doCommit = false;
+          if (autoFill === 'focus' && !isRawValueDefined) {
+            rawValue = 0;
+            isRawValueDefined = true;
+            doCommit = true; // by not committing, we end up with blur not working for autofill.
+          }
+          const value = isRawValueDefined ? $filter('number')(rawValue, fraction).replace(groupRegex, '') : rawValue;
+
           if (controller.$viewValue !== value) {
             controller.$viewValue = value;
             controller.$render();
+            if (doCommit) controller.$commitViewValue(); // only commit value if we actually need to
             element.triggerHandler('focus');
+          }
+
+          if (highlightOnFocus) {
+            element[0].select(); // use HTMLInputElement to highlight text
           }
         }
       });
