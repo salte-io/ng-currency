@@ -2,10 +2,12 @@ const path = require('path');
 
 module.exports = {
   context: path.join(__dirname, 'src'),
-  entry: './ng-currency.module.js',
+  entry: {
+    'ng-currency': './ng-currency.module.js'
+  },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'ng-currency.js',
+    filename: '[name].js',
     sourceMapFilename: '[file].map',
     library: 'ng-currency',
     libraryTarget: 'umd',
