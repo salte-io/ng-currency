@@ -54,7 +54,7 @@
     "phantomjs-prebuilt": "^2.1.8",
     "publish-latest": "^1.1.2",
     "semantic-release": "^6.0.0",
-    "sinon": "^2.0.0",
+    "sinon": "^3.0.0",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.4.5"
   },
