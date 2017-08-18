@@ -131,17 +131,33 @@ describe('ngCurrency directive tests', () => {
         expect(element.val()).toEqual('($0.50)');
       });
 
-      it('should support locales with "," as the decimal separator and "." as the group separator', () => {
-        $locale.NUMBER_FORMATS.DECIMAL_SEP = ',';
-        $locale.NUMBER_FORMATS.GROUP_SEP = '.';
-        element.val('$1.000,50');
-        element.triggerHandler('input');
-        element.triggerHandler('blur');
-        expect(scope.value).toEqual(1000.5);
-        expect(element.val()).toEqual('$1.000,50');
-        element.triggerHandler('focus');
-        expect(scope.value).toEqual(1000.5);
-        expect(element.val()).toEqual('1000,50');
+      describe('Decimal: "," : Group: "."', () => {
+        beforeEach(() => {
+          $locale.NUMBER_FORMATS.DECIMAL_SEP = ',';
+          $locale.NUMBER_FORMATS.GROUP_SEP = '.';
+        });
+
+        it('should support usage with the decimal separator', () => {
+          element.val('$1.000,50');
+          element.triggerHandler('input');
+          element.triggerHandler('blur');
+          expect(scope.value).toEqual(1000.5);
+          expect(element.val()).toEqual('$1.000,50');
+          element.triggerHandler('focus');
+          expect(scope.value).toEqual(1000.5);
+          expect(element.val()).toEqual('1000,50');
+        });
+
+        it('should support usage without the decimal separator', () => {
+          element.val('$100.000');
+          element.triggerHandler('input');
+          element.triggerHandler('blur');
+          expect(scope.value).toEqual(100000);
+          expect(element.val()).toEqual('$100.000,00');
+          element.triggerHandler('focus');
+          expect(scope.value).toEqual(100000);
+          expect(element.val()).toEqual('100000,00');
+        });
       });
     });
 
