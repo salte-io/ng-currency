@@ -20,12 +20,15 @@
   ],
   "scripts": {
     "start": "webpack-dev-server --config webpack.server.config.js",
-    "tdd": "karma start",
+    "lint": "eslint src/**/*.js tests/**/*.js",
     "test": "karma start --single-run",
+    "test:sauce": "karma start karma.ci.conf.js",
+    "tdd": "karma start",
+    "build": "yarn run build:dev && yarn run build:prod",
     "build:dev": "webpack -d",
     "build:prod": "webpack -p",
     "publish-latest": "publish-latest --user-email aguirrel@xuar.com.ar --user-name aguirrel",
-    "semantic-release": "semantic-release pre && npm run build:prod && npm publish && npm run publish-latest && semantic-release post"
+    "semantic-release": "semantic-release pre && yarn run build && yarn publish && yarn run publish-latest && semantic-release post"
   },
   "license": "MIT",
   "devDependencies": {
@@ -43,12 +46,15 @@
     "isparta-loader": "^2.0.0",
     "jasmine-core": "^2.4.1",
     "karma": "^1.1.2",
+    "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.1",
+    "karma-firefox-launcher": "^1.0.1",
     "karma-jasmine": "^1.0.2",
     "karma-mocha-reporter": "^2.0.4",
     "karma-phantomjs-launcher": "^1.0.1",
     "karma-sinon": "^1.0.5",
     "karma-sourcemap-loader": "^0.3.7",
+    "karma-spec-reporter": "^0.0.31",
     "karma-webpack": "^2.0.0",
     "ng-select-all-on-focus": "^1.0.3",
     "phantomjs-prebuilt": "^2.1.8",
