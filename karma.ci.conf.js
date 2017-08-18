@@ -1,7 +1,7 @@
 const webpackConfig = require('./webpack.test.config.js');
 
 module.exports = function(config) {
-  config.set({
+  const karmaConfig = {
     basePath: '',
 
     frameworks: [
@@ -23,15 +23,7 @@ module.exports = function(config) {
       noInfo: true
     },
 
-    reporters: ['mocha', 'coverage'],
-
-    coverageReporter: {
-      dir: 'coverage',
-      reporters: [
-        { type: 'text' },
-        { type: 'lcovonly', subdir: '.', file: 'lcov.info' }
-      ]
-    },
+    reporters: ['spec'],
 
     port: 9876,
 
@@ -39,12 +31,16 @@ module.exports = function(config) {
 
     logLevel: config.LOG_INFO,
 
-    autoWatch: true,
+    browsers: [
+      'Chrome',
+      'Firefox'
+    ],
 
-    browsers: ['PhantomJS'],
-
+    captureTimeout: 0,
     browserNoActivityTimeout: 120000,
 
-    singleRun: false
-  });
+    singleRun: true
+  };
+
+  config.set(karmaConfig);
 };

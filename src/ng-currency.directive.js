@@ -170,18 +170,12 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
 
       function clearValue(value, replaceSeparator = true) {
         value = String(value);
-        let dSeparator = $locale.NUMBER_FORMATS.DECIMAL_SEP;
+        const decimalSeparator = $locale.NUMBER_FORMATS.DECIMAL_SEP;
         let cleared = null;
-
-        if (value.indexOf($locale.NUMBER_FORMATS.DECIMAL_SEP) === -1 &&
-          value.indexOf('.') !== -1 &&
-          fraction > 0) {
-          dSeparator = '.';
-        }
 
         // Replace negative pattern to minus sign (-)
         const neg_dummy = $filter('currency')('-1', getCurrencySymbol(), fraction);
-        const neg_regexp = RegExp('[0-9.' + $locale.NUMBER_FORMATS.DECIMAL_SEP + $locale.NUMBER_FORMATS.GROUP_SEP + ']+');
+        const neg_regexp = RegExp('[0-9.' + decimalSeparator + $locale.NUMBER_FORMATS.GROUP_SEP + ']+');
         const neg_dummy_txt = neg_dummy.replace(neg_regexp.exec(neg_dummy), '');
         const value_dummy_txt = value.replace(neg_regexp.exec(value), '');
 
@@ -194,12 +188,12 @@ export default function ngCurrency($filter, $locale, $timeout, ngCurrencySetting
           value = '-0';
         }
 
-        if (decimalRex(dSeparator).test(value)) {
-          cleared = value.match(decimalRex(dSeparator))
-            .join('').match(clearRex(dSeparator)) || [''];
+        if (decimalRex(decimalSeparator).test(value)) {
+          cleared = value.match(decimalRex(decimalSeparator))
+            .join('').match(clearRex(decimalSeparator)) || [''];
 
           cleared = cleared[0];
-          cleared = replaceSeparator ? cleared.replace(dSeparator, '.') : cleared;
+          cleared = replaceSeparator ? cleared.replace(decimalSeparator, '.') : cleared;
         }
 
         return cleared || null;
