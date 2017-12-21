@@ -1,0 +1,34 @@
+scripts:
+  lint:
+    script: eslint src/**/*.js tests/**/*.js
+    description: Checks for any formatting errors
+  test:
+    default:
+      script: karma start --single-run
+      description: Executes the Test Suite
+    tdd:
+      script: karma start
+      description: Watches for changes and executes the Test Suite accordingly
+    sauce:
+      script: karma start karma.ci.conf.js
+      description: Executes the Test Suite on Sauce Labs
+  serve:
+    default:
+      script: webpack-dev-server -d --config webpack.server.config.js
+      description: Starts a server at http://localhost:8080
+    https:
+      script: webpack-dev-server -d --https --port 443 --config webpack.server.config.js
+      description: Starts a server at https://localhost
+  build:
+    default:
+      script: nps build.dev && nps build.prod
+      description: Builds both a minified and unminified artifact
+    dev:
+      script: webpack --progress --colors -d
+      description: Builds an unminified artifact
+    prod:
+      script: webpack --progress --colors -p
+      description: Builds a minified artifact
+  semantic-release:
+    script: semantic-release
+    description: Publishes the artifact to NPM and GitHub
