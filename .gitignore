@@ -3,4 +3,3 @@ bower_components/
 dist/
 coverage/
 npm-debug.log
-package-lock.json
