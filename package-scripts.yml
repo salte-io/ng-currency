@@ -14,20 +14,20 @@ scripts:
       description: Executes the Test Suite on Sauce Labs
   serve:
     default:
-      script: webpack-dev-server -d --config webpack.server.config.js
+      script: webpack-dev-server --mode development --config webpack.server.config.js
       description: Starts a server at http://localhost:8080
     https:
-      script: webpack-dev-server -d --https --port 443 --config webpack.server.config.js
+      script: webpack-dev-server --mode development --https --port 443 --config webpack.server.config.js
       description: Starts a server at https://localhost
   build:
     default:
       script: nps build.dev && nps build.prod
       description: Builds both a minified and unminified artifact
     dev:
-      script: webpack --progress --colors -d
+      script: webpack --progress --colors --mode development
       description: Builds an unminified artifact
     prod:
-      script: webpack --progress --colors -p
+      script: webpack --progress --colors --mode production
       description: Builds a minified artifact
   semantic-release:
     script: semantic-release
