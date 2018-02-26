@@ -1,2 +1,441 @@
-!function(e,n){"object"==typeof exports&&"object"==typeof module?module.exports=n(require("angular")):"function"==typeof define&&define.amd?define("ng-currency",["angular"],n):"object"==typeof exports?exports["ng-currency"]=n(require("angular")):e["ng-currency"]=n(e.angular)}("undefined"!=typeof self?self:this,function(e){return function(e){function n(t){if(r[t])return r[t].exports;var u=r[t]={i:t,l:!1,exports:{}};return e[t].call(u.exports,u,u.exports,n),u.l=!0,u.exports}var r={};return n.m=e,n.c=r,n.d=function(e,r,t){n.o(e,r)||Object.defineProperty(e,r,{configurable:!1,enumerable:!0,get:t})},n.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(r,"a",r),r},n.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},n.p="",n(n.s=0)}([function(e,n,r){"use strict";function t(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(n,"__esModule",{value:!0});var u=r(1),o=t(u),i=r(2),a=t(i),c=r(3),f=t(c),l=o.default.module("ng-currency",[]);l.provider("ngCurrencySettings",a.default),l.directive("ngCurrency",f.default),n.default=l.name},function(n,r){n.exports=e},function(e,n,r){"use strict";function t(e,n){if(!(e instanceof n))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(n,"__esModule",{value:!0});var u=function(){function e(e,n){for(var r=0;r<n.length;r++){var t=n[r];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(e,t.key,t)}}return function(n,r,t){return r&&e(n.prototype,r),t&&e(n,t),n}}(),o=function(){function e(){t(this,e),this._defaults={fraction:2,hardCap:!1,min:void 0,max:void 0,currencySymbol:void 0}}return u(e,[{key:"$get",value:function(){var e=this;return{get defaults(){return e.defaults}}}},{key:"defaults",get:function(){return this._defaults},set:function(e){this._defaults=e}}]),e}();n.default=o},function(e,n,r){"use strict";function t(e,n,r,t){return{require:"ngModel",link:function(u,o,i,a){function c(){if(h){var e=void 0,n=void 0,r=void 0;if(a.$options&&(a.$options.getOption?(n=a.$options.getOption("updateOn"),r=a.$options.getOption("debounce")):(n=a.$options.updateOn,r=a.$options.debounce)),"blur"===n||r){e=a.$viewValue;for(var t=a.$parsers.length-1;t>=0;t--)e=a.$parsers[t](e)}else e=a.$$rawModelValue;for(var u=a.$formatters.length-1;u>=0;u--)e=a.$formatters[u](e);a.$viewValue=e,a.$render()}}function f(){if(a.$validate(),h){var e=l(a.$$rawModelValue);e!==a.$$rawModelValue&&(a.$setViewValue(e.toFixed(x)),a.$commitViewValue(),c())}}function l(e){return g&&(void 0!==y&&e>y?e=y:void 0!==b&&e<b&&(e=b)),e}function d(e){return RegExp("\\d|\\-|\\"+e,"g")}function s(e){return RegExp("\\-{0,1}((\\"+e+")|([0-9]{1,}\\"+e+"?))&?[0-9]{0,"+x+"}","g")}function v(r){var t=!(arguments.length>1&&void 0!==arguments[1])||arguments[1];r=String(r);var u=n.NUMBER_FORMATS.DECIMAL_SEP,o=null,i=e("currency")("-1",p(),x),a=RegExp("[0-9."+u+n.NUMBER_FORMATS.GROUP_SEP+"]+");return i.replace(a.exec(i),"")===r.replace(a.exec(r),"")&&(r="-"+a.exec(r)),RegExp("^-[\\s]*$","g").test(r)&&(r="-0"),d(u).test(r)&&(o=r.match(d(u)).join("").match(s(u))||[""],o=o[0],o=t?o.replace(u,"."):o),o||null}function p(){return void 0===m?n.NUMBER_FORMATS.CURRENCY_SYM:m}var $=t.defaults,g=$.hardCap,b=$.min,y=$.max,m=$.currencySymbol,x=$.fraction,O=i.required,h=!0;i.$observe("ngCurrency",function(e){h="false"!==e,h?c():(a.$viewValue=a.$$rawModelValue,a.$render())}),i.$observe("hardCap",function(e){g="true"===e,f()}),i.$observe("min",function(e){b=e?Number(e):void 0,f()}),i.$observe("max",function(e){y=e?Number(e):void 0,f()}),i.$observe("currencySymbol",function(e){m=e,c()}),i.$observe("required",function(e){O=e,f()}),i.$observe("fraction",function(e){x=e||2,c(),f()}),r(function(){u.$emit("currencyRedraw")}),a.$parsers.push(function(e){return h&&-1===[void 0,null,""].indexOf(e)?(e=v(e),e=l(Number(e))):e}),a.$formatters.push(function(n){return h&&-1===[void 0,null,""].indexOf(n)?e("currency")(n,p(),x):n}),a.$validators.min=function(e){return!(O||-1===[void 0,null,""].indexOf(e)&&!isNaN(e))||(!h||-1!==[void 0,null].indexOf(b)||isNaN(b)||e>=b)},a.$validators.max=function(e){return!(O||-1===[void 0,null,""].indexOf(e)&&!isNaN(e))||(!h||-1!==[void 0,null].indexOf(y)||isNaN(y)||e<=y)},a.$validators.fraction=function(e){return!h||!e||!isNaN(e)},u.$on("currencyRedraw",function(){f(),c()}),o.bind("focus",function(){if(h){var e=v(a.$viewValue,!1);a.$viewValue!==e&&(a.$viewValue=e,a.$render(),o.triggerHandler("focus"))}}),o.bind("blur",c)}}}Object.defineProperty(n,"__esModule",{value:!0}),n.default=t,t.$inject=["$filter","$locale","$timeout","ngCurrencySettings"]}])});
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("angular"));
+	else if(typeof define === 'function' && define.amd)
+		define("ng-currency", ["angular"], factory);
+	else if(typeof exports === 'object')
+		exports["ng-currency"] = factory(require("angular"));
+	else
+		root["ng-currency"] = factory(root["angular"]);
+})(window, function(__WEBPACK_EXTERNAL_MODULE_angular__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./ng-currency-settings.provider.js":
+/*!******************************************!*\
+  !*** ./ng-currency-settings.provider.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ngCurrencySettings = function () {
+  function ngCurrencySettings() {
+    _classCallCheck(this, ngCurrencySettings);
+
+    this._defaults = {
+      fraction: 2,
+      hardCap: false,
+      min: undefined,
+      max: undefined,
+      currencySymbol: undefined
+    };
+  }
+
+  /**
+   * The default property values for 'ng-currency'
+   */
+
+
+  _createClass(ngCurrencySettings, [{
+    key: "$get",
+    value: function $get() {
+      var provider = this;
+      return {
+        /**
+         * The default property values for 'ng-currency'
+         */
+        get defaults() {
+          return provider.defaults;
+        }
+      };
+    }
+  }, {
+    key: "defaults",
+    get: function get() {
+      return this._defaults;
+    },
+    set: function set(defaults) {
+      this._defaults = defaults;
+    }
+  }]);
+
+  return ngCurrencySettings;
+}();
+
+exports.default = ngCurrencySettings;
+
+/***/ }),
+
+/***/ "./ng-currency.directive.js":
+/*!**********************************!*\
+  !*** ./ng-currency.directive.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = ngCurrency;
+function ngCurrency($filter, $locale, $timeout, ngCurrencySettings) {
+  return {
+    require: 'ngModel',
+    link: function link(scope, element, attrs, controller) {
+      var _ngCurrencySettings$d = ngCurrencySettings.defaults,
+          hardCap = _ngCurrencySettings$d.hardCap,
+          min = _ngCurrencySettings$d.min,
+          max = _ngCurrencySettings$d.max,
+          currencySymbol = _ngCurrencySettings$d.currencySymbol,
+          fraction = _ngCurrencySettings$d.fraction;
+
+      var ngRequired = attrs.required;
+      var active = true;
+
+      attrs.$observe('ngCurrency', function (value) {
+        active = value !== 'false';
+        if (active) {
+          reformat();
+        } else {
+          controller.$viewValue = controller.$$rawModelValue;
+          controller.$render();
+        }
+      });
+      attrs.$observe('hardCap', function (value) {
+        hardCap = value === 'true';
+        revalidate();
+      });
+      attrs.$observe('min', function (value) {
+        min = value ? Number(value) : undefined;
+        revalidate();
+      });
+      attrs.$observe('max', function (value) {
+        max = value ? Number(value) : undefined;
+        revalidate();
+      });
+      attrs.$observe('currencySymbol', function (value) {
+        currencySymbol = value;
+        reformat();
+      });
+      attrs.$observe('required', function (value) {
+        ngRequired = value;
+        revalidate();
+      });
+      attrs.$observe('fraction', function (value) {
+        fraction = value || 2;
+        reformat();
+        revalidate();
+      });
+
+      // HACK(nick-woodward): Seriously angular?
+      $timeout(function () {
+        scope.$emit('currencyRedraw');
+      });
+
+      controller.$parsers.push(function (value) {
+        if (active && [undefined, null, ''].indexOf(value) === -1) {
+          value = clearValue(value);
+          value = keepInRange(Number(value));
+          return value;
+        }
+        return value;
+      });
+
+      controller.$formatters.push(function (value) {
+        if (active && [undefined, null, ''].indexOf(value) === -1) {
+          return $filter('currency')(value, getCurrencySymbol(), fraction);
+        }
+        return value;
+      });
+
+      controller.$validators.min = function (value) {
+        if (!ngRequired && ([undefined, null, ''].indexOf(value) !== -1 || isNaN(value))) {
+          return true;
+        }
+        return !active || [undefined, null].indexOf(min) !== -1 || isNaN(min) || value >= min;
+      };
+
+      controller.$validators.max = function (value) {
+        if (!ngRequired && ([undefined, null, ''].indexOf(value) !== -1 || isNaN(value))) {
+          return true;
+        }
+        return !active || [undefined, null].indexOf(max) !== -1 || isNaN(max) || value <= max;
+      };
+
+      controller.$validators.fraction = function (value) {
+        return !active || !value || !isNaN(value);
+      };
+
+      function reformat() {
+        if (active) {
+          var value = void 0;
+          var updateOn = void 0,
+              debounce = void 0;
+          if (controller.$options) {
+            // HACK(nick-woodward): this is to maintain backwards compatability with Angular 1.5.9 and lower.
+            // TODO(nick-woodward): This should be removed when ngCurrency does a 2.0.0 release
+            // Reference: https://github.com/angular/angular.js/commit/296cfce40c25e9438bfa46a0eb27240707a10ffa
+            if (controller.$options.getOption) {
+              updateOn = controller.$options.getOption('updateOn');
+              debounce = controller.$options.getOption('debounce');
+            } else {
+              updateOn = controller.$options.updateOn;
+              debounce = controller.$options.debounce;
+            }
+          }
+          if (updateOn === 'blur' || debounce) {
+            value = controller.$viewValue;
+            for (var i = controller.$parsers.length - 1; i >= 0; i--) {
+              value = controller.$parsers[i](value);
+            }
+          } else {
+            value = controller.$$rawModelValue;
+          }
+          for (var _i = controller.$formatters.length - 1; _i >= 0; _i--) {
+            value = controller.$formatters[_i](value);
+          }
+          controller.$viewValue = value;
+          controller.$render();
+        }
+      }
+
+      function revalidate() {
+        controller.$validate();
+        if (active) {
+          var value = keepInRange(controller.$$rawModelValue);
+          if (value !== controller.$$rawModelValue) {
+            controller.$setViewValue(value.toFixed(fraction));
+            controller.$commitViewValue();
+            reformat();
+          }
+        }
+      }
+
+      function keepInRange(value) {
+        if (hardCap) {
+          if (max !== undefined && value > max) {
+            value = max;
+          } else if (min !== undefined && value < min) {
+            value = min;
+          }
+        }
+        return value;
+      }
+
+      scope.$on('currencyRedraw', function () {
+        revalidate();
+        reformat();
+      });
+
+      element.bind('focus', function () {
+        if (active) {
+          var value = clearValue(controller.$viewValue, false);
+
+          if (controller.$viewValue !== value) {
+            controller.$viewValue = value;
+            controller.$render();
+            element.triggerHandler('focus');
+          }
+        }
+      });
+
+      element.bind('blur', reformat);
+
+      // TODO: Rewrite this parsing logic to more readable.
+
+      function decimalRex(dChar) {
+        return RegExp('\\d|\\-|\\' + dChar, 'g');
+      }
+
+      function clearRex(dChar) {
+        return RegExp('\\-{0,1}((\\' + dChar + ')|([0-9]{1,}\\' + dChar + '?))&?[0-9]{0,' + fraction + '}', 'g');
+      }
+
+      function clearValue(value) {
+        var replaceSeparator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+        value = String(value);
+        var decimalSeparator = $locale.NUMBER_FORMATS.DECIMAL_SEP;
+        var cleared = null;
+
+        // Replace negative pattern to minus sign (-)
+        var neg_dummy = $filter('currency')('-1', getCurrencySymbol(), fraction);
+        var neg_regexp = RegExp('[0-9.' + decimalSeparator + $locale.NUMBER_FORMATS.GROUP_SEP + ']+');
+        var neg_dummy_txt = neg_dummy.replace(neg_regexp.exec(neg_dummy), '');
+        var value_dummy_txt = value.replace(neg_regexp.exec(value), '');
+
+        // If is negative
+        if (neg_dummy_txt === value_dummy_txt) {
+          value = '-' + neg_regexp.exec(value);
+        }
+
+        if (RegExp('^-[\\s]*$', 'g').test(value)) {
+          value = '-0';
+        }
+
+        if (decimalRex(decimalSeparator).test(value)) {
+          cleared = value.match(decimalRex(decimalSeparator)).join('').match(clearRex(decimalSeparator)) || [''];
+
+          cleared = cleared[0];
+          cleared = replaceSeparator ? cleared.replace(decimalSeparator, '.') : cleared;
+        }
+
+        return cleared || null;
+      }
+
+      function getCurrencySymbol() {
+        return currencySymbol === undefined ? $locale.NUMBER_FORMATS.CURRENCY_SYM : currencySymbol;
+      }
+    }
+  };
+}
+ngCurrency.$inject = ['$filter', '$locale', '$timeout', 'ngCurrencySettings'];
+
+/***/ }),
+
+/***/ "./ng-currency.module.js":
+/*!*******************************!*\
+  !*** ./ng-currency.module.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _angular = __webpack_require__(/*! angular */ "angular");
+
+var _angular2 = _interopRequireDefault(_angular);
+
+var _ngCurrencySettingsProvider = __webpack_require__(/*! ./ng-currency-settings.provider.js */ "./ng-currency-settings.provider.js");
+
+var _ngCurrencySettingsProvider2 = _interopRequireDefault(_ngCurrencySettingsProvider);
+
+var _ngCurrencyDirective = __webpack_require__(/*! ./ng-currency.directive.js */ "./ng-currency.directive.js");
+
+var _ngCurrencyDirective2 = _interopRequireDefault(_ngCurrencyDirective);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _module = _angular2.default.module('ng-currency', []);
+
+_module.provider('ngCurrencySettings', _ngCurrencySettingsProvider2.default);
+_module.directive('ngCurrency', _ngCurrencyDirective2.default);
+
+exports.default = _module.name;
+
+/***/ }),
+
+/***/ 0:
+/*!*************************************!*\
+  !*** multi ./ng-currency.module.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./ng-currency.module.js */"./ng-currency.module.js");
+
+
+/***/ }),
+
+/***/ "angular":
+/*!**************************!*\
+  !*** external "angular" ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_angular__;
+
+/***/ })
+
+/******/ });
+});
 //# sourceMappingURL=ng-currency.js.map
