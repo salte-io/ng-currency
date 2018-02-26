@@ -1,4 +1,13 @@
 const webpackConfig = require('./webpack.test.config.js');
+webpackConfig.module.rules.push({
+  enforce: 'pre',
+  test: /\.js$/,
+  exclude: /tests|node_modules/,
+  use: {
+    loader: 'istanbul-instrumenter-loader',
+    options: { esModules: true }
+  }
+});
 
 module.exports = function(config) {
   config.set({
@@ -20,7 +29,8 @@ module.exports = function(config) {
     webpack: webpackConfig,
 
     webpackMiddleware: {
-      noInfo: true
+      noInfo: true,
+      stats: 'errors-only'
     },
 
     reporters: ['mocha', 'coverage'],
@@ -41,7 +51,7 @@ module.exports = function(config) {
 
     autoWatch: true,
 
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
 
     browserNoActivityTimeout: 120000,
 
