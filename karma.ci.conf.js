@@ -33,9 +33,16 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
 
     browsers: [
-      'Chrome',
+      'ChromeHeadlessNoSandbox',
       'Firefox'
     ],
+
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox']
+      }
+    },
 
     captureTimeout: 0,
     browserNoActivityTimeout: 120000,
