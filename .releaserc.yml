@@ -1,0 +1,13 @@
+branch: master
+verifyConditions:
+  - '@semantic-release/npm'
+  - '@semantic-release/git'
+prepare:
+  - '@semantic-release/npm'
+  - path: '@semantic-release/exec'
+    cmd: yarn start build
+  - path: '@semantic-release/git'
+    assets:
+      - package.json
+      - dist
+    message: 'chore(release): ${nextRelease.version} [skip ci]'
