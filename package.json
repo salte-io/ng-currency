@@ -22,7 +22,7 @@
     "start": "nps",
     "prepublishOnly": "yarn start build",
     "postpublish": "publish-latest --user-email aguirrel@xuar.com.ar --user-name aguirrel",
-    "precommit": "remove-lockfiles"
+    "pre-commit": "remove-lockfiles"
   },
   "license": "MIT",
   "devDependencies": {
