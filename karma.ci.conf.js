@@ -1,20 +1,73 @@
 const webpackConfig = require('./webpack.test.config.js');
 
 module.exports = function(config) {
+  const customLaunchers = {
+    ChromeBeta: {
+      base: 'SauceLabs',
+      browserName: 'chrome',
+      version: 'beta'
+    },
+    Chrome: {
+      base: 'SauceLabs',
+      browserName: 'chrome'
+    },
+    Firefox: {
+      base: 'SauceLabs',
+      browserName: 'firefox'
+    },
+    Edge: {
+      base: 'SauceLabs',
+      browserName: 'microsoftedge'
+    },
+    InternetExplorer11: {
+      base: 'SauceLabs',
+      browserName: 'internet explorer',
+      version: '11'
+    },
+    InternetExplorer10: {
+      base: 'SauceLabs',
+      browserName: 'internet explorer',
+      version: '10'
+    },
+    // TODO: Enable this once https://github.com/karma-runner/karma/issues/3198 is resolved
+    // Safari10: {
+    //   base: 'SauceLabs',
+    //   browserName: 'safari',
+    //   version: '10'
+    // },
+    Safari9: {
+      base: 'SauceLabs',
+      browserName: 'safari',
+      version: '9'
+    },
+    Safari8: {
+      base: 'SauceLabs',
+      browserName: 'safari',
+      version: '8'
+    }
+  };
+
   const karmaConfig = {
     basePath: '',
 
     frameworks: [
-      'jasmine',
-      'sinon'
+      'mocha',
+      'sinon',
+      'polyfill'
+    ],
+
+    polyfill: [
+      'Promise',
+      'fetch',
+      'URL'
     ],
 
     files: [
-      'test/index.js'
+      'tests/index.js'
     ],
 
     preprocessors: {
-      'test/index.js': ['webpack', 'sourcemap']
+      'tests/index.js': ['webpack', 'sourcemap']
     },
 
     webpack: webpackConfig,
@@ -24,7 +77,12 @@ module.exports = function(config) {
       stats: 'errors-only'
     },
 
-    reporters: ['spec'],
+    reporters: ['mocha', 'saucelabs'],
+
+    mochaReporter: {
+      output: 'minimal',
+      showDiff: true
+    },
 
     port: 9876,
 
@@ -32,18 +90,14 @@ module.exports = function(config) {
 
     logLevel: config.LOG_INFO,
 
-    browsers: [
-      'ChromeHeadlessNoSandbox',
-      'Firefox'
-    ],
-
-    customLaunchers: {
-      ChromeHeadlessNoSandbox: {
-        base: 'ChromeHeadless',
-        flags: ['--no-sandbox']
-      }
+    sauceLabs: {
+      testName: 'salte-io/ng-currency',
+      tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
+      startConnect: true
     },
 
+    customLaunchers: customLaunchers,
+    browsers: Object.keys(customLaunchers),
     captureTimeout: 0,
     browserNoActivityTimeout: 120000,
 
