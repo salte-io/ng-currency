@@ -74,7 +74,7 @@ angular.module('my-app', [
     <script src="/node_modules/ng-currency/dist/ng-currency.min.js"></script>
     <script>
       var app = angular.module('my-app', [
-        ngCurrency // 'ng-currency'
+        'ng-currency'
       ]);
 
       app.controller('MainCtrl', function($scope) {
