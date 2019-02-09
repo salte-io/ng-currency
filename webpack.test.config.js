@@ -13,6 +13,7 @@ module.exports = {
       loader: 'html-loader'
     }]
   },
+  mode: 'development',
   devtool: 'inline-source-map',
   optimization: {
     minimize: false

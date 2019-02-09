@@ -1,16 +1,9 @@
-extends: google
+extends: eslint:recommended
 env:
   browser: true
-  serviceworker: true
-  worker: true
-globals:
-  angular: true
 parserOptions:
   sourceType: module
 rules:
-  comma-dangle:
-    - error
-    - never
   max-nested-callbacks: 0
   no-warning-comments: 0
   require-jsdoc: 0
