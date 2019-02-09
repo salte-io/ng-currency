@@ -1,6 +1,6 @@
 scripts:
   lint:
-    script: eslint src/**/*.js test/**/*.js
+    script: eslint src/**/*.js tests/**/*.js
     description: Checks for any formatting errors
   test:
     default:
@@ -29,6 +29,9 @@ scripts:
     prod:
       script: webpack --progress --colors --mode production
       description: Builds a minified artifact
+  report-coverage:
+    script: coveralls < coverage/lcov.info
+    description: Reports code coverage information to Coveralls
   semantic-release:
     script: semantic-release
     description: Publishes the artifact to NPM and GitHub

@@ -1,12 +1,13 @@
 # ng-currency
 
-[![NPM Version][npm-version-image]][npm-url]
-[![NPM Downloads][npm-downloads-image]][npm-url]
-[![Travis][travis-ci-image]][travis-ci-url]
+[![NPM Version](https://img.shields.io/npm/v/ng-currency.svg?style=flat)](https://npmjs.org/package/ng-currency) 
+[![NPM Downloads](https://img.shields.io/npm/dm/ng-currency.svg?style=flat)](https://npmjs.org/package/ng-currency)
+[![Travis](https://img.shields.io/travis/com/salte-io/ng-currency/master.svg?style=flat)](https://travis-ci.com/salte-io/ng-currency)
+[![Coveralls](https://img.shields.io/coveralls/salte-io/ng-currency/master.svg)](https://coveralls.io/github/salte-io/ng-currency?branch=master)
 
-[![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
-[![semantic-release][semantic-release-image]][semantic-release-url]
-[![Commitizen friendly][commitizen-image]][commitizen-url]
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](https://commitizen.github.io/cz-cli/)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+[![Greenkeeper badge](https://badges.greenkeeper.io/salte-io/ng-currency.svg)](https://greenkeeper.io)
 
 ngCurrency is a directive that enables seamless use of currency inputs.
 
@@ -54,7 +55,7 @@ Then add a `<script>` to your index.html:
 
 ```html
 <script src="https://code.angularjs.org/1.3.4/angular.js"></script>
-<script src="https://rawgit.com/aguirrel/ng-currency/master/dist/ng-currency.js"></script>
+<script src="https://rawgit.com/salte-io/ng-currency/master/dist/ng-currency.js"></script>
 ```
 
 + Inject the `ngCurrency` module into your app:
@@ -72,6 +73,7 @@ angular.module('myApp', ['ng-currency']);
 ## Bindings
 
 ### Min/Max
+
 * Default: undefined
 * Description: Specifies the range the ngModel value can be within for validation and hard-cap
 
@@ -86,6 +88,7 @@ angular.module('myApp', ['ng-currency']);
 ```
 
 ### Currency Symbol
+
 * Default: Locale Currency Symbol
 * Description: Prefixes the formatted currency value with the currency symbol
 
@@ -94,6 +97,7 @@ angular.module('myApp', ['ng-currency']);
 ```
 
 ### Active
+
 * Default: true
 * Description: Dynamically disable/enable ng-currency
 
@@ -102,6 +106,7 @@ angular.module('myApp', ['ng-currency']);
 ```
 
 ### Fraction
+
 * Default: 2
 * Description: Determines the number of decimal places
 
@@ -110,61 +115,10 @@ angular.module('myApp', ['ng-currency']);
 ```
 
 ### Hard Cap
+
 * Default: false
 * Description: Forces the ngModel value to stay within the min/max range
 
 ```html
 <input type="text" ng-currency min="0" hard-cap="true" />
 ```
-
-## Authors
-
-**Luis Aguirre**
-
-+ http://alaguirre.com
-+ http://github.com/aguirrel
-
-**Nick Woodward**
-
-+ http://salte.io
-+ http://github.com/nick-woodward
-
-## Copyright and license
-
-	The MIT License
-
-	Copyright (c) 2012 - 2016 Luis Aguirre
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in
-	all copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-	THE SOFTWARE.
-
-[npm-version-image]: http://img.shields.io/npm/v/ng-currency.svg?style=flat
-[npm-downloads-image]: http://img.shields.io/npm/dm/ng-currency.svg?style=flat
-[npm-url]: https://npmjs.org/package/ng-currency
-
-[travis-ci-image]: https://img.shields.io/travis/aguirrel/ng-currency.svg?style=flat
-[travis-ci-url]: https://travis-ci.org/aguirrel/ng-currency
-
-[greenkeeper-image]: https://badges.greenkeeper.io/aguirrel/ng-currency.svg
-[greenkeeper-url]: https://greenkeeper.io/
-
-[commitizen-image]: https://img.shields.io/badge/commitizen-friendly-brightgreen.svg
-[commitizen-url]: http://commitizen.github.io/cz-cli/
-
-[semantic-release-image]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
-[semantic-release-url]: https://github.com/semantic-release/semantic-release

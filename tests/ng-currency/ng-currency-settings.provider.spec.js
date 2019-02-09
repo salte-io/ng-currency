@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import angular from 'angular';
+
 import ngCurrency from '../../src/ng-currency.module.js';
 
 describe('provider(ngCurrencySettings)', () => {
@@ -13,7 +16,7 @@ describe('provider(ngCurrencySettings)', () => {
 
   describe('function(constructor)', () => {
     it('should set default values', () => {
-      expect(ngCurrencySettingsProvider.defaults).toEqual({
+      expect(ngCurrencySettingsProvider.defaults).to.deep.equal({
         fraction: 2,
         hardCap: false,
         min: undefined,
@@ -25,7 +28,7 @@ describe('provider(ngCurrencySettings)', () => {
 
   describe('property(defaults)', () => {
     it('should be able to override the default values', () => {
-      expect(ngCurrencySettingsProvider.defaults).toEqual({
+      expect(ngCurrencySettingsProvider.defaults).to.deep.equal({
         fraction: 2,
         hardCap: false,
         min: undefined,
@@ -35,22 +38,22 @@ describe('provider(ngCurrencySettings)', () => {
 
       ngCurrencySettingsProvider.defaults = true;
 
-      expect(ngCurrencySettingsProvider.defaults).toEqual(true);
+      expect(ngCurrencySettingsProvider.defaults).to.deep.equal(true);
     });
 
     it('should be able to override specific values', () => {
-      expect(ngCurrencySettingsProvider.defaults.hardCap).toEqual(false);
+      expect(ngCurrencySettingsProvider.defaults.hardCap).to.deep.equal(false);
 
       ngCurrencySettingsProvider.defaults.hardCap = true;
 
-      expect(ngCurrencySettingsProvider.defaults.hardCap).toEqual(true);
+      expect(ngCurrencySettingsProvider.defaults.hardCap).to.deep.equal(true);
     });
   });
 
   describe('service(ngCurrencySettings)', () => {
     describe('getter(defaults)', () => {
       it('should reflect the default values', () => {
-        expect(ngCurrencySettings.defaults).toEqual({
+        expect(ngCurrencySettings.defaults).to.deep.equal({
           fraction: 2,
           hardCap: false,
           min: undefined,
@@ -60,11 +63,11 @@ describe('provider(ngCurrencySettings)', () => {
       });
 
       it('should reflect changes to the provider', () => {
-        expect(ngCurrencySettings.defaults.hardCap).toEqual(false);
+        expect(ngCurrencySettings.defaults.hardCap).to.deep.equal(false);
 
         ngCurrencySettingsProvider.defaults.hardCap = true;
 
-        expect(ngCurrencySettings.defaults.hardCap).toEqual(true);
+        expect(ngCurrencySettings.defaults.hardCap).to.deep.equal(true);
       });
     });
   });

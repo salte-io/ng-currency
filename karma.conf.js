@@ -14,16 +14,23 @@ module.exports = function(config) {
     basePath: '',
 
     frameworks: [
-      'jasmine',
-      'sinon'
+      'mocha',
+      'sinon',
+      'polyfill'
+    ],
+
+    polyfills: [
+      'fetch',
+      'Promise',
+      'URL'
     ],
 
     files: [
-      'test/index.js'
+      'tests/index.js'
     ],
 
     preprocessors: {
-      'test/index.js': ['webpack', 'sourcemap']
+      'tests/index.js': ['webpack', 'sourcemap']
     },
 
     webpack: webpackConfig,
@@ -43,6 +50,10 @@ module.exports = function(config) {
       ]
     },
 
+    mochaReporter: {
+      showDiff: true
+    },
+
     port: 9876,
 
     colors: true,
@@ -51,9 +62,7 @@ module.exports = function(config) {
 
     autoWatch: true,
 
-    browsers: [
-      'ChromeHeadlessNoSandbox'
-    ],
+    browsers: ['ChromeHeadlessNoSandbox'],
 
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
