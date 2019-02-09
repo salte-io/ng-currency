@@ -9,6 +9,8 @@
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Greenkeeper badge](https://badges.greenkeeper.io/salte-io/ng-currency.svg)](https://greenkeeper.io)
 
+> `ng-currency` has officially entered [maintenance mode](https://github.com/salte-io/ng-currency/issues/205).
+
 ## Install
 
 You can install this package either with `npm` or with `bower`.
