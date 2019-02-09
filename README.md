@@ -9,30 +9,22 @@
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Greenkeeper badge](https://badges.greenkeeper.io/salte-io/ng-currency.svg)](https://greenkeeper.io)
 
-ngCurrency is a directive that enables seamless use of currency inputs.
+## Install
 
-Main features:
-
-* The model is consistent as it values is a float (even if there are alpha caracters in the middle) or NaN in the empty case.
-* Input value is always filtered with locale currency when load and on blur.
-* You may write the amount using locale decimal or use dot (.) as default.
-* The only required dependency is [angular](https://github.com/angular/angular.js)!
-* Min and Max validators like input[number].
-* Enable/disable formatter using ng-currency={{var}}
-* Optional fraction places value. The default remains 2 decimal places.
-* You can redraw all directives broadcasting "currencyRedraw" event.
-* Enable/Disable show zeroes using display-zeroes 'true' or 'false'
-* Not isolated scope. It plays well with others directives!
+You can install this package either with `npm` or with `bower`.
 
 ## npm
 
 ```sh
 $ npm install ng-currency
 ```
+
 Then add a `<script>` to your index.html:
+
 ```html
 <script src="/node_modules/ng-currency/dist/ng-currency.js"></script>
 ```
+
 Or `require('ng-currency')` from your code.
 
 ## bower
@@ -40,7 +32,9 @@ Or `require('ng-currency')` from your code.
 ```sh
 $ bower install ng-currency
 ```
+
 Then add a `<script>` to your index.html:
+
 ```html
 <script src="/bower_components/ng-currency/dist/ng-currency.js"></script>
 ```
@@ -49,75 +43,104 @@ Then add a `<script>` to your index.html:
 
 [See it in action!](https://jsbin.com/pajuhaf/edit?html,output)
 
-## Quick start
+## ES6 Usage
 
-+ Include the required libraries:
+**app.module.js**
 
-```html
-<script src="https://code.angularjs.org/1.3.4/angular.js"></script>
-<script src="https://rawgit.com/salte-io/ng-currency/master/dist/ng-currency.js"></script>
+```js
+import angular from 'angular';
+import ngCurrency from 'ng-currency';
+
+angular.module('my-app', [
+  ngCurrency // 'ng-currency'
+]);
 ```
 
-+ Inject the `ngCurrency` module into your app:
-
-```javascript
-angular.module('myApp', ['ng-currency']);
-```
-
-+ In your input tag
+**inside your angular app**
 
 ```html
 <input type="text" model="yourModel" ng-currency />
 ```
 
+## ES5 Usage
+
+**index.html**
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="/node_modules/angular/dist/angular.min.js"></script>
+    <script src="/node_modules/ng-currency/dist/ng-currency.min.js"></script>
+    <script>
+      var app = angular.module('my-app', [
+        ngCurrency // 'ng-currency'
+      ]);
+
+      app.controller('MainCtrl', function($scope) {
+        $scope.value = 123456.78;
+      });
+    </script>
+  </head>
+  <body ng-app="my-app" ng-controller="MainCtrl">
+    <input type="text" ng-model="value" ng-currency>
+  </body>
+</html>
+```
+
 ## Bindings
 
-### Min/Max
+### `min` / `max`
 
-* Default: undefined
-* Description: Specifies the range the ngModel value can be within for validation and hard-cap
+**Default:** `undefined`
+
+**Description:** Specifies the range the `ng-model` value can be within for validation and `hard-cap`
 
 ```html
 <input type="text" model="yourModel" ng-currency min="1" max="1337" />
 ```
 
-+ If you want to be able to dynamically enable/disable validations from a controller you can use the following
+* If you want to be able to dynamically enable/disable validations from a controller you can use the following
 
 ```html
 <input type="text" model="yourModel" ng-currency min="1" max="1337" ng-required="true" />
 ```
 
-### Currency Symbol
+### `currency-symbol`
 
-* Default: Locale Currency Symbol
-* Description: Prefixes the formatted currency value with the currency symbol
+**Default:** Locale Currency Symbol
+
+**Description:** Prefixes the formatted currency value with the currency symbol.
 
 ```html
 <input type="text" model="yourModel" ng-currency currency-symbol="¥" />
 ```
 
-### Active
+### Active (`ng-currency`)
 
-* Default: true
-* Description: Dynamically disable/enable ng-currency
+**Default:** `true`
+
+**Description:** Dynamically disable / enable `ng-currency`.
 
 ```html
 <input type="text" model="yourModel" ng-currency={{isCurrency}} currency-symbol="¥" />
 ```
 
-### Fraction
+### `fraction`
 
-* Default: 2
-* Description: Determines the number of decimal places
+**Default:** `2`
+
+**Description:** Determines the number of decimal places.
 
 ```html
 <input type="text" ng-currency min="0" fraction="0" />
 ```
 
-### Hard Cap
+### `hard-cap`
 
-* Default: false
-* Description: Forces the ngModel value to stay within the min/max range
+**Default:** `false`
+
+**Description:** Forces the `ng-model` value to stay within the `min` / `max` range.
 
 ```html
 <input type="text" ng-currency min="0" hard-cap="true" />
