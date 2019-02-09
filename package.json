@@ -1,6 +1,6 @@
 {
   "name": "ng-currency",
-  "version": "0.0.0-semantically-released.0",
+  "version": "1.2.5",
   "main": "dist/ng-currency.js",
   "description": "Directive that works in conjunction with currency filter.",
   "homepage": "http://alaguirre.com",
