@@ -1,3 +1,10 @@
+/**
+ * ng-currency JavaScript Library v1.2.7
+ *
+ * @license MIT (https://github.com/salte-io/ng-currency/blob/master/LICENSE)
+ *
+ * Made with ♥ by Ceci <admin@cecilias.me>, Luis Aguirre <luis@alaguirre.com>
+ */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory(require("angular"));
