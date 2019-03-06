@@ -32,7 +32,7 @@ Or `require('ng-currency')` from your code.
 ## bower
 
 ```sh
-$ bower install ng-currency
+$ bower install salte-io/ng-currency
 ```
 
 Then add a `<script>` to your index.html:
