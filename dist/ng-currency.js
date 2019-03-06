@@ -1,5 +1,5 @@
 /**
- * ng-currency JavaScript Library v1.2.7
+ * ng-currency JavaScript Library v1.2.8
  *
  * @license MIT (https://github.com/salte-io/ng-currency/blob/master/LICENSE)
  *
