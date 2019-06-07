@@ -48,7 +48,7 @@
     "karma-sauce-launcher": "^2.0.0",
     "karma-sinon": "^1.0.5",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^3.0.0",
+    "karma-webpack": "^4.0.0",
     "mocha": "^6.0.0",
     "ng-select-all-on-focus": "^1.0.3",
     "nps": "^5.7.1",
