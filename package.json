@@ -40,7 +40,7 @@
     "husky": "^2.0.0",
     "istanbul-instrumenter-loader": "^3.0.0",
     "karma": "^4.0.0",
-    "karma-chrome-launcher": "^2.0.0",
+    "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^1.0.0",
     "karma-mocha": "^1.0.0",
     "karma-mocha-reporter": "^2.2.5",
