@@ -5,7 +5,6 @@
 [![Travis](https://img.shields.io/travis/com/salte-io/ng-currency/master.svg?style=flat)](https://travis-ci.com/salte-io/ng-currency)
 [![Coveralls](https://img.shields.io/coveralls/salte-io/ng-currency/master.svg)](https://coveralls.io/github/salte-io/ng-currency?branch=master)
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](https://commitizen.github.io/cz-cli/)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Greenkeeper badge](https://badges.greenkeeper.io/salte-io/ng-currency.svg)](https://greenkeeper.io)
 
