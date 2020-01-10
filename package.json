@@ -52,7 +52,7 @@
     "ng-select-all-on-focus": "^1.0.3",
     "nps": "^5.7.1",
     "remove-lockfiles": "^2.0.4",
-    "semantic-release": "^15.0.0",
+    "semantic-release": "^16.0.0",
     "sinon": "^8.0.0",
     "webpack": "^4.0.0",
     "webpack-cli": "^3.0.0",
