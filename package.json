@@ -34,7 +34,7 @@
     "coveralls": "^3.0.2",
     "deindent": "^0.1.0",
     "eslint": "^6.0.0",
-    "eslint-plugin-mocha": "^6.0.0",
+    "eslint-plugin-mocha": "^6.3.0",
     "html-loader": "^0.5.0",
     "husky": "^4.0.2",
     "istanbul-instrumenter-loader": "^3.0.0",
