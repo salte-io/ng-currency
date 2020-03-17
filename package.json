@@ -44,7 +44,7 @@
     "karma-mocha": "^1.0.0",
     "karma-mocha-reporter": "^2.2.5",
     "karma-polyfill": "^1.0.0",
-    "karma-sauce-launcher": "^2.0.0",
+    "karma-sauce-launcher": "^4.0.0",
     "karma-sinon": "^1.0.5",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^4.0.2",
