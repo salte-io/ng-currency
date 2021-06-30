@@ -19,25 +19,10 @@ module.exports = function(config) {
       base: 'SauceLabs',
       browserName: 'microsoftedge'
     },
-    InternetExplorer11: {
-      base: 'SauceLabs',
-      browserName: 'internet explorer',
-      version: '11'
-    },
     Safari10: {
       base: 'SauceLabs',
       browserName: 'safari',
       version: '10'
-    },
-    Safari9: {
-      base: 'SauceLabs',
-      browserName: 'safari',
-      version: '9'
-    },
-    Safari8: {
-      base: 'SauceLabs',
-      browserName: 'safari',
-      version: '8'
     }
   };
 
