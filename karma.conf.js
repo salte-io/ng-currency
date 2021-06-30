@@ -4,7 +4,7 @@ webpackConfig.module.rules.push({
   test: /\.js$/,
   exclude: /tests|node_modules/,
   use: {
-    loader: 'istanbul-instrumenter-loader',
+    loader: '@jsdevtools/coverage-istanbul-loader',
     options: { esModules: true }
   }
 });
