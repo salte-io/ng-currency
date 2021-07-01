@@ -3,3 +3,4 @@ bower_components/
 dist/
 coverage/
 npm-debug.log
+local.log

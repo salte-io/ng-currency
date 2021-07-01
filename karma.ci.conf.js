@@ -2,27 +2,12 @@ const webpackConfig = require('./webpack.test.config.js');
 
 module.exports = function(config) {
   const customLaunchers = {
-    ChromeBeta: {
-      base: 'SauceLabs',
-      browserName: 'chrome',
-      version: 'beta'
-    },
-    Chrome: {
-      base: 'SauceLabs',
-      browserName: 'chrome'
-    },
-    Firefox: {
-      base: 'SauceLabs',
-      browserName: 'firefox'
-    },
-    Edge: {
-      base: 'SauceLabs',
-      browserName: 'microsoftedge'
-    },
-    Safari10: {
-      base: 'SauceLabs',
-      browserName: 'safari',
-      version: '10'
+    InternetExplorer11: {
+      base: 'BrowserStack',
+      browser: 'IE',
+      browser_version: '11',
+      os: 'Windows',
+      os_version: '10'
     }
   };
 
@@ -32,13 +17,7 @@ module.exports = function(config) {
     frameworks: [
       'mocha',
       'sinon',
-      'polyfill'
-    ],
-
-    polyfill: [
-      'Promise',
-      'fetch',
-      'URL'
+      'webpack'
     ],
 
     files: [
@@ -56,10 +35,9 @@ module.exports = function(config) {
       stats: 'errors-only'
     },
 
-    reporters: ['mocha', 'saucelabs'],
+    reporters: ['mocha', 'BrowserStack'],
 
     mochaReporter: {
-      output: 'minimal',
       showDiff: true
     },
 
@@ -68,12 +46,6 @@ module.exports = function(config) {
     colors: true,
 
     logLevel: config.LOG_INFO,
-
-    sauceLabs: {
-      testName: 'salte-io/ng-currency',
-      tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
-      startConnect: true
-    },
 
     customLaunchers: customLaunchers,
     browsers: Object.keys(customLaunchers),

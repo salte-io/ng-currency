@@ -1,12 +1,11 @@
 # ng-currency
 
-[![NPM Version](https://img.shields.io/npm/v/ng-currency.svg?style=flat)](https://npmjs.org/package/ng-currency) 
-[![NPM Downloads](https://img.shields.io/npm/dm/ng-currency.svg?style=flat)](https://npmjs.org/package/ng-currency)
-[![Travis](https://img.shields.io/travis/com/salte-io/ng-currency/master.svg?style=flat)](https://travis-ci.com/salte-io/ng-currency)
-[![Coveralls](https://img.shields.io/coveralls/salte-io/ng-currency/master.svg)](https://coveralls.io/github/salte-io/ng-currency?branch=master)
+[![NPM Version][npm-version-image]][npm-url]
+[![NPM Downloads][npm-downloads-image]][npm-url]
+[![CI Build][github-actions-image]][github-actions-url]
+[![Coveralls][coveralls-image]][coveralls-url]
 
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-[![Greenkeeper badge](https://badges.greenkeeper.io/salte-io/ng-currency.svg)](https://greenkeeper.io)
+[![semantic-release][semantic-release-image]][semantic-release-url]
 
 > `ng-currency` has officially entered [maintenance mode](https://github.com/salte-io/ng-currency/issues/205).
 
@@ -146,3 +145,16 @@ angular.module('my-app', [
 ```html
 <input type="text" ng-currency min="0" hard-cap="true" />
 ```
+
+[npm-version-image]: https://img.shields.io/npm/v/ng-currency.svg?style=flat
+[npm-downloads-image]: https://img.shields.io/npm/dm/ng-currency.svg?style=flat
+[npm-url]: https://npmjs.org/package/ng-currency
+
+[github-actions-image]: https://github.com/salte-io/ng-currency/actions/workflows/ci.yml/badge.svg?branch=master
+[github-actions-url]: https://github.com/salte-io/ng-currency/actions/workflows/ci.yml
+
+[coveralls-image]: https://img.shields.io/coveralls/salte-io/ng-currency/master.svg
+[coveralls-url]: https://coveralls.io/github/salte-io/ng-currency
+
+[semantic-release-url]: https://github.com/semantic-release/semantic-release
+[semantic-release-image]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
