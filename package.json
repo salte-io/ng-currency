@@ -1,6 +1,6 @@
 {
   "name": "ng-currency",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "main": "dist/ng-currency.min.js",
   "description": "Directive that works in conjunction with currency filter.",
   "homepage": "https://github.com/salte-io/ng-currency",
