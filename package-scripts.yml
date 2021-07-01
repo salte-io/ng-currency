@@ -9,9 +9,9 @@ scripts:
     tdd:
       script: karma start
       description: Watches for changes and executes the Test Suite accordingly
-    sauce:
+    ci:
       script: karma start karma.ci.conf.js
-      description: Executes the Test Suite on Sauce Labs
+      description: Executes the Test Suite on BrowserStack
   serve:
     default:
       script: webpack-dev-server --mode development --config webpack.server.config.js
