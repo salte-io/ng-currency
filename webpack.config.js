@@ -39,7 +39,7 @@ module.exports = {
         /**
          * ${packageJson.name} JavaScript Library v${packageJson.version}
          *
-         * @license MIT (${packageJson.homepage}/blob/master/LICENSE)
+         * @license MIT (${packageJson.homepage}/blob/main/LICENSE)
          *
          * Made with ♥ by ${packageJson.contributors.join(', ')}
          */
