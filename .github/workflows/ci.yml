@@ -3,10 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   install:
@@ -36,7 +36,7 @@ jobs:
   browserstack:
     name: Browserstack
     runs-on: ubuntu-18.04
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     needs: install
 
     steps:
@@ -56,7 +56,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Run Tests
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         env:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
@@ -94,7 +94,7 @@ jobs:
     name: Release
     runs-on: ubuntu-18.04
     needs: [browserstack, validate]
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout
