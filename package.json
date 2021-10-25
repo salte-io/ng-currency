@@ -36,7 +36,7 @@
     "deindent": "^0.1.0",
     "eslint": "^7.0.0",
     "eslint-plugin-mocha": "^9.0.0",
-    "html-loader": "^2.1.2",
+    "html-loader": "^3.0.0",
     "husky": "^7.0.0",
     "karma": "^6.0.1",
     "karma-browserstack-launcher": "^1.6.0",
