@@ -49,7 +49,7 @@
     "karma-sinon": "^1.0.5",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^5.0.0",
-    "mocha": "^9.0.0",
+    "mocha": "^10.0.0",
     "ng-select-all-on-focus": "^1.0.3",
     "nps": "^5.7.1",
     "remove-lockfiles": "^2.0.4",
